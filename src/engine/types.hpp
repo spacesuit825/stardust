@@ -6,6 +6,9 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
+#include "cuda.h"
+#include "cuda_runtime.h"
+
 namespace STARDUST {
 
 	using Scalar = float;
@@ -23,6 +26,18 @@ namespace STARDUST {
 	using Mat3d = Eigen::Matrix3d;
 	using Mat2f = Eigen::Matrix2f;
 	using Mat3f = Eigen::Matrix3f;
+
+	struct float9 {
+		Scalar data[9];
+
+		__forceinline__ __device__ Scalar& operator[](int i) {
+			return data[i];
+		}
+
+		__forceinline__ __device__ const Scalar& operator[](int i) const {
+			return data[i];
+		}
+	};
 
 }
 

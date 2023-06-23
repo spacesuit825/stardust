@@ -5,20 +5,10 @@
 
 #include <renderer.hpp>
 
+STARDUST::DEMEngine* engine = nullptr;
 Renderer* renderer = nullptr;
 InputHandler* handler = nullptr;
 GUIwrapper* gui = nullptr;
-
-STARDUST::DEMEntity entity = STARDUST::DEMEntity(0, 5, 0.05, STARDUST::Vec3f(1, 1, 1), STARDUST::Vec3f(0, 0, 0));
-
-STARDUST::Scalar* particle_array = entity.convertParticlePositionsToNakedArray();
-
-std::vector<STARDUST::DEMParticle> particles = entity.getParticles();
-
-int size = particles.size();
-
-STARDUST::Scalar diameter = particles[0].size;
-
 
 
 void initRenderer() {
@@ -50,8 +40,8 @@ void initGui() {
 
 void run() {
 	while (!renderer->windowShouldClose()) {
-		renderer->renderTest(particle_array, *gui, size, diameter);
-		handler->handleInput();
+		//renderer->renderTest(particle_array, *gui, size, diameter);
+		//handler->handleInput();
 	}
 }
 int main() {
@@ -60,14 +50,18 @@ int main() {
 	initHandler();
 	initGui();
 
-	STARDUST::DEMEngine engine = STARDUST::DEMEngine(0.4f);
-	engine.loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
+	engine = new STARDUST::DEMEngine(0.4f);
+	engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
-	std::cout << engine.getEntityLength();
+	std::cout << engine->getEntityLength();
+	engine->prepArrays();
+	engine->transferDataToDevice();
+	engine->is_first_step = false;
+	engine->transferDataToDevice();
 
-	run();
-
-	std::cout << "Terminating Renderer... \n";
+	//run();
+	
+	delete engine;
 	delete renderer;
 	delete handler;
 	delete gui;

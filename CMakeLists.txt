@@ -9,12 +9,14 @@ project(
 
 enable_testing()
 
+enable_language(CUDA)
+
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CUDA_STANDARD 11)
+set(CMAKE_CUDA_STANDARD 14)
 message("Processing top level CMakeLists.txt")
 
 if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
-    set(CMAKE_CUDA_ARCHITECTURES 75) ## home
+    set(CMAKE_CUDA_ARCHITECTURES "35;50;52;60;61;70;75;80;86")
 endif()
 
 set(CMAKE_CUDA_FLAGS	"--expt-relaxed-constexpr; --generate-line-info")
