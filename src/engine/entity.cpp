@@ -4,7 +4,7 @@
 
 namespace STARDUST {
 	
-	void DEMEntity::initParticles(int grid_resolution) {
+	void DEMParticle::initParticles(int grid_resolution) {
 		// For now we only deal with a cube
 		Scalar length = m_size; // m
 
@@ -19,7 +19,7 @@ namespace STARDUST {
 			for (int j = 0; j <= grid_resolution; j++) {
 				for (int k = 0; k <= grid_resolution; k++) {
 
-					DEMParticle particle;
+					DEMSphere particle;
 
 					particle.position = make_float4(i * dx, j * dx, k * dx, 0.0f);
 					particle.size = dx;
@@ -32,7 +32,7 @@ namespace STARDUST {
 		}
 	}
 
-	void DEMEntity::getCenterOfMass() {
+	void DEMParticle::getCenterOfMass() {
 		float4 COM = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		for (int i = 0; i < particles.size(); i++) {
@@ -42,11 +42,11 @@ namespace STARDUST {
 		COM = COM / (float)particles.size();
 	}
 
-	void DEMEntity::setParticlesInWorldSpace() {
+	void DEMParticle::setParticlesInWorldSpace() {
 
 		for (int i = 0; i < particles.size(); i++) {
 
-			DEMParticle particle = particles[i];
+			DEMSphere particle = particles[i];
 
 			float4 pos = particle.position;
 
@@ -60,7 +60,7 @@ namespace STARDUST {
 		}
 	}
 
-	Scalar* DEMEntity::convertParticlePositionsToNakedArray() {
+	Scalar* DEMParticle::convertParticlePositionsToNakedArray() {
 
 		Scalar* h_position_ptr = new Scalar[3 * particles.size() * sizeof(Scalar)];
 

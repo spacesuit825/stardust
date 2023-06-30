@@ -5,14 +5,112 @@
             {
                 "type": "generic",
                 "position": [ 0.5, 0.5, 0.5 ],
-                "size": 0.05,
+                "size": 0.15,
                 "mass": 3,
                 "velocity": [ 0, 0, 0 ]
             },
             {
-                "type":  "generic",
+                "type": "generic",
                 "position": [ 1, 1, 1 ],
-                "size": 0.05,
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
+                "mass": 3,
+                "velocity": [ 0, 0, 0 ]
+            },
+            {
+                "type": "generic",
+                "position": [ 1, 1, 1 ],
+                "size": 0.15,
                 "mass": 3,
                 "velocity": [ 0, 0, 0 ]
             }

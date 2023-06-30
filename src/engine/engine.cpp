@@ -1,6 +1,7 @@
 // Internal
 #include "engine.hpp"
 #include "cuda/cuda_utils.hpp"
+#include "cuda/collision_detection.cuh"
 
 // C++
 #include <string>
@@ -56,7 +57,7 @@ namespace STARDUST {
 
 				int length = m_entities.size();
 
-				DEMEntity entity = DEMEntity(length + 1, 5, size, size, pos, vel);
+				DEMParticle entity = DEMParticle(length + 1, 10, size, size, pos, vel);
 
 				m_num_particles += entity.getParticles().size();
 				m_num_entities += 1;
@@ -68,6 +69,13 @@ namespace STARDUST {
 		}
 	}
 
+	void DEMEngine::setUpGrid() {
+		int num_particles = m_num_particles;
+
+		m_cell_size = num_particles * 9 * sizeof(int);
+
+	}
+
 	void DEMEngine::prepArrays() {
 
 		// Create host arrays
@@ -77,6 +85,7 @@ namespace STARDUST {
 		h_particle_velocity_ptr = new float4[m_num_particles * sizeof(float4)];
 		h_particle_forces_ptr = new float4[m_num_particles * sizeof(float4)];
 		h_particle_mass_ptr = new float[m_num_particles * sizeof(float)];
+		h_particle_size_ptr = new float[m_num_particles * sizeof(float)];
 		h_particle_to_rigid_idx_ptr = new int[m_num_particles * sizeof(int)];
 
 		// For Rigid Bodies
@@ -93,8 +102,8 @@ namespace STARDUST {
 		int offset = 0;
 		for (int i = 0; i < m_entities.size(); i++) {
 			// Iterate through entities and convert to naked arrays
-			DEMEntity entity = m_entities[i];
-			std::vector<DEMParticle> particles = entity.getParticles();
+			DEMParticle entity = m_entities[i];
+			std::vector<DEMSphere> particles = entity.getParticles();
 
 			h_rigid_body_position_ptr[i] = entity.position;
 			h_rigid_body_velocity_ptr[i] = entity.velocity;
@@ -116,12 +125,13 @@ namespace STARDUST {
 
 			for (int j = 0; j < size; j++) {
 				// Iterate through particles and convert to arrays
-				DEMParticle particle = particles[j];
+				DEMSphere particle = particles[j];
 
 				h_particle_position_ptr[j + offset] = particle.position;
 				h_particle_velocity_ptr[j + offset] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 				h_particle_forces_ptr[j + offset] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 				h_particle_mass_ptr[j + offset] = particle.mass;
+				h_particle_size_ptr[j + offset] = particle.size;
 				h_particle_to_rigid_idx_ptr[j + offset] = i;
 
 				float4 relative_position = particle.position - entity.COM;
@@ -146,6 +156,43 @@ namespace STARDUST {
 		if (is_first_step) {
 			// Mallocate the device arrays
 
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_temp_ptr,
+				2 * sizeof(unsigned int)
+			));
+
+			// Allocate computational grid arrays
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_grid_ptr,
+				m_num_particles * 9 * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_grid_temp_ptr,
+				m_num_particles * 9 * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_sphere_ptr,
+				m_num_particles * 9 * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_sphere_temp_ptr,
+				m_num_particles * 9 * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_radices_ptr,
+				NUM_BLOCKS * NUM_RADICES
+				* GROUPS_PER_BLOCK * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_radix_sums_ptr,
+				NUM_RADICES * sizeof(int)
+			));
+
 			// Allocate particle arrays
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_particle_position_ptr,
@@ -164,6 +211,11 @@ namespace STARDUST {
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_particle_mass_ptr,
+				m_num_particles * sizeof(float)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_particle_size_ptr,
 				m_num_particles * sizeof(float)
 			));
 
@@ -252,6 +304,13 @@ namespace STARDUST {
 			CUDA_ERR_CHECK(cudaMemcpyAsync(
 				d_particle_mass_ptr,
 				h_particle_mass_ptr,
+				m_num_particles * sizeof(float),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_particle_size_ptr,
+				h_particle_size_ptr,
 				m_num_particles * sizeof(float),
 				cudaMemcpyHostToDevice)
 			);

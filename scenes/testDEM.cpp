@@ -2,6 +2,12 @@
 #include <entity.hpp>
 #include <renderer.hpp>
 #include <engine.hpp>
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <stdint.h>
+
+using namespace std;
 
 #include <renderer.hpp>
 
@@ -58,6 +64,19 @@ int main() {
 	engine->transferDataToDevice();
 	engine->is_first_step = false;
 	engine->transferDataToDevice();
+
+
+	chrono::time_point<chrono::system_clock> start;
+	chrono::duration<double> duration;
+
+	double time;
+	start = chrono::system_clock::now();
+	engine->step(0.05f);
+	duration = chrono::system_clock::now() - start;
+
+	time = duration.count();
+
+	std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
 
 	//run();
 	
