@@ -13,8 +13,7 @@
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 #include "inputhandler.hpp"
-//#include "../engine/solver.hpp"
-//#include "../engine/rigidsolver.hpp"
+#include "../engine/engine.hpp"
 #include "renderutils.hpp"
 
 class PhysicsEntity;
@@ -77,8 +76,8 @@ public:
 	GLuint getPosVBO() { return m_engine_vbo_id; };
 	GLuint getColorVBO() { return m_color_vbo_id; };
 
-	//void prepBuffers(MPM::Engine& engine);
-	//void renderWithGUI(MPM::Engine& engine, GUIwrapper& gui);
+	void prepBuffers(STARDUST::DEMEngine& engine);
+	void renderWithGUI(STARDUST::DEMEngine& engine, GUIwrapper& gui);
 	void renderTest(float* particle_array, GUIwrapper& gui, int size, float dia);
 	void setDefaultParticleColor(float r, float g, float b, float a = 1.0f) {
 		m_default_particle_color[0] = r;
@@ -119,6 +118,8 @@ private:
 	int m_window_width;
 	int m_window_height;
 	unsigned long long m_current_frame = 0;
+
+	float m_particle_scale = 0.15;
 };
 
 #endif // _AURORA_RENDERER_HEADER_

@@ -11,6 +11,8 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <nvfunctional>
+#include <../../glew/include/GL/glew.h>
+#include <cuda_gl_interop.h>
 
 namespace STARDUST {
 
@@ -36,6 +38,23 @@ namespace STARDUST {
 			d_sphere_temp_ptr = nullptr;
 			d_radices_ptr = nullptr;
 			d_radix_sums_ptr = nullptr;
+
+			// Mesh pointers
+
+			h_mesh_start_ptr = nullptr;
+			d_mesh_start_ptr = nullptr;
+
+			h_mesh_length_ptr = nullptr;
+			d_mesh_length_ptr = nullptr;
+
+			h_mesh_vertex_ptr = nullptr; // Number of vertices long
+			d_mesh_vertex_ptr = nullptr;
+
+			h_mesh_index_ptr = nullptr; // Number of vertices long
+			d_mesh_index_ptr = nullptr;
+
+			h_mesh_quat_ptr = nullptr; // Number of meshes long
+			d_mesh_quat_ptr = nullptr;
 
 			// Mass of rigid body
 			h_rigid_body_mass_ptr = nullptr;
@@ -106,8 +125,15 @@ namespace STARDUST {
 			m_num_particles = 0;
 		};
 
+		// OPENGL VISUALISATION //
+		void bindGLBuffers(const GLuint);
+		void unbindGLBuffers(const GLuint);
+		void writeGLBuffers();
+		void writeGLPosBuffer();
+
 		//void loadXMLSetup(std::string); // Loads setup XML file and creates the scene
-		void loadJSONSetup(std::string); // Loads setup JSON file and creates the scene
+		//void loadJSONSetup(std::string); // Loads setup JSON file and creates the scene
+		void addParticle(DEMParticle);
 
 		//void createEntity(int, std::string, int); // Load mesh from file and create n entities // n, filepath, grid_resolution
 		//void createEntity(int, Scalar, int); // Create n generic entities from basic inputs // n, size of cube, grid_resolution
@@ -201,14 +227,20 @@ namespace STARDUST {
 			//Size of particles
 			free(h_particle_size_ptr);
 			cudaFree(d_particle_size_ptr);
+
+			cudaGraphicsUnregisterResource(vbo_position);
 		};
 
+
+		std::vector<DEMParticle> getEntities() { return m_entities; };
 		int getEntityLength() { return m_entities.size(); };
 		int getNumberOfSpheres() { return m_num_particles; };
 
 		bool is_first_step;
 
 	private:
+
+		struct cudaGraphicsResource* vbo_position;
 
 		Scalar m_domain;
 
@@ -233,6 +265,13 @@ namespace STARDUST {
 		int* d_radix_sums_ptr;
 
 		// Host and Device Arrays for Rigid Bodies (entities)
+		// Entity trackers
+		int* h_entity_start_ptr;
+		int* d_entity_start_ptr;
+
+		int* h_entity_length_ptr;
+		int* d_entity_length_ptr;
+
 		// Mass of the rigid body
 		float* h_rigid_body_mass_ptr;
 		float* d_rigid_body_mass_ptr;
@@ -294,13 +333,31 @@ namespace STARDUST {
 		float* h_particle_size_ptr;
 		float* d_particle_size_ptr;
 
+		// Similar to the entity trackers, tracks the start and end of the meshes //
+		int* h_mesh_start_ptr;
+		int* d_mesh_start_ptr;
+
+		int* h_mesh_length_ptr;
+		int* d_mesh_length_ptr;
+
+		float4* h_mesh_vertex_ptr; // Number of vertices long
+		float4* d_mesh_vertex_ptr;
+
+		int* h_mesh_index_ptr; // Number of vertices long
+		int* d_mesh_index_ptr;
+
+		float4* h_mesh_quat_ptr; // Number of meshes long
+		float4* d_mesh_quat_ptr;
 
 		int m_num_entities;
 		int m_num_particles;
+		int m_num_meshes;
+		int m_num_triangles;
 
 		unsigned int m_cell_size;
 
 		std::vector<DEMParticle> m_entities;
+		//std::vector<DEMMesh> m_meshes;
 	};
 }
 

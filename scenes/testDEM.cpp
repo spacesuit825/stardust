@@ -2,12 +2,14 @@
 #include <entity.hpp>
 #include <renderer.hpp>
 #include <engine.hpp>
+#include <entity.hpp>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <stdint.h>
 
-using namespace std;
+
+//using namespace std;
 
 #include <renderer.hpp>
 
@@ -45,19 +47,34 @@ void initGui() {
 }
 
 void run() {
-	while (!renderer->windowShouldClose()) {
-		//renderer->renderTest(particle_array, *gui, size, diameter);
-		//handler->handleInput();
-	}
-}
-int main() {
-	std::cout << "Activating Renderer... \n";
-	initRenderer();
-	initHandler();
-	initGui();
+	float4 pos1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 vel = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	float4 pos2 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+
+	float size = 0.00002;
+
+	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos1, vel);
+	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos2, vel);
 
 	engine = new STARDUST::DEMEngine(0.4f);
-	engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
+	engine->addParticle(entity1);
+	//engine->addParticle(entity2);
+
+	std::vector<STARDUST::DEMSphere> particles1 = entity1.getParticles();
+	std::vector<STARDUST::DEMSphere> particles2 = entity2.getParticles();
+
+	for (int p = 0; p < particles1.size(); p++) {
+		printf("%.3f, %.3f, %.3f \n", particles1[p].position.x, particles1[p].position.y, particles1[p].position.z);
+	}
+
+	std::cout << "---------------------------------------\n";
+
+	for (int p = 0; p < particles2.size(); p++) {
+		printf("%.3f, %.3f, %.3f \n", particles2[p].position.x, particles2[p].position.y, particles2[p].position.z);
+	}
+
+	//engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
 	std::cout << engine->getEntityLength();
 	engine->prepArrays();
@@ -66,19 +83,48 @@ int main() {
 	engine->transferDataToDevice();
 
 
-	chrono::time_point<chrono::system_clock> start;
-	chrono::duration<double> duration;
+	std::chrono::time_point<std::chrono::system_clock> start;
+	std::chrono::duration<double> duration;
 
 	double time;
-	start = chrono::system_clock::now();
-	engine->step(0.05f);
-	duration = chrono::system_clock::now() - start;
+	start = std::chrono::system_clock::now();
+
+	bool check = true;
+
+	renderer->prepBuffers(*engine);
+	engine->bindGLBuffers(renderer->getPosVBO());
+
+	initGui();
+
+	while (!renderer->windowShouldClose()) {
+		/*if (frame > 400 && frame % 25 == 0) {
+			addEntity();
+		}*/
+		engine->step(0.05f);
+		engine->writeGLBuffers();
+		renderer->renderWithGUI(*engine, *gui);
+		handler->handleInput();
+
+		check = false;
+	}
+
+	duration = std::chrono::system_clock::now() - start;
 
 	time = duration.count();
 
 	std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
+}
+int main() {
+	std::cout << "Activating Renderer... \n";
+	initRenderer();
+	initHandler();
+	
 
-	//run();
+	
+
+	run();
+
+
 	
 	delete engine;
 	delete renderer;

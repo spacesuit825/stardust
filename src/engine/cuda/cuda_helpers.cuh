@@ -9,6 +9,7 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include <nvfunctional>
+#include <device_functions.h>
 
 namespace STARDUST {
 	

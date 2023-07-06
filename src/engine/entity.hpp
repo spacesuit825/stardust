@@ -20,8 +20,8 @@ namespace STARDUST {
 		//  - For now you can only load cubes (default is side length of 0.01m or 1 cm)
 		// TODO: add mesh loading for arbitrary entity shapes
 	public:
-		DEMParticle(unsigned int id, int grid_resolution, Scalar size, Scalar mass, float4 position, float4 velocity)
-			: m_id(id), m_grid_resolution(grid_resolution), m_size(size), mass(mass), position(position), velocity(velocity) {
+		DEMParticle(unsigned int id, int grid_resolution, Scalar size, Scalar radius, Scalar mass, float4 position, float4 velocity)
+			: m_id(id), m_grid_resolution(grid_resolution), m_size(size), diameter(diameter), mass(mass), position(position), velocity(velocity) {
 			
 			initParticles(m_grid_resolution); // Create particles in Entity Space
 			getCenterOfMass(); // Compute Center of Mass of the entity
@@ -43,6 +43,7 @@ namespace STARDUST {
 		float4 velocity;
 		float4 COM;
 		float mass;
+		float diameter;
 
 	private:
 		unsigned int m_id;
@@ -58,14 +59,24 @@ namespace STARDUST {
 
 	};
 
-	//class DEMMesh {
-	//	// Lightweight class to generate a mesh struct for the GPU
-	//	DEMMesh(float* vertices, int* indicies) : {}
+	class DEMMesh {
+		// Lightweight class to generate a mesh struct for the GPU
 
+	//public:
+	//	//DEMMesh(float4* vertices, int* indicies, int n_triangles);
+
+	//	int n_triangles;
 	//	float4 position;
 	//	float4 quat;
 
-	//};
+	//	std::vector<float4> vertices;
+	//	std::vector<int> indicies;
+
+	//private:
+		
+
+
+	};
 
 }
 

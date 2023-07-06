@@ -12,152 +12,152 @@ Camera& Renderer::getCamera() {
 	return *m_camera;
 }
 
-//void Renderer::prepBuffers(MPM::Engine& engine) {
-//	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
-//	glBufferData(GL_ARRAY_BUFFER,
-//		3 * engine.getEngineConfig().max_particles * sizeof(float),
-//		0,
-//		GL_DYNAMIC_DRAW);
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//}
+void Renderer::prepBuffers(STARDUST::DEMEngine& engine) {
+	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
+	glBufferData(GL_ARRAY_BUFFER,
+		engine.getNumberOfSpheres() * sizeof(float4),
+		0,
+		GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
-//void Renderer::renderWithGUI(MPM::Engine& engine, GUIwrapper& gui) {
-//	glBindVertexArray(m_vao_id);
-//
-//	debug_glCheckError("Render Loop Initialized");
-//
-//	// Setup renderer
-//	glClearColor(m_background_color[0], m_background_color[1], m_background_color[2], 1.0f);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//	// Set the camera properties
-//	m_shader->setUniform("eyepos", m_camera->getCameraPos());
-//
-//	// Set the Lighting properties
-//	m_shader->setUniform("lightsrc", m_light->getLightSrcPosVec3());
-//	m_shader->setUniform("Sd", m_light->getDiffColor());
-//	m_shader->setUniform("Ss", m_light->getSpecColor());
-//	m_shader->setUniform("Sa", m_light->getAmbColor());
-//	debug_glCheckError("Light Property Error\n");
-//
-//	// Set Particle properties
-//	m_shader->setUniform("isUseRainBowMap", m_is_use_rainbow_map);
-//	m_shader->setUniform("Kd",
-//		glm::vec3(m_default_particle_color[0],
-//			m_default_particle_color[1],
-//			m_default_particle_color[2]));
-//	m_shader->setUniform("Ka", glm::vec3(0.0, 0.0, 0.0));
-//	m_shader->setUniform("Ks", glm::vec3(0.1, 0.1, 0.1));
-//	m_shader->setUniform("Ke", glm::vec3(0, 0, 0));
-//	m_shader->setUniform("sh", 0.1f);
-//	m_shader->setUniform("particle_scale", m_particle_scale);
-//
-//	// Set model/view/proj matrices
-//	m_shader->setUniform("modelMat", glm::mat4(1.0f));
-//	m_shader->setUniform("viewMat", m_camera->getViewMatrix());
-//	m_shader->setUniform("projMat", m_camera->getProjectionMatrix());
-//
-//	// Binding particle sphere vbo
-//	m_sphere_mesh.bind();
-//	glEnableVertexAttribArray(0);
-//	// Pointer for vertex positions
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//	glEnableVertexAttribArray(1);
-//	// Pointer for color for each vertex/triangle
-//	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
-//		(void*)(m_sphere_mesh.getVertexCount() * sizeof(glm::vec3)));
-//
-//	// Bind the particle positions vbo and reserve the required space 
-//	// ie. 3 * particle_number (float) == particle positions (x, y, z)
-//	// and 1 * particle_number (float) == color weight (single float)
-//
-//	// TODO: move this outside the render loop
-//	//glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
-//	//glBufferData(GL_ARRAY_BUFFER,
-//	//	3 * engine.getParticleCount() * sizeof(float),
-//	//	0,
-//	//	GL_DYNAMIC_DRAW);
-//
-//	//// Get rid of the color weights, dumb idea to begin with
-//
-//	//// Occupy reserved space with particles positions
-//	//glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * engine.getParticleCount() * sizeof(float),
-//	//	engine.getParticlePosPtr());
-//	// Sub in remaining space with color weighting floats
-//	/*glBufferSubData(GL_ARRAY_BUFFER,
-//		3 * engine.getParticleCount() * sizeof(float),
-//		engine.getParticleCount() * sizeof(float),
-//		engine.mCurrentParticleColorWeight.data());*/
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
-//
-//	// Vertex Pointer to positions (ie. 0 offset and stepping 3 * float for each position)
-//	glEnableVertexAttribArray(2);
-//	glVertexAttribDivisor(2, 1);
-//	glVertexAttribPointer(2, 
-//		3, 
-//		GL_FLOAT, 
-//		GL_FALSE, 
-//		3 * sizeof(float), 
-//		(void*)0
-//	);
-//
-//	//// Vertex Pointer to color weights (ie. 3 * particle_number * float offset and stepping of 1 float)
-//	//glEnableVertexAttribArray(3);
-//	//glVertexAttribDivisor(3, 1);
-//	//glVertexAttribPointer(3,
-//	//	1,
-//	//	GL_FLOAT,
-//	//	GL_FALSE,
-//	//	sizeof(float),
-//	//	(void*)(3 * engine.getParticleCount() * sizeof(float)));
-//
-//	// For colors
-//	glBindBuffer(GL_ARRAY_BUFFER, m_color_vbo_id);
-//	glBufferData(GL_ARRAY_BUFFER,
-//		3 * engine.getParticleCount() * sizeof(float),
-//		nullptr,
-//		GL_DYNAMIC_DRAW);
-//
-//	glBufferSubData(GL_ARRAY_BUFFER, 
-//		0, 
-//		3 * engine.getParticleCount() * sizeof(float), 
-//		engine.getColorPtr());
-//
-//	glEnableVertexAttribArray(3);
-//	glVertexAttribDivisor(3, 1);
-//	glVertexAttribPointer(3,
-//		3,
-//		GL_FLOAT,
-//		GL_FALSE,
-//		3 * sizeof(float),
-//		(void*)0
-//	);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
-//
-//	// Renders spheres at each location based on instanced arrays. This saves on GPU draw calls,
-//	// and drastically accelerates rendering.
-//	
-//	// The divisor calls on the position and color weight arrays, indicates to OpenGL that 
-//	// for each new instance of a sphere a new position and color weight should be retrieved and
-//	// passed to the vertex shader. If the divisor had 0 set, a new position would be retrieved
-//	// for every vertex of the sphere and we would have a mangled mess.
-//	glDrawElementsInstanced(GL_TRIANGLES, m_sphere_mesh.getTriangleCount() * 3,
-//		GL_UNSIGNED_INT, nullptr, engine.getParticleCount());
-//
-//	
-//	glfwPollEvents();
-//	gui.render();
-//	int display_w, display_h;
-//	glfwGetFramebufferSize(m_window, &display_w, &display_h);
-//	glViewport(0, 0, display_w, display_h);
-//	glfwSwapBuffers(m_window);
-//
-//	glBindVertexArray(0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//}
+void Renderer::renderWithGUI(STARDUST::DEMEngine& engine, GUIwrapper& gui) {
+	glBindVertexArray(m_vao_id);
+
+	debug_glCheckError("Render Loop Initialized");
+
+	// Setup renderer
+	glClearColor(m_background_color[0], m_background_color[1], m_background_color[2], 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Set the camera properties
+	m_shader->setUniform("eyepos", m_camera->getCameraPos());
+
+	// Set the Lighting properties
+	m_shader->setUniform("lightsrc", m_light->getLightSrcPosVec3());
+	m_shader->setUniform("Sd", m_light->getDiffColor());
+	m_shader->setUniform("Ss", m_light->getSpecColor());
+	m_shader->setUniform("Sa", m_light->getAmbColor());
+	debug_glCheckError("Light Property Error\n");
+
+	// Set Particle properties
+	m_shader->setUniform("isUseRainBowMap", m_is_use_rainbow_map);
+	m_shader->setUniform("Kd",
+		glm::vec3(m_default_particle_color[0],
+			m_default_particle_color[1],
+			m_default_particle_color[2]));
+	m_shader->setUniform("Ka", glm::vec3(0.0, 0.0, 0.0));
+	m_shader->setUniform("Ks", glm::vec3(0.1, 0.1, 0.1));
+	m_shader->setUniform("Ke", glm::vec3(0, 0, 0));
+	m_shader->setUniform("sh", 0.1f);
+	m_shader->setUniform("particle_scale", m_particle_scale);
+
+	// Set model/view/proj matrices
+	m_shader->setUniform("modelMat", glm::mat4(1.0f));
+	m_shader->setUniform("viewMat", m_camera->getViewMatrix());
+	m_shader->setUniform("projMat", m_camera->getProjectionMatrix());
+
+	// Binding particle sphere vbo
+	m_sphere_mesh.bind();
+	glEnableVertexAttribArray(0);
+	// Pointer for vertex positions
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	// Pointer for color for each vertex/triangle
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+		(void*)(m_sphere_mesh.getVertexCount() * sizeof(glm::vec3)));
+
+	// Bind the particle positions vbo and reserve the required space 
+	// ie. 3 * particle_number (float) == particle positions (x, y, z)
+	// and 1 * particle_number (float) == color weight (single float)
+
+	// TODO: move this outside the render loop
+	//glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
+	//glBufferData(GL_ARRAY_BUFFER,
+	//	3 * engine.getParticleCount() * sizeof(float),
+	//	0,
+	//	GL_DYNAMIC_DRAW);
+
+	//// Get rid of the color weights, dumb idea to begin with
+
+	//// Occupy reserved space with particles positions
+	//glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * engine.getParticleCount() * sizeof(float),
+	//	engine.getParticlePosPtr());
+	// Sub in remaining space with color weighting floats
+	/*glBufferSubData(GL_ARRAY_BUFFER,
+		3 * engine.getParticleCount() * sizeof(float),
+		engine.getParticleCount() * sizeof(float),
+		engine.mCurrentParticleColorWeight.data());*/
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
+
+	// Vertex Pointer to positions (ie. 0 offset and stepping 3 * float for each position)
+	glEnableVertexAttribArray(2);
+	glVertexAttribDivisor(2, 1);
+	glVertexAttribPointer(2, 
+		4, 
+		GL_FLOAT, 
+		GL_FALSE, 
+		4 * sizeof(float), 
+		(void*)0
+	);
+
+	//// Vertex Pointer to color weights (ie. 3 * particle_number * float offset and stepping of 1 float)
+	//glEnableVertexAttribArray(3);
+	//glVertexAttribDivisor(3, 1);
+	//glVertexAttribPointer(3,
+	//	1,
+	//	GL_FLOAT,
+	//	GL_FALSE,
+	//	sizeof(float),
+	//	(void*)(3 * engine.getParticleCount() * sizeof(float)));
+
+	// For colors
+	/*glBindBuffer(GL_ARRAY_BUFFER, m_color_vbo_id);
+	glBufferData(GL_ARRAY_BUFFER,
+		3 * engine.getParticleCount() * sizeof(float),
+		nullptr,
+		GL_DYNAMIC_DRAW);
+
+	glBufferSubData(GL_ARRAY_BUFFER, 
+		0, 
+		3 * engine.getParticleCount() * sizeof(float), 
+		engine.getColorPtr());
+
+	glEnableVertexAttribArray(3);
+	glVertexAttribDivisor(3, 1);
+	glVertexAttribPointer(3,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3 * sizeof(float),
+		(void*)0
+	);*/
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
+
+	// Renders spheres at each location based on instanced arrays. This saves on GPU draw calls,
+	// and drastically accelerates rendering.
+	
+	// The divisor calls on the position and color weight arrays, indicates to OpenGL that 
+	// for each new instance of a sphere a new position and color weight should be retrieved and
+	// passed to the vertex shader. If the divisor had 0 set, a new position would be retrieved
+	// for every vertex of the sphere and we would have a mangled mess.
+	glDrawElementsInstanced(GL_TRIANGLES, m_sphere_mesh.getTriangleCount() * 3,
+		GL_UNSIGNED_INT, nullptr, engine.getNumberOfSpheres());
+
+	
+	glfwPollEvents();
+	gui.render();
+	int display_w, display_h;
+	glfwGetFramebufferSize(m_window, &display_w, &display_h);
+	glViewport(0, 0, display_w, display_h);
+	glfwSwapBuffers(m_window);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
 
 Light& Renderer::getLight() {
 	return *m_light;

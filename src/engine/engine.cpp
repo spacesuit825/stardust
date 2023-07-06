@@ -14,59 +14,103 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include <nvfunctional>
+#include <../../glew/include/GL/glew.h>
+#include <cuda_gl_interop.h>
 
 // External
-#include <json.hpp>
+//#include <json.hpp>
 
-using json = nlohmann::json;
+//using json = nlohmann::json;
 
 #define SQR(x) ((x) * (x)) // Squared function helper
 
+
+
 namespace STARDUST {
 
-	void DEMEngine::loadJSONSetup(std::string filepath) {
-		
-		std::ifstream jsonfile(filepath);
-		std::stringstream buffer;
-		buffer << jsonfile.rdbuf();
-		auto data = json::parse(buffer);
+#pragma warning (disable : 4068 ) /* disable unknown pragma warnings */
 
-		// Set domain size in metres
-		// TODO: Add option for unbounded
-		m_domain = (Scalar)data["scene"]["domain"];
+	// Handle CUDA/OpenGL interop
 
-		// Load a series of entities from JSON
-		json entities = data["scene"]["entities"];
-		for (auto entity_data : entities) {
-			if (entity_data["type"] == "generic") {
-				float4 pos = make_float4(
-					(Scalar)entity_data["position"][0],
-					(Scalar)entity_data["position"][1],
-					(Scalar)entity_data["position"][2],
-					0.0f
-				);
+	// Bind vbo to GPU buffers to prevent repeat data transmissions
+	void DEMEngine::bindGLBuffers(const GLuint pos_buffer) {
+		// To avoid the high cost of registering a cuda/GL buffer we initialise with the max particle count
+		CUDA_ERR_CHECK(cudaGraphicsGLRegisterBuffer(&vbo_position, pos_buffer, cudaGraphicsMapFlagsWriteDiscard));
+	}
 
-				float4 vel = make_float4(
-					(Scalar)entity_data["velocity"][0],
-					(Scalar)entity_data["velocity"][1],
-					(Scalar)entity_data["velocity"][2],
-					0.0f
-				);
+	void DEMEngine::unbindGLBuffers(const GLuint pos_buffer) {
+		CUDA_ERR_CHECK(cudaGraphicsUnregisterResource(vbo_position));
+	}
 
-				Scalar size = (Scalar)entity_data["size"];
+	void DEMEngine::writeGLPosBuffer() {
+		float4* bufptr;
+		size_t size;
 
-				int length = m_entities.size();
+		CUDA_ERR_CHECK(cudaGraphicsMapResources(1, &vbo_position, NULL));
+		CUDA_ERR_CHECK(cudaGraphicsResourceGetMappedPointer((void**)&bufptr, &size, vbo_position));
+		CUDA_ERR_CHECK(cudaMemcpy(bufptr,
+			d_particle_position_ptr,
+			sizeof(float4) * m_num_particles,
+			cudaMemcpyDeviceToDevice
+		));
+		CUDA_ERR_CHECK(cudaGraphicsUnmapResources(1, &vbo_position, NULL));
+	}
 
-				DEMParticle entity = DEMParticle(length + 1, 10, size, size, pos, vel);
+	// Map to the cuda buffer so OpenGL can access the data via device pointer
+	void DEMEngine::writeGLBuffers() {
+		writeGLPosBuffer();
+	}
 
-				m_num_particles += entity.getParticles().size();
-				m_num_entities += 1;
+	//void DEMEngine::loadJSONSetup(std::string filepath) {
+	//	
+	//	std::ifstream jsonfile(filepath);
+	//	std::stringstream buffer;
+	//	buffer << jsonfile.rdbuf();
+	//	auto data = json::parse(buffer);
 
-				m_entities.push_back(entity);
-			} else if (entity_data["type"] == "mesh") {
+	//	// Set domain size in metres
+	//	// TODO: Add option for unbounded
+	//	m_domain = (Scalar)data["scene"]["domain"];
 
-			}
-		}
+	//	// Load a series of entities from JSON
+	//	json entities = data["scene"]["entities"];
+	//	for (auto entity_data : entities) {
+	//		if (entity_data["type"] == "generic") {
+	//			float4 pos = make_float4(
+	//				(Scalar)entity_data["position"][0],
+	//				(Scalar)entity_data["position"][1],
+	//				(Scalar)entity_data["position"][2],
+	//				0.0f
+	//			);
+
+	//			float4 vel = make_float4(
+	//				(Scalar)entity_data["velocity"][0],
+	//				(Scalar)entity_data["velocity"][1],
+	//				(Scalar)entity_data["velocity"][2],
+	//				0.0f
+	//			);
+
+	//			Scalar size = (Scalar)entity_data["size"];
+
+	//			int length = m_entities.size();
+
+	//			DEMParticle entity = DEMParticle(length + 1, 10, size, size, pos, vel);
+
+	//			m_num_particles += entity.getParticles().size();
+	//			m_num_entities += 1;
+
+	//			m_entities.push_back(entity);
+	//		} else if (entity_data["type"] == "mesh") {
+
+	//		}
+	//	}
+	//}
+
+	void DEMEngine::addParticle(DEMParticle particle) {
+		m_entities.push_back(particle);
+
+		m_num_particles += particle.getParticles().size();
+		m_num_entities += 1;
 	}
 
 	void DEMEngine::setUpGrid() {
@@ -99,6 +143,9 @@ namespace STARDUST {
 		h_rigid_body_quaternion_ptr = new float4[m_num_entities * sizeof(float4)];
 		h_rigid_body_inertia_tensor_ptr = new float9[m_num_entities * sizeof(float9)];
 
+		h_entity_start_ptr = new int[m_num_entities * sizeof(int)];
+		h_entity_length_ptr = new int[m_num_entities * sizeof(int)];
+
 		int offset = 0;
 		for (int i = 0; i < m_entities.size(); i++) {
 			// Iterate through entities and convert to naked arrays
@@ -118,6 +165,9 @@ namespace STARDUST {
 			h_rigid_body_quaternion_ptr[i] = make_float4(1.0f, 0.0f, 0.0f, 0.0f);
 
 			int size = particles.size();
+
+			h_entity_start_ptr[i] = offset;
+			h_entity_length_ptr[i] = size;
 
 			// Create the terms for the inertia tensor
 			float Ixx, Iyy, Izz, Ixy, Ixz, Iyz;
@@ -150,6 +200,31 @@ namespace STARDUST {
 
 			offset += size;
 		}
+
+		//h_mesh_vertex_ptr = new float4[m_num_triangles * 3 * sizeof(float4)];
+		//h_mesh_index_ptr = new int[m_num_triangles * 3 * sizeof(int)];
+		//h_mesh_quat_ptr = new float4[m_meshes.size() * sizeof(float4)];
+
+		// Prep mesh arrays for GPU transfer
+		/*offset = 0;
+		for (int i = 0; i < m_meshes.size(); i++) {
+
+			DEMMesh mesh = m_meshes[i];
+
+			h_mesh_start_ptr[i] = offset;
+			h_mesh_length_ptr[i] = mesh.n_triangles * 3;
+
+			h_mesh_quat_ptr[i] = mesh.quat;
+
+			for (int j = 0; i < mesh.n_triangles * 3; j++) {
+				
+				h_mesh_vertex_ptr[j + offset] = mesh.vertices[j];
+				h_mesh_index_ptr[j + offset] = mesh.indicies[j] + offset;
+
+			}
+
+			offset += (mesh.n_triangles * 3);
+		}*/
 	}
 
 	void DEMEngine::transferDataToDevice() {
@@ -270,6 +345,41 @@ namespace STARDUST {
 				m_num_entities * sizeof(float9)
 			));
 
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_entity_start_ptr,
+				m_num_entities * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_entity_length_ptr,
+				m_num_entities * sizeof(int)
+			));
+
+			/*CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_mesh_vertex_ptr,
+				m_num_triangles * 3 * sizeof(float4)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_mesh_index_ptr,
+				m_num_triangles * 3 * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_mesh_quat_ptr,
+				m_num_meshes * sizeof(float4)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_mesh_start_ptr,
+				m_num_meshes * sizeof(int)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_mesh_length_ptr,
+				m_num_meshes * sizeof(int)
+			));*/
+
 			std::cout << "Allocation on Device Successful!\n";
 
 		}
@@ -385,6 +495,55 @@ namespace STARDUST {
 				m_num_entities * sizeof(float9),
 				cudaMemcpyHostToDevice)
 			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_entity_start_ptr,
+				h_entity_start_ptr,
+				m_num_entities * sizeof(int),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_entity_length_ptr,
+				h_entity_length_ptr,
+				m_num_entities * sizeof(int),
+				cudaMemcpyHostToDevice)
+			);
+
+			/*CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_mesh_vertex_ptr,
+				h_mesh_vertex_ptr,
+				m_num_triangles * 3 * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_mesh_index_ptr,
+				h_mesh_index_ptr,
+				m_num_triangles * 3 * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_mesh_quat_ptr,
+				h_mesh_quat_ptr,
+				m_num_meshes * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_mesh_start_ptr,
+				h_mesh_start_ptr,
+				m_num_meshes * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_mesh_length_ptr,
+				h_mesh_length_ptr,
+				m_num_meshes * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);*/
 
 			std::cout << "Data Transfer to Device Successful!\n";
 		}

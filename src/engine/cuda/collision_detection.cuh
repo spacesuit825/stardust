@@ -1,14 +1,6 @@
 #ifndef _STARDUST_COLLISION_DETECTION_HEADER_
 #define _STARDUST_COLLISION_DETECTION_HEADER_
 
-#define L 8
-#define NUM_RADICES 256
-#define NUM_BLOCKS 16
-#define GROUPS_PER_BLOCK 12
-#define THREADS_PER_GROUP 16
-#define PADDED_BLOCKS 16
-#define PADDED_GROUPS 256
-
 // Internal
 #include "../engine.hpp"
 #include "cuda_utils.hpp"
@@ -26,6 +18,14 @@
 #include "device_launch_parameters.h"
 #include <nvfunctional>
 
+#define L 8
+#define NUM_RADICES 256
+#define NUM_BLOCKS 16
+#define GROUPS_PER_BLOCK 12
+#define THREADS_PER_GROUP 16
+#define PADDED_BLOCKS 16
+#define PADDED_GROUPS 256
+
 namespace STARDUST {
 	
 	void constructCells(
@@ -37,6 +37,27 @@ namespace STARDUST {
 		float4* d_particle_position_ptr,
 		int threads_per_block,
 		unsigned int* d_temp_ptr);
+
+	void sortCells(
+		int* d_grid_ptr,
+		int* d_sphere_ptr,
+		int* d_grid_temp_ptr,
+		int* d_sphere_temp_ptr,
+		int* d_radices_ptr,
+		int* d_radix_sums_ptr,
+		unsigned int n_particles
+	);
+
+	void collideCells(
+		int* d_grid_ptr,
+		int* d_sphere_ptr,
+		float4* d_particle_position_ptr,
+		float4* d_particle_velocity_ptr,
+		float* d_particle_size_ptr,
+		unsigned int n_particles,
+		unsigned int* d_temp_ptr,
+		int threads_per_block
+	);
 }
 
 

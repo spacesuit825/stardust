@@ -1,3 +1,7 @@
+#ifndef CUDACC
+#define CUDACC
+#endif
+
 // Internal
 #include "../engine.hpp"
 #include "cuda_utils.hpp"
@@ -12,9 +16,10 @@
 // CUDA
 #include <vector_types.h>
 #include "cuda.h"
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
 #include <nvfunctional>
+#include <cuda_runtime_api.h>
 
 
 namespace STARDUST {
@@ -128,13 +133,20 @@ namespace STARDUST {
 		float4* d_particle_velocity_ptr,
 		float* d_particle_size_ptr,
 		unsigned int n_particles,
-		unsigned int n_cells,
-		unsigned int cells_per_thread,
 		unsigned int* collision_count,
-		unsigned int* test_count
+		unsigned int* test_count,
+		int threads_per_block
 	)
 	{
 		extern __shared__ unsigned int t[];
+
+		int n_cells = collision_count[0];
+
+		collision_count[0] = 0;
+		test_count[0] = 0;
+
+		unsigned int cells_per_thread = (n_cells - 1) / NUM_BLOCKS /
+			threads_per_block + 1;
 
 		int thread_start = (blockIdx.x * blockDim.x + threadIdx.x) * cells_per_thread;
 		int thread_end = thread_start + cells_per_thread;
@@ -188,7 +200,7 @@ namespace STARDUST {
 					}
 				}
 
-				if (i > thread_end || i >= m) {
+				if (i > thread_end || i >= n_cells) {
 					break;
 				}
 
@@ -222,6 +234,162 @@ namespace STARDUST {
 		sumReduceCUDA(t, test_count);
 	}
 
+	__global__ void RadixTabulateCUDA(
+		int* keys,
+		int* radices,
+		unsigned int n,
+		unsigned int cells_per_group,
+		int shift)
+	{
+		extern __shared__ int s[];
+
+		int group = threadIdx.x / THREADS_PER_GROUP;
+		int group_start = (blockIdx.x * GROUPS_PER_BLOCK + group) * cells_per_group;
+		int group_end = group_start + cells_per_group;
+
+		int k;
+
+		for (int i = threadIdx.x; i < GROUPS_PER_BLOCK * NUM_RADICES; i += blockDim.x) {
+			s[i] = 0;
+		}
+
+		__syncthreads();
+
+		for (int i = group_start + threadIdx.x % THREADS_PER_GROUP; i < group_end && i < n; i += THREADS_PER_GROUP) {
+			k = (keys[i] >> shift & NUM_RADICES - 1) * GROUPS_PER_BLOCK + group;
+
+			for (int j = 0; j < THREADS_PER_GROUP; j++) {
+				if (threadIdx.x % THREADS_PER_GROUP == j) {
+					s[k]++;
+				}
+			}
+		}
+
+		__syncthreads();
+
+		for (int i = threadIdx.x; i < GROUPS_PER_BLOCK * NUM_RADICES; i += blockDim.x) {
+			radices[(i / GROUPS_PER_BLOCK * NUM_BLOCKS + blockIdx.x) *
+				GROUPS_PER_BLOCK + i % GROUPS_PER_BLOCK] = s[i];
+		}
+	}
+
+	__global__ void RadixSumCUDA(
+		int* radices,
+		int* radix_sums) 
+	{
+
+		extern __shared__ int s[];
+
+		int total;
+		int left = 0;
+		int* radix = radices + blockIdx.x * NUM_RADICES * GROUPS_PER_BLOCK;
+
+		for (int j = 0; j < NUM_RADICES / NUM_BLOCKS; j++) {
+			for (int i = threadIdx.x; i < NUM_BLOCKS * GROUPS_PER_BLOCK; i += blockDim.x) {
+				s[i] = radix[i];
+			}
+
+			__syncthreads();
+
+			for (int i = threadIdx.x + NUM_BLOCKS * GROUPS_PER_BLOCK; i < PADDED_GROUPS; i += blockDim.x) {
+				s[i] = 0;
+			}
+
+			__syncthreads();
+
+			if (!threadIdx.x) {
+				total = s[PADDED_GROUPS - 1];
+			}
+
+			prefixSumCUDA(s, PADDED_GROUPS);
+			
+			__syncthreads();
+
+			for (int i = threadIdx.x; i < NUM_BLOCKS * GROUPS_PER_BLOCK; i += blockDim.x) {
+				radix[i] = s[i];
+			}
+
+			if (!threadIdx.x) {
+				total += s[PADDED_GROUPS - 1];
+
+				radix_sums[blockIdx.x * NUM_RADICES / NUM_BLOCKS + j] = left;
+				total += left;
+				left = total;
+			}
+
+			radix += NUM_BLOCKS * GROUPS_PER_BLOCK;
+		}
+	}
+
+	__global__ void RadixReorderCUDA(
+		int* keys_in,
+		int* values_in,
+		int* keys_out,
+		int* values_out,
+		int* radices,
+		int* radix_sums,
+		unsigned int n,
+		unsigned int cells_per_group,
+		int shift)
+	{
+
+		extern __shared__ int s[];
+
+		int* t = s + NUM_RADICES;
+
+		int group = threadIdx.x / THREADS_PER_GROUP;
+		int group_start = (blockIdx.x * GROUPS_PER_BLOCK + group) * cells_per_group;
+		int group_end = group_start + cells_per_group;
+
+		int k;
+
+		for (int i = threadIdx.x; i < NUM_RADICES; i += blockDim.x) {
+			s[i] = radix_sums[i];
+
+			if (!((i + 1) % (NUM_RADICES / NUM_BLOCKS))) {
+				t[i / (NUM_RADICES / NUM_BLOCKS)] = s[i];
+			}
+		}
+
+		__syncthreads();
+
+		for (int i = threadIdx.x + NUM_BLOCKS; i < PADDED_BLOCKS; i += blockDim.x) {
+			t[i] = 0;
+		}
+
+		__syncthreads();
+
+		prefixSumCUDA(t, PADDED_BLOCKS);
+
+		__syncthreads();
+
+		for (int i = threadIdx.x; i < NUM_RADICES; i += blockDim.x) {
+			s[i] += t[i / (NUM_RADICES / NUM_BLOCKS)];
+		}
+
+		__syncthreads();
+
+		for (int i = threadIdx.x; i < GROUPS_PER_BLOCK * NUM_RADICES; i += blockDim.x) {
+			t[i] = radices[(i / GROUPS_PER_BLOCK * NUM_BLOCKS + blockIdx.x) *
+				GROUPS_PER_BLOCK + i % GROUPS_PER_BLOCK] + s[i / GROUPS_PER_BLOCK];
+		}
+
+		__syncthreads();
+
+		for (int i = group_start + threadIdx.x % THREADS_PER_GROUP; i < group_end && i < n; i += THREADS_PER_GROUP) {
+			
+			k = (keys_in[i] >> shift & NUM_RADICES - 1) * GROUPS_PER_BLOCK + group;
+
+			for (int j = 0; j < THREADS_PER_GROUP; j++) {
+				if (threadIdx.x % THREADS_PER_GROUP == j) {
+					keys_out[t[k]] = keys_in[i];
+					values_out[t[k]] = values_in[i];
+					t[k]++;
+				}
+			}
+		}
+	}
+
 	void constructCells(
 		int m_num_particles, 
 		float cell_dim, 
@@ -245,7 +413,7 @@ namespace STARDUST {
 			d_temp_ptr);
 	}
 
-	__global__ void collideCellsCUDA(
+	void collideCells(
 		int* d_grid_ptr,
 		int* d_sphere_ptr,
 		float4* d_particle_position_ptr,
@@ -256,29 +424,22 @@ namespace STARDUST {
 		int threads_per_block
 	) 
 	{
-		int n_cells = d_temp_ptr[0];
-
-		unsigned int cells_per_thread = (n_cells - 1) / NUM_BLOCKS /
-			threads_per_block + 1;
 		unsigned int collision_count;
 
-		cudaMemset(d_temp_ptr, 0, 2 * sizeof(unsigned int));
-
 		collideCellsCUDA << <NUM_BLOCKS, threads_per_block, threads_per_block * sizeof(unsigned int) >> > (
-			cells,
-			spheres,
+			d_grid_ptr,
+			d_sphere_ptr,
 			d_particle_position_ptr,
 			d_particle_velocity_ptr,
 			d_particle_size_ptr,
 			n_particles,
-			n_cells,
-			cells_per_thread,
-			temp,
-			temp + 1
+			d_temp_ptr,
+			d_temp_ptr + 1,
+			threads_per_block
 			);
 	}
 
-	__global__ void sortCellsCUDA(
+	void sortCells(
 		int* d_grid_ptr,
 		int* d_sphere_ptr,
 		int* d_grid_temp_ptr,

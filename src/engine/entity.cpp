@@ -9,21 +9,21 @@ namespace STARDUST {
 		Scalar length = m_size; // m
 
 		// Cast rays in the future
-		Scalar dx = length / grid_resolution; // dx is the radius of particle
+		int num_particles = floor(length / diameter);
+		std::cout << "Number of Particles: " << num_particles << "\n";
+		float dx = length / num_particles;
 
 		// 0, 0, 0 is upper left corner of the cube
-
-		int n_particles = grid_resolution * grid_resolution * grid_resolution;
 		
-		for (int i = 0; i <= grid_resolution; i++) {
-			for (int j = 0; j <= grid_resolution; j++) {
-				for (int k = 0; k <= grid_resolution; k++) {
+		for (int i = 1; i <= grid_resolution; i++) {
+			for (int j = 1; j <= grid_resolution; j++) {
+				for (int k = 1; k <= grid_resolution; k++) {
 
 					DEMSphere particle;
 
 					particle.position = make_float4(i * dx, j * dx, k * dx, 0.0f);
-					particle.size = dx;
-					particle.mass = mass / n_particles; // Assume equal mass distribution
+					particle.size = diameter;
+					particle.mass = mass / num_particles; // Assume equal mass distribution
 
 					particles.push_back(particle);
 
@@ -40,13 +40,14 @@ namespace STARDUST {
 		}
 
 		COM = COM / (float)particles.size();
+		printf("COM: %.3f, %.3f, %.3f \n", COM.x, COM.y, COM.z);
 	}
 
 	void DEMParticle::setParticlesInWorldSpace() {
 
 		for (int i = 0; i < particles.size(); i++) {
 
-			DEMSphere particle = particles[i];
+			DEMSphere& particle = particles[i];
 
 			float4 pos = particle.position;
 
@@ -54,7 +55,7 @@ namespace STARDUST {
 			float4 COM_pos = pos - COM;
 
 			// Transmute position into world space, no rotation here so simple addition will work
-			float4 world_pos = position - COM_pos;
+			float4 world_pos = pos - position;
 			
 			particle.position = world_pos;
 		}
