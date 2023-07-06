@@ -8,6 +8,8 @@ namespace STARDUST {
 		// For now we only deal with a cube
 		Scalar length = m_size; // m
 
+		std::cout << "\nDiameter: " << diameter << "\n";
+
 		// Cast rays in the future
 		int num_particles = floor(length / diameter);
 		std::cout << "Number of Particles: " << num_particles << "\n";

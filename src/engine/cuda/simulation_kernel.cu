@@ -33,7 +33,7 @@ namespace STARDUST {
 
 	void DEMEngine::step(Scalar timestep) {
 
-		float cell_dim = 1000;
+		float cell_dim = 0.4 * 2;
 
 		int threads_per_block = 128;
 		unsigned int particle_size = (m_num_particles - 1) / threads_per_block + 1;
@@ -80,6 +80,6 @@ namespace STARDUST {
 		cudaMemcpy(&test, d_temp_ptr, sizeof(unsigned int), cudaMemcpyDeviceToHost);
 
 		std::cout << "Collisions Detected " << count << "\n";
-		std::cout << "Tests Performed " << count << "\n";
+		std::cout << "Tests Performed " << test << "\n";
 	}
 }

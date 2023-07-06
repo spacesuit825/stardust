@@ -14,12 +14,12 @@
 namespace STARDUST {
 	
 	__device__ void prefixSumCUDA(
-		int* values,
+		uint32_t* values,
 		unsigned int n)
 	{
 		int offset = 1;
 		int a;
-		int temp;
+		uint32_t temp;
 
 		for (int d = n / 2; d; d /= 2) {
 			

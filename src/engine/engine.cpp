@@ -184,6 +184,8 @@ namespace STARDUST {
 				h_particle_size_ptr[j + offset] = particle.size;
 				h_particle_to_rigid_idx_ptr[j + offset] = i;
 
+				std::cout << "Particle size: " << particle.size << "\n";
+
 				float4 relative_position = particle.position - entity.COM;
 
 				Ixx += particle.mass * (SQR(relative_position.y) + SQR(relative_position.z));
@@ -239,33 +241,33 @@ namespace STARDUST {
 			// Allocate computational grid arrays
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_grid_ptr,
-				m_num_particles * 9 * sizeof(int)
+				m_num_particles * 9 * sizeof(uint32_t)
 			));
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_grid_temp_ptr,
-				m_num_particles * 9 * sizeof(int)
+				m_num_particles * 9 * sizeof(uint32_t)
 			));
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_sphere_ptr,
-				m_num_particles * 9 * sizeof(int)
+				m_num_particles * 9 * sizeof(uint32_t)
 			));
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_sphere_temp_ptr,
-				m_num_particles * 9 * sizeof(int)
+				m_num_particles * 9 * sizeof(uint32_t)
 			));
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_radices_ptr,
 				NUM_BLOCKS * NUM_RADICES
-				* GROUPS_PER_BLOCK * sizeof(int)
+				* GROUPS_PER_BLOCK * sizeof(uint32_t)
 			));
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_radix_sums_ptr,
-				NUM_RADICES * sizeof(int)
+				NUM_RADICES * sizeof(uint32_t)
 			));
 
 			// Allocate particle arrays

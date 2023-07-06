@@ -50,16 +50,16 @@ void run() {
 	float4 pos1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 vel = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	float4 pos2 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+	float4 pos2 = make_float4(0.0f, 0.0f, 0.70f, 0.0f);
 
-	float size = 0.00002;
+	float size = 0.4;
 
 	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos1, vel);
 	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos2, vel);
 
 	engine = new STARDUST::DEMEngine(0.4f);
 	engine->addParticle(entity1);
-	//engine->addParticle(entity2);
+	engine->addParticle(entity2);
 
 	std::vector<STARDUST::DEMSphere> particles1 = entity1.getParticles();
 	std::vector<STARDUST::DEMSphere> particles2 = entity2.getParticles();

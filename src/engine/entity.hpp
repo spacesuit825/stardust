@@ -20,7 +20,7 @@ namespace STARDUST {
 		//  - For now you can only load cubes (default is side length of 0.01m or 1 cm)
 		// TODO: add mesh loading for arbitrary entity shapes
 	public:
-		DEMParticle(unsigned int id, int grid_resolution, Scalar size, Scalar radius, Scalar mass, float4 position, float4 velocity)
+		DEMParticle(unsigned int id, int grid_resolution, Scalar size, Scalar diameter, Scalar mass, float4 position, float4 velocity)
 			: m_id(id), m_grid_resolution(grid_resolution), m_size(size), diameter(diameter), mass(mass), position(position), velocity(velocity) {
 			
 			initParticles(m_grid_resolution); // Create particles in Entity Space

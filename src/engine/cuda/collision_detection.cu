@@ -27,8 +27,8 @@ namespace STARDUST {
 	__global__ void constructCellsCUDA(
 		unsigned int n_spheres,
 		float cell_dim, // Max cell size in any dimension
-		int* cells,
-		int* spheres,
+		uint32_t* cells,
+		uint32_t* spheres,
 		float* sphere_sizes,
 		float4* sphere_positions,
 		unsigned int* d_temp_ptr)//,
@@ -43,7 +43,7 @@ namespace STARDUST {
 		// If more spheres that threads, iterate across the remaining particles
 		for (int i = idx; i < n_spheres; i += gridDim.x * blockDim.x) {
 
-			int hash = 0;
+			uint32_t hash = 0;
 			unsigned int sides = 0;
 
 			int h = i * 9;
@@ -127,8 +127,8 @@ namespace STARDUST {
 	};
 
 	__global__ void collideCellsCUDA(
-		int* cells,
-		int* spheres,
+		uint32_t* cells,
+		uint32_t* spheres,
 		float4* d_particle_position_ptr,
 		float4* d_particle_velocity_ptr,
 		float* d_particle_size_ptr,
@@ -154,9 +154,9 @@ namespace STARDUST {
 		int start = -1;
 		int i = thread_start;
 
-		int last = 0xffffffff;
-		int home;
-		int phantom;
+		uint32_t last = 0xffffffff;
+		uint32_t home;
+		uint32_t phantom;
 
 		unsigned int h;
 		unsigned int p;
@@ -184,16 +184,13 @@ namespace STARDUST {
 							float4 p_home = d_particle_position_ptr[home];
 							float4 p_phantom = d_particle_position_ptr[phantom];
 
-							float p_h[3] = { p_home.x, p_home.y, p_home.z };
-							float p_p[3] = { p_phantom.x, p_phantom.y, p_phantom.z };
+							float4 distance = p_home - p_phantom;
 
-							for (int l = 0; l < 3; l++) {
-								dx = p_p[l] - p_h[l];
+							float d = length(distance);
 
-								d += dx * dx;
-							}
+							printf("%.3f, %.3f\n", d, dp);
 
-							if (d < dp * dp) {
+							if (abs(d) < dp) {
 								collisions++;
 							}
 						}
@@ -235,19 +232,19 @@ namespace STARDUST {
 	}
 
 	__global__ void RadixTabulateCUDA(
-		int* keys,
-		int* radices,
+		uint32_t* keys,
+		uint32_t* radices,
 		unsigned int n,
 		unsigned int cells_per_group,
 		int shift)
 	{
-		extern __shared__ int s[];
+		extern __shared__ uint32_t s[];
 
 		int group = threadIdx.x / THREADS_PER_GROUP;
 		int group_start = (blockIdx.x * GROUPS_PER_BLOCK + group) * cells_per_group;
 		int group_end = group_start + cells_per_group;
 
-		int k;
+		uint32_t k;
 
 		for (int i = threadIdx.x; i < GROUPS_PER_BLOCK * NUM_RADICES; i += blockDim.x) {
 			s[i] = 0;
@@ -274,15 +271,15 @@ namespace STARDUST {
 	}
 
 	__global__ void RadixSumCUDA(
-		int* radices,
-		int* radix_sums) 
+		uint32_t* radices,
+		uint32_t* radix_sums)
 	{
 
-		extern __shared__ int s[];
+		extern __shared__ uint32_t s[];
 
-		int total;
-		int left = 0;
-		int* radix = radices + blockIdx.x * NUM_RADICES * GROUPS_PER_BLOCK;
+		uint32_t total;
+		uint32_t left = 0;
+		uint32_t* radix = radices + blockIdx.x * NUM_RADICES * GROUPS_PER_BLOCK;
 
 		for (int j = 0; j < NUM_RADICES / NUM_BLOCKS; j++) {
 			for (int i = threadIdx.x; i < NUM_BLOCKS * GROUPS_PER_BLOCK; i += blockDim.x) {
@@ -322,26 +319,26 @@ namespace STARDUST {
 	}
 
 	__global__ void RadixReorderCUDA(
-		int* keys_in,
-		int* values_in,
-		int* keys_out,
-		int* values_out,
-		int* radices,
-		int* radix_sums,
+		uint32_t* keys_in,
+		uint32_t* values_in,
+		uint32_t* keys_out,
+		uint32_t* values_out,
+		uint32_t* radices,
+		uint32_t* radix_sums,
 		unsigned int n,
 		unsigned int cells_per_group,
 		int shift)
 	{
 
-		extern __shared__ int s[];
+		extern __shared__ uint32_t s[];
 
-		int* t = s + NUM_RADICES;
+		uint32_t* t = s + NUM_RADICES;
 
 		int group = threadIdx.x / THREADS_PER_GROUP;
 		int group_start = (blockIdx.x * GROUPS_PER_BLOCK + group) * cells_per_group;
 		int group_end = group_start + cells_per_group;
 
-		int k;
+		uint32_t k;
 
 		for (int i = threadIdx.x; i < NUM_RADICES; i += blockDim.x) {
 			s[i] = radix_sums[i];
@@ -393,8 +390,8 @@ namespace STARDUST {
 	void constructCells(
 		int m_num_particles, 
 		float cell_dim, 
-		int* d_grid_ptr, 
-		int* d_sphere_ptr, 
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
 		float* d_particle_size_ptr, 
 		float4* d_particle_position_ptr, 
 		int threads_per_block,
@@ -414,8 +411,8 @@ namespace STARDUST {
 	}
 
 	void collideCells(
-		int* d_grid_ptr,
-		int* d_sphere_ptr,
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
 		float4* d_particle_position_ptr,
 		float4* d_particle_velocity_ptr,
 		float* d_particle_size_ptr,
@@ -440,19 +437,19 @@ namespace STARDUST {
 	}
 
 	void sortCells(
-		int* d_grid_ptr,
-		int* d_sphere_ptr,
-		int* d_grid_temp_ptr,
-		int* d_sphere_temp_ptr,
-		int* d_radices_ptr,
-		int* d_radix_sums_ptr,
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
+		uint32_t* d_grid_temp_ptr,
+		uint32_t* d_sphere_temp_ptr,
+		uint32_t* d_radices_ptr,
+		uint32_t* d_radix_sums_ptr,
 		unsigned int n_particles
 	)
 	{
 		unsigned int cells_per_group = (n_particles * 9 - 1) / NUM_BLOCKS / GROUPS_PER_BLOCK + 1;
 
-		int* cells_swap;
-		int* spheres_swap;
+		uint32_t* cells_swap;
+		uint32_t* spheres_swap;
 
 		for (int i = 0; i < 32; i += L) {
 			

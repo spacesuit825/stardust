@@ -250,19 +250,19 @@ namespace STARDUST {
 		unsigned int* d_temp_ptr;
 
 		// Host and Device Arrays for the Computational Grid
-		int* h_grid_ptr;
-		int* h_sphere_ptr;
-		int* h_grid_temp_ptr;
-		int* h_sphere_temp_ptr;
-		int* h_radices_ptr;
-		int* h_radix_sums_ptr;
+		uint32_t* h_grid_ptr;
+		uint32_t* h_sphere_ptr;
+		uint32_t* h_grid_temp_ptr;
+		uint32_t* h_sphere_temp_ptr;
+		uint32_t* h_radices_ptr;
+		uint32_t* h_radix_sums_ptr;
 
-		int* d_grid_ptr;
-		int* d_sphere_ptr;
-		int* d_grid_temp_ptr;
-		int* d_sphere_temp_ptr;
-		int* d_radices_ptr;
-		int* d_radix_sums_ptr;
+		uint32_t* d_grid_ptr;
+		uint32_t* d_sphere_ptr;
+		uint32_t* d_grid_temp_ptr;
+		uint32_t* d_sphere_temp_ptr;
+		uint32_t* d_radices_ptr;
+		uint32_t* d_radix_sums_ptr;
 
 		// Host and Device Arrays for Rigid Bodies (entities)
 		// Entity trackers

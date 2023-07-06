@@ -31,26 +31,26 @@ namespace STARDUST {
 	void constructCells(
 		int m_num_particles,
 		float cell_dim,
-		int* d_grid_ptr,
-		int* d_sphere_ptr,
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
 		float* d_particle_size_ptr,
 		float4* d_particle_position_ptr,
 		int threads_per_block,
 		unsigned int* d_temp_ptr);
 
 	void sortCells(
-		int* d_grid_ptr,
-		int* d_sphere_ptr,
-		int* d_grid_temp_ptr,
-		int* d_sphere_temp_ptr,
-		int* d_radices_ptr,
-		int* d_radix_sums_ptr,
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
+		uint32_t* d_grid_temp_ptr,
+		uint32_t* d_sphere_temp_ptr,
+		uint32_t* d_radices_ptr,
+		uint32_t* d_radix_sums_ptr,
 		unsigned int n_particles
 	);
 
 	void collideCells(
-		int* d_grid_ptr,
-		int* d_sphere_ptr,
+		uint32_t* d_grid_ptr,
+		uint32_t* d_sphere_ptr,
 		float4* d_particle_position_ptr,
 		float4* d_particle_velocity_ptr,
 		float* d_particle_size_ptr,
