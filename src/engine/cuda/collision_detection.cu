@@ -24,7 +24,7 @@
 
 namespace STARDUST {
 
-	__global__ void constructCellsCUDA(
+	__global__ void constructCollisionListCUDA(
 		unsigned int n_spheres,
 		float cell_dim, // Max cell size in any dimension
 		uint32_t* cells,
@@ -125,111 +125,6 @@ namespace STARDUST {
 		t[threadIdx.x] = count;
 		sumReduceCUDA(t, d_temp_ptr);
 	};
-
-	__global__ void collideCellsCUDA(
-		uint32_t* cells,
-		uint32_t* spheres,
-		float4* d_particle_position_ptr,
-		float4* d_particle_velocity_ptr,
-		float* d_particle_size_ptr,
-		unsigned int n_particles,
-		unsigned int* collision_count,
-		unsigned int* test_count,
-		int threads_per_block
-	)
-	{
-		extern __shared__ unsigned int t[];
-
-		int n_cells = collision_count[0];
-
-		collision_count[0] = 0;
-		test_count[0] = 0;
-
-		unsigned int cells_per_thread = (n_cells - 1) / NUM_BLOCKS /
-			threads_per_block + 1;
-
-		int thread_start = (blockIdx.x * blockDim.x + threadIdx.x) * cells_per_thread;
-		int thread_end = thread_start + cells_per_thread;
-
-		int start = -1;
-		int i = thread_start;
-
-		uint32_t last = 0xffffffff;
-		uint32_t home;
-		uint32_t phantom;
-
-		unsigned int h;
-		unsigned int p;
-		unsigned int collisions = 0;
-		unsigned int tests = 0;
-
-		float dh;
-		float dp;
-		float dx;
-		float d;
-
-		while (1) {
-			if (i >= n_cells || cells[i] >> 1 != last) {
-				if (start + 1 && h >= 1 && h + p >= 2) {
-					for (int j = start; j < start + h; j++) {
-						home = spheres[j] >> 1;
-						dh = d_particle_size_ptr[home];
-
-						for (int k = j + 1; k < i; k++) {
-							tests++;
-							phantom = spheres[k] >> 1;
-							dp = d_particle_size_ptr[phantom] + dh;
-							d = 0;
-
-							float4 p_home = d_particle_position_ptr[home];
-							float4 p_phantom = d_particle_position_ptr[phantom];
-
-							float4 distance = p_home - p_phantom;
-
-							float d = length(distance);
-
-							printf("%.3f, %.3f\n", d, dp);
-
-							if (abs(d) < dp) {
-								collisions++;
-							}
-						}
-					}
-				}
-
-				if (i > thread_end || i >= n_cells) {
-					break;
-				}
-
-				if (i != thread_start || !blockIdx.x && !threadIdx.x) {
-					h = 0;
-					p = 0;
-					start = i;
-				}
-
-				last = cells[i] >> 1;
-			}
-
-			if (start + 1) {
-				if (spheres[i] & 0x01) {
-					h++;
-				}
-				else {
-					p++;
-				}
-			}
-
-			i++;
-		}
-
-		t[threadIdx.x] = collisions;
-		sumReduceCUDA(t, collision_count);
-
-		__syncthreads();
-
-		t[threadIdx.x] = tests;
-		sumReduceCUDA(t, test_count);
-	}
 
 	__global__ void RadixTabulateCUDA(
 		uint32_t* keys,
@@ -387,7 +282,7 @@ namespace STARDUST {
 		}
 	}
 
-	void constructCells(
+	void constructCollisionList(
 		int m_num_particles, 
 		float cell_dim, 
 		uint32_t* d_grid_ptr,
@@ -400,7 +295,7 @@ namespace STARDUST {
 
 		cudaMemset(d_temp_ptr, 0, sizeof(unsigned int));
 
-		constructCellsCUDA << <NUM_BLOCKS, threads_per_block, threads_per_block * sizeof(unsigned int) >> > (
+		constructCollisionListCUDA << <NUM_BLOCKS, threads_per_block, threads_per_block * sizeof(unsigned int) >> > (
 			m_num_particles,
 			cell_dim, // Max cell size in any dimension
 			d_grid_ptr,
@@ -410,33 +305,9 @@ namespace STARDUST {
 			d_temp_ptr);
 	}
 
-	void collideCells(
-		uint32_t* d_grid_ptr,
-		uint32_t* d_sphere_ptr,
-		float4* d_particle_position_ptr,
-		float4* d_particle_velocity_ptr,
-		float* d_particle_size_ptr,
-		unsigned int n_particles,
-		unsigned int* d_temp_ptr,
-		int threads_per_block
-	) 
-	{
-		unsigned int collision_count;
+	
 
-		collideCellsCUDA << <NUM_BLOCKS, threads_per_block, threads_per_block * sizeof(unsigned int) >> > (
-			d_grid_ptr,
-			d_sphere_ptr,
-			d_particle_position_ptr,
-			d_particle_velocity_ptr,
-			d_particle_size_ptr,
-			n_particles,
-			d_temp_ptr,
-			d_temp_ptr + 1,
-			threads_per_block
-			);
-	}
-
-	void sortCells(
+	void sortCollisionList(
 		uint32_t* d_grid_ptr,
 		uint32_t* d_sphere_ptr,
 		uint32_t* d_grid_temp_ptr,

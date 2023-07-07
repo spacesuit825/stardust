@@ -13,7 +13,7 @@
 
 namespace STARDUST {
 	
-	__device__ void prefixSumCUDA(
+	__device__ inline void prefixSumCUDA(
 		uint32_t* values,
 		unsigned int n)
 	{
@@ -51,7 +51,7 @@ namespace STARDUST {
 		}
 	}
 
-	__device__ void sumReduceCUDA(
+	__device__ inline void sumReduceCUDA(
 		unsigned int* values, 
 		unsigned int* out) 
 	{

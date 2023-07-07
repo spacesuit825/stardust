@@ -47,6 +47,7 @@ namespace STARDUST {
 		size_t size;
 
 		CUDA_ERR_CHECK(cudaGraphicsMapResources(1, &vbo_position, NULL));
+		std::cout << "CHECK\n";
 		CUDA_ERR_CHECK(cudaGraphicsResourceGetMappedPointer((void**)&bufptr, &size, vbo_position));
 		CUDA_ERR_CHECK(cudaMemcpy(bufptr,
 			d_particle_position_ptr,
@@ -178,7 +179,7 @@ namespace STARDUST {
 				DEMSphere particle = particles[j];
 
 				h_particle_position_ptr[j + offset] = particle.position;
-				h_particle_velocity_ptr[j + offset] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+				h_particle_velocity_ptr[j + offset] = entity.velocity;
 				h_particle_forces_ptr[j + offset] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 				h_particle_mass_ptr[j + offset] = particle.mass;
 				h_particle_size_ptr[j + offset] = particle.size;

@@ -18,7 +18,7 @@ uniform vec3 lightsrc;
 void main() {
 
     vec3 worldPos = vec4(position * particle_scale + particle_pos, 1.0).xyz; // world pos
-    gl_Position = projMat * viewMat * vec4(worldPos, 1.0);
+    gl_Position = projMat * viewMat * * modelMat * vec4(worldPos, 1.0);
 
     v_normal = normalize(transpose(inverse(mat3(modelMat))) * normal); //world normal
     v_view = normalize(eyepos - worldPos); //view vector
