@@ -47,7 +47,6 @@ namespace STARDUST {
 		size_t size;
 
 		CUDA_ERR_CHECK(cudaGraphicsMapResources(1, &vbo_position, NULL));
-		std::cout << "CHECK\n";
 		CUDA_ERR_CHECK(cudaGraphicsResourceGetMappedPointer((void**)&bufptr, &size, vbo_position));
 		CUDA_ERR_CHECK(cudaMemcpy(bufptr,
 			d_particle_position_ptr,
@@ -132,10 +131,13 @@ namespace STARDUST {
 		h_particle_mass_ptr = new float[m_num_particles * sizeof(float)];
 		h_particle_size_ptr = new float[m_num_particles * sizeof(float)];
 		h_particle_to_rigid_idx_ptr = new int[m_num_particles * sizeof(int)];
+		h_particle_init_relative_position_ptr = new float4[m_num_particles * sizeof(float4)];
+		h_particle_relative_position_ptr = new float4[m_num_particles * sizeof(float4)];
 
 		// For Rigid Bodies
 		h_rigid_body_position_ptr = new float4[m_num_entities * sizeof(float4)];
 		h_rigid_body_velocity_ptr = new float4[m_num_entities * sizeof(float4)];
+		h_rigid_body_angular_velocity_ptr = new float4[m_num_entities * sizeof(float4)];
 		h_rigid_body_mass_ptr = new float[m_num_entities * sizeof(float)];
 		h_rigid_body_forces_ptr = new float4[m_num_entities * sizeof(float4)];
 		h_rigid_body_torques_ptr = new float4[m_num_entities * sizeof(float4)];
@@ -155,6 +157,7 @@ namespace STARDUST {
 
 			h_rigid_body_position_ptr[i] = entity.position;
 			h_rigid_body_velocity_ptr[i] = entity.velocity;
+			h_rigid_body_angular_velocity_ptr[i] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 			h_rigid_body_mass_ptr[i] = entity.mass;
 
 			// Initialise the starting dynamic values (remember: quaternion of 0 rotation is (1, 0, 0, 0))
@@ -184,6 +187,8 @@ namespace STARDUST {
 				h_particle_mass_ptr[j + offset] = particle.mass;
 				h_particle_size_ptr[j + offset] = particle.size;
 				h_particle_to_rigid_idx_ptr[j + offset] = i;
+				h_particle_init_relative_position_ptr[j + offset] = particle.position - entity.position;
+				h_particle_relative_position_ptr[j + offset] = particle.position - entity.position;
 
 				std::cout << "Particle size: " << particle.size << "\n";
 
@@ -302,6 +307,16 @@ namespace STARDUST {
 				m_num_particles * sizeof(int)
 			));
 
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_particle_relative_position_ptr,
+				m_num_particles * sizeof(float4)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_particle_init_relative_position_ptr,
+				m_num_particles * sizeof(float4)
+			));
+
 			// Allocate rigid body arrays
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_rigid_body_position_ptr,
@@ -310,6 +325,11 @@ namespace STARDUST {
 
 			CUDA_ERR_CHECK(cudaMalloc(
 				(void**)&d_rigid_body_velocity_ptr,
+				m_num_entities * sizeof(float4)
+			));
+
+			CUDA_ERR_CHECK(cudaMalloc(
+				(void**)&d_rigid_body_angular_velocity_ptr,
 				m_num_entities * sizeof(float4)
 			));
 
@@ -435,6 +455,20 @@ namespace STARDUST {
 				cudaMemcpyHostToDevice)
 			);
 
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_particle_relative_position_ptr,
+				h_particle_relative_position_ptr,
+				m_num_particles * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_particle_init_relative_position_ptr,
+				h_particle_init_relative_position_ptr,
+				m_num_particles * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
 			// Transfer rigid body arrays from host to device
 			CUDA_ERR_CHECK(cudaMemcpyAsync(
 				d_rigid_body_position_ptr,
@@ -446,6 +480,13 @@ namespace STARDUST {
 			CUDA_ERR_CHECK(cudaMemcpyAsync(
 				d_rigid_body_velocity_ptr,
 				h_rigid_body_velocity_ptr,
+				m_num_entities * sizeof(float4),
+				cudaMemcpyHostToDevice)
+			);
+
+			CUDA_ERR_CHECK(cudaMemcpyAsync(
+				d_rigid_body_angular_velocity_ptr,
+				h_rigid_body_angular_velocity_ptr,
 				m_num_entities * sizeof(float4),
 				cudaMemcpyHostToDevice)
 			);

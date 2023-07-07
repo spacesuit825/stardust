@@ -35,7 +35,20 @@ namespace STARDUST {
 		unsigned int particle_size = (m_num_particles - 1) / threads_per_block + 1;
 
 		// PARTICLE UPDATES AND RELATIVE POSITIONS
-
+		updateSphereData(
+			m_num_particles,
+			m_num_entities,
+			d_particle_position_ptr,
+			d_particle_velocity_ptr,
+			d_particle_init_relative_position_ptr,
+			d_particle_relative_position_ptr,
+			d_particle_to_rigid_idx_ptr,
+			d_rigid_body_position_ptr,
+			d_rigid_body_velocity_ptr,
+			d_rigid_body_quaternion_ptr,
+			d_rigid_body_angular_velocity_ptr,
+			particle_size
+		);
 
 		// COLLISION DETECTION AND RESPONSE //
 		
@@ -88,6 +101,18 @@ namespace STARDUST {
 		printf("Force on Particle 1: %.3f, %.3f, %.3f\n", force1.x, force1.y, force1.z);
 
 		// PARTICLE FORCE COMPUTATION AND POSITION/ORIENTATION UPDATE
+
+		computeForcesAndTorquesOnParticles(
+			m_num_particles,
+			m_num_entities,
+			d_rigid_body_forces_ptr,
+			d_rigid_body_torques_ptr,
+			d_entity_start_ptr,
+			d_entity_length_ptr,
+			d_particle_relative_position_ptr,
+			d_particle_forces_ptr,
+			d_particle_to_rigid_idx_ptr
+		);
 
 	}
 }

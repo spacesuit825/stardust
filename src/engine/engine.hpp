@@ -92,6 +92,8 @@ namespace STARDUST {
 			h_rigid_body_torques_ptr = nullptr;
 			d_rigid_body_torques_ptr = nullptr;
 
+			h_rigid_body_angular_velocity_ptr = nullptr;
+			d_rigid_body_angular_velocity_ptr = nullptr;
 
 			// Host and Device Arrays for Particles
 
@@ -118,6 +120,12 @@ namespace STARDUST {
 			// Size of the particles
 			h_particle_size_ptr = nullptr;
 			d_particle_size_ptr = nullptr;
+
+			h_particle_relative_position_ptr = nullptr;
+			d_particle_relative_position_ptr = nullptr;
+
+			h_particle_init_relative_position_ptr = nullptr;
+			d_particle_init_relative_position_ptr = nullptr;
 
 			is_first_step = true;
 
@@ -201,6 +209,9 @@ namespace STARDUST {
 			free(h_rigid_body_torques_ptr);
 			cudaFree(d_rigid_body_torques_ptr);
 
+			free(h_rigid_body_angular_velocity_ptr);
+			cudaFree(d_rigid_body_angular_velocity_ptr);
+
 
 			// Host and Device Arrays for Particles
 
@@ -227,6 +238,12 @@ namespace STARDUST {
 			//Size of particles
 			free(h_particle_size_ptr);
 			cudaFree(d_particle_size_ptr);
+
+			free(h_particle_relative_position_ptr);
+			cudaFree(d_particle_relative_position_ptr);
+
+			free(h_particle_init_relative_position_ptr);
+			cudaFree(d_particle_init_relative_position_ptr);
 
 			cudaGraphicsUnregisterResource(vbo_position);
 		};
@@ -284,6 +301,9 @@ namespace STARDUST {
 		float4* h_rigid_body_velocity_ptr;
 		float4* d_rigid_body_velocity_ptr;
 
+		float4* h_rigid_body_angular_velocity_ptr;
+		float4* d_rigid_body_angular_velocity_ptr;
+
 		// Linear momentum of rigid body
 		float4* h_rigid_body_linear_momentum_ptr;
 		float4* d_rigid_body_linear_momentum_ptr;
@@ -332,6 +352,12 @@ namespace STARDUST {
 
 		float* h_particle_size_ptr;
 		float* d_particle_size_ptr;
+
+		float4* h_particle_relative_position_ptr;
+		float4* d_particle_relative_position_ptr;
+
+		float4* h_particle_init_relative_position_ptr;
+		float4* d_particle_init_relative_position_ptr;
 
 		// Similar to the entity trackers, tracks the start and end of the meshes //
 		int* h_mesh_start_ptr;
