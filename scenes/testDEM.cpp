@@ -50,7 +50,7 @@ void run() {
 	float4 pos1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 vel1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	float4 pos2 = make_float4(0.0f, 0.0f, 0.180f, 0.0f);
+	float4 pos2 = make_float4(0.0f, 0.0f, 0.20f, 0.0f);
 	float4 vel2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	float size = 0.2;

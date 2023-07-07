@@ -2,6 +2,7 @@
 #include "../engine.hpp"
 #include "cuda_utils.hpp"
 #include "collision_detection.cuh"
+#include "physics_update.cuh"
 
 // C++
 #include <string>
@@ -18,25 +19,25 @@
 
 namespace STARDUST {
 
-	// Template for launching kernels
-	template<typename... Arguments>
-	void KernelLaunch(std::string&& tag, int gs, int bs, void(*f)(Arguments...), Arguments... args) {
-		f << <gs, bs >> > (args...);
-
-		CUDA_ERR_CHECK(cudaPeekAtLastError());
-		CUDA_ERR_CHECK(cudaDeviceSynchronize());
-	}
-
-
-
-
-
 	void DEMEngine::step(Scalar timestep) {
+
+		// Steps
+		// 1. Update sphere positions and velocities (rotation and translation) based on new particle position
+		// 2. Compute relative positions of spheres to entity COM
+		// 3. Compute collisions
+		// 4. Compute particle force and torques from spheres
+		// 5. Compute momentum (linear and angular) on particle
+		// 6. Advect particle and compute quaternion
 
 		float cell_dim = 0.2 * 2;
 
 		int threads_per_block = 128;
 		unsigned int particle_size = (m_num_particles - 1) / threads_per_block + 1;
+
+		// PARTICLE UPDATES AND RELATIVE POSITIONS
+
+
+		// COLLISION DETECTION AND RESPONSE //
 		
 		constructCollisionList(
 			m_num_particles, 
@@ -64,7 +65,7 @@ namespace STARDUST {
 			m_num_particles
 		);
 
-		tranverseCollisionList(
+		tranverseAndResolveCollisionList(
 			d_grid_ptr,
 			d_sphere_ptr,
 			d_particle_position_ptr,
@@ -85,5 +86,8 @@ namespace STARDUST {
 
 		printf("Force on Particle 0: %.3f, %.3f, %.3f\n", force0.x, force0.y, force0.z);
 		printf("Force on Particle 1: %.3f, %.3f, %.3f\n", force1.x, force1.y, force1.z);
+
+		// PARTICLE FORCE COMPUTATION AND POSITION/ORIENTATION UPDATE
+
 	}
 }

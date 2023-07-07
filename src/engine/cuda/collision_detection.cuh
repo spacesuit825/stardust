@@ -47,7 +47,7 @@ namespace STARDUST {
 		unsigned int n_particles
 	);
 
-	void tranverseCollisionList(
+	void tranverseAndResolveCollisionList(
 		uint32_t* d_grid_ptr,
 		uint32_t* d_sphere_ptr,
 		float4* d_particle_position_ptr,

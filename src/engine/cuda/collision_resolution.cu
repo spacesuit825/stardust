@@ -92,8 +92,6 @@ namespace STARDUST {
 				d_particle_force_ptr[phantom] -= normal_force + damping_force + tangent_force;
 			}
 		}
-
-		
 	}
 
 	__global__ void tranverseCollisionListCUDA(
@@ -197,7 +195,7 @@ namespace STARDUST {
 		sumReduceCUDA(t, test_count);
 	}
 
-	void tranverseCollisionList(
+	void tranverseAndResolveCollisionList(
 		uint32_t* d_grid_ptr,
 		uint32_t* d_sphere_ptr,
 		float4* d_particle_position_ptr,

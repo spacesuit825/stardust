@@ -12,6 +12,15 @@
 #include <device_functions.h>
 
 namespace STARDUST {
+
+	// Template for launching kernels
+	template<typename... Arguments>
+	void KernelLaunch(std::string&& tag, int gs, int bs, void(*f)(Arguments...), Arguments... args) {
+		f << <gs, bs >> > (args...);
+
+		CUDA_ERR_CHECK(cudaPeekAtLastError());
+		CUDA_ERR_CHECK(cudaDeviceSynchronize());
+	}
 	
 	__device__ inline void prefixSumCUDA(
 		uint32_t* values,

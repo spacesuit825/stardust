@@ -119,7 +119,7 @@ private:
 	int m_window_height;
 	unsigned long long m_current_frame = 0;
 
-	float m_particle_scale = 1 / 0.4;
+	float m_particle_scale = 0.2;
 };
 
 #endif // _AURORA_RENDERER_HEADER_
