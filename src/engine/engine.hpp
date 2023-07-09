@@ -152,6 +152,7 @@ namespace STARDUST {
 		void prepArrays(); // Prepare std::vectors for CUDA by translating into naked arrays
 		void transferDataToDevice();
 
+		void cleanBuffers();
 		void step(Scalar);
 
 		~DEMEngine() {

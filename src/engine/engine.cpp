@@ -123,6 +123,7 @@ namespace STARDUST {
 	void DEMEngine::prepArrays() {
 
 		// Create host arrays
+		std::cout << "Particle sizes: " << m_num_particles << "\n";
 
 		// For Particles
 		h_particle_position_ptr = new float4[m_num_particles * sizeof(float4)];
@@ -173,6 +174,7 @@ namespace STARDUST {
 			h_entity_start_ptr[i] = offset;
 			h_entity_length_ptr[i] = size;
 
+
 			// Create the terms for the inertia tensor
 			float Ixx, Iyy, Izz, Ixy, Ixz, Iyz;
 			Ixx = Iyy = Izz = Ixy = Ixz = Iyz = 0.0f;
@@ -190,9 +192,7 @@ namespace STARDUST {
 				h_particle_init_relative_position_ptr[j + offset] = particle.position - entity.position;
 				h_particle_relative_position_ptr[j + offset] = particle.position - entity.position;
 
-				std::cout << "Particle size: " << particle.size << "\n";
-
-				float4 relative_position = particle.position - entity.COM;
+				float4 relative_position = particle.position - entity.position;
 
 				Ixx += particle.mass * (SQR(relative_position.y) + SQR(relative_position.z));
 				Iyy += particle.mass * (SQR(relative_position.x) + SQR(relative_position.z));

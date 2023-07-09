@@ -11,6 +11,8 @@
 #include <nvfunctional>
 #include <device_functions.h>
 
+#define SQR(x) ((x) * (x))
+
 namespace STARDUST {
 
 	// Template for launching kernels
@@ -20,6 +22,112 @@ namespace STARDUST {
 
 		CUDA_ERR_CHECK(cudaPeekAtLastError());
 		CUDA_ERR_CHECK(cudaDeviceSynchronize());
+	}
+
+	__device__ inline float getSignedFloat(float i) {
+		if (i > 0.0) {
+			return 1.0;
+		}
+		else if (i == 0.0) {
+			return 1.0;
+		}
+		else {
+			return -1.0;
+		}
+	}
+
+	__device__ inline float4 convertVectorToSigns(float4 v) {
+		float vin[4] = { v.x, v.y, v.z, v.w };
+		float vout[4];
+		for (int i = 0; i < 4; i++) {
+			vout[i] = getSignedFloat(vin[i]);
+		}
+
+		return make_float4(vout[0], vout[1], vout[2], vout[3]);
+	}
+
+	__device__ inline float9 compute3x3Inverse(float9 m) {
+		float det = m[0] * (m[4] * m[8] - m[7] * m[5]) -
+			m[1] * (m[3] * m[8] - m[5] * m[6]) +
+			m[2] * (m[3] * m[7] - m[4] * m[6]);
+
+		if (det == 0.0f) {
+			return m;
+		}
+
+		float invdet = 1 / det;
+
+		float9 minv = {
+			(m[4] * m[8] - m[7] * m[5])* invdet,
+			(m[2] * m[7] - m[1] * m[8])* invdet,
+			(m[1] * m[5] - m[2] * m[4])* invdet,
+			(m[5] * m[6] - m[3] * m[8])* invdet,
+			(m[0] * m[8] - m[2] * m[6])* invdet,
+			(m[3] * m[2] - m[0] * m[5])* invdet,
+			(m[3] * m[7] - m[6] * m[4])* invdet,
+			(m[6] * m[1] - m[0] * m[7])* invdet,
+			(m[0] * m[4] - m[3] * m[1])* invdet
+		};
+
+		return minv;
+	}
+
+	__device__ inline float9 computeTranspose(float9 m) {
+		float9 mtrans = {
+			m[0],
+			m[3],
+			m[6],
+			m[1],
+			m[4],
+			m[7],
+			m[2],
+			m[5],
+			m[8]
+		};
+
+		return mtrans;
+	}
+
+	__device__ inline float9 computeMatrixMultiplication(float9 m1, float9 m2) {
+		float9 mmulti;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				int sum = 0;
+				for (int k = 0; k < 3; k++)
+					sum = sum + m1[i * 3 + k] * m2[k * 3 + j];
+				mmulti[i * 3 + j] = sum;
+			}
+		}
+
+		return mmulti;
+	}
+
+	__device__ inline float4 computeMatrixVectorMultiplication(float9 m, float4 v) {
+		float vec[3] = { v.x, v.y, v.z };
+		float mmultiv[3] = { 0.0f, 0.0f, 0.0f };
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				mmultiv[i] += m[3 * i + j] * vec[j];
+			}
+		}
+
+		return make_float4(mmultiv[0], mmultiv[1], mmultiv[2], 0.0f);
+	}
+
+	__device__ inline float9 quatToRotationCUDA(float4 quat) {
+		// Quat: {s, vx, vy, vz}
+		float9 rotation_matrix = {
+			1 - 2 * SQR(quat.z) - 2 * SQR(quat.w),
+			2 * quat.y * quat.z - 2 * quat.x * quat.w,
+			2 * quat.y * quat.w + 2 * quat.x * quat.z,
+			2 * quat.y * quat.z + 2 * quat.x * quat.w,
+			1 - 2 * SQR(quat.y) - 2 * SQR(quat.w),
+			2 * quat.z * quat.w - 2 * quat.x * quat.y,
+			2 * quat.y * quat.w - 2 * quat.x * quat.z,
+			2 * quat.z * quat.w + 2 * quat.x * quat.y,
+			1 - 2 * SQR(quat.y) - 2 * SQR(quat.z) };
+
+		return rotation_matrix;
 	}
 	
 	__device__ inline float4 multiplyQuaternionsCUDA(

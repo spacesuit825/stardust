@@ -2,6 +2,8 @@
 #include "types.hpp"
 #include "helper_math.hpp"
 
+#define SQR(x) ((x) * (x))
+
 namespace STARDUST {
 	
 	void DEMParticle::initParticles(int grid_resolution) {
@@ -11,7 +13,7 @@ namespace STARDUST {
 		std::cout << "\nDiameter: " << diameter << "\n";
 
 		// Cast rays in the future
-		int num_particles = floor(length / diameter);
+		int num_particles = SQR(floor(length / diameter));
 		std::cout << "Number of Particles: " << num_particles << "\n";
 		float dx = length / num_particles;
 
@@ -26,7 +28,7 @@ namespace STARDUST {
 					particle.position = make_float4(i * dx, j * dx, k * dx, 0.0f);
 					particle.size = diameter;
 					particle.mass = mass / num_particles; // Assume equal mass distribution
-
+					std::cout << "creating particle: " << particle.mass << "\n";
 					particles.push_back(particle);
 
 				}

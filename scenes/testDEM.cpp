@@ -47,18 +47,19 @@ void initGui() {
 }
 
 void run() {
-	float4 pos1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 pos1 = make_float4(0.0f, 0.1f, 1.0f, 0.0f);
 	float4 vel1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	float4 pos2 = make_float4(0.0f, 0.0f, 0.20f, 0.0f);
-	float4 vel2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 pos2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 vel2 = make_float4(0.0f, 0.0f, -1000.0f, 0.0f);
 
 	float size = 0.2;
 
-	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos1, vel1);
-	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 1, size, size, size, pos2, vel2);
+	// Problem with clumped particles!!
+	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, 100, pos1, vel1);
+	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 1, size, size, 9, pos2, vel2);
 
-	engine = new STARDUST::DEMEngine(0.4f);
+	engine = new STARDUST::DEMEngine(1e-20);
 	engine->addParticle(entity1);
 	engine->addParticle(entity2);
 
@@ -101,7 +102,7 @@ void run() {
 		/*if (frame > 400 && frame % 25 == 0) {
 			addEntity();
 		}*/
-		engine->step(0.05f);
+		engine->step(0.0005f);
 		engine->writeGLBuffers();
 		renderer->renderWithGUI(*engine, *gui);
 		handler->handleInput();

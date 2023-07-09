@@ -8,6 +8,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 // CUDA
 #include <vector_types.h>
@@ -16,8 +18,33 @@
 #include "device_launch_parameters.h"
 #include <nvfunctional>
 
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
+
 
 namespace STARDUST {
+
+	void DEMEngine::cleanBuffers() {
+		CUDA_ERR_CHECK(cudaDeviceSynchronize());
+
+		CUDA_ERR_CHECK(cudaMemset(
+			d_particle_forces_ptr,
+			0,
+			m_num_particles * sizeof(float4))
+		);
+
+		CUDA_ERR_CHECK(cudaMemset(
+			d_rigid_body_forces_ptr,
+			0,
+			m_num_entities * sizeof(float4))
+		);
+
+		CUDA_ERR_CHECK(cudaMemset(
+			d_rigid_body_torques_ptr,
+			0,
+			m_num_entities * sizeof(float4))
+		);
+	}
 
 	void DEMEngine::step(Scalar timestep) {
 
@@ -49,6 +76,8 @@ namespace STARDUST {
 			d_rigid_body_angular_velocity_ptr,
 			particle_size
 		);
+
+		cleanBuffers();
 
 		// COLLISION DETECTION AND RESPONSE //
 		
@@ -107,6 +136,7 @@ namespace STARDUST {
 			m_num_entities,
 			d_rigid_body_forces_ptr,
 			d_rigid_body_torques_ptr,
+			d_rigid_body_mass_ptr,
 			d_entity_start_ptr,
 			d_entity_length_ptr,
 			d_particle_relative_position_ptr,
@@ -114,5 +144,22 @@ namespace STARDUST {
 			d_particle_to_rigid_idx_ptr
 		);
 
+		advectParticles(
+			m_num_particles,
+			m_num_entities,
+			timestep,
+			d_rigid_body_position_ptr,
+			d_rigid_body_velocity_ptr,
+			d_rigid_body_angular_velocity_ptr,
+			d_rigid_body_forces_ptr,
+			d_rigid_body_torques_ptr,
+			d_rigid_body_quaternion_ptr,
+			d_rigid_body_mass_ptr,
+			d_rigid_body_linear_momentum_ptr,
+			d_rigid_body_angular_momentum_ptr,
+			d_rigid_body_inertia_tensor_ptr
+		);
+
+		std::this_thread::sleep_for(0.01s);
 	}
 }

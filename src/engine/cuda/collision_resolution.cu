@@ -48,9 +48,9 @@ namespace STARDUST {
 		float particle_diameter = 0.2;
 
 		// TODO: Add these to sphere arrays !!
-		float normal_stiffness = 20.0;
-		float tangential_stiffness = 20.0;
-		float damping = 0.2;
+		float normal_stiffness = 2e7;
+		float tangential_stiffness = 2.0;
+		float damping = 2.0;
 
 		// Use Basic Elastic Resolution for now
 		for (int j = start; j < start + h; j++) {
@@ -73,11 +73,10 @@ namespace STARDUST {
 				//TODO: Compute secant normal stiffness (for now assume the values are constant)
 
 				float4 relative_position = d_particle_position_ptr[home] - d_particle_position_ptr[phantom];
+				float4 relative_velocity = d_particle_velocity_ptr[home] - d_particle_velocity_ptr[phantom];
 				float distance = length(relative_position);
 				
 				if (distance <= particle_diameter) {
-
-					float4 relative_velocity = d_particle_velocity_ptr[home] - d_particle_velocity_ptr[phantom];
 
 					float4 normalised_position = relative_position / distance;
 
@@ -88,8 +87,12 @@ namespace STARDUST {
 					tangent_force = tangential_stiffness * tangent_velocity;	
 				}
 
-				d_particle_force_ptr[home] += normal_force + damping_force + tangent_force;
-				d_particle_force_ptr[phantom] -= normal_force + damping_force + tangent_force;
+				float4 signed_velocity = convertVectorToSigns(relative_velocity);
+				
+				float4 total_force = normal_force + damping_force + tangent_force;
+
+				d_particle_force_ptr[home] += -signed_velocity * total_force;
+				d_particle_force_ptr[phantom] = signed_velocity * total_force;
 			}
 		}
 	}
