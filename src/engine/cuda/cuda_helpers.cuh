@@ -24,6 +24,18 @@ namespace STARDUST {
 		CUDA_ERR_CHECK(cudaDeviceSynchronize());
 	}
 
+	__device__ inline void debugVector(float4 v) {
+		printf("debug vector: \n");
+		printf("%.3f, %.3f, %.3f, %.3f\n", v.x, v.y, v.z, v.w);
+	}
+
+	__device__ inline void debug3x3Matrix(float9 m) {
+		printf("debug matrix: \n");
+		printf("%.3f, %.3f, %.3f\n %.3f, %.3f, %.3f\n %.3f, %.3f, %.3f\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8]);
+
+		return;
+	}
+
 	__device__ inline float getSignedFloat(float i) {
 		if (i > 0.0) {
 			return 1.0;
@@ -47,71 +59,52 @@ namespace STARDUST {
 	}
 
 	__device__ inline float9 compute3x3Inverse(float9 m) {
-		float det = m[0] * (m[4] * m[8] - m[7] * m[5]) -
-			m[1] * (m[3] * m[8] - m[5] * m[6]) +
-			m[2] * (m[3] * m[7] - m[4] * m[6]);
-
-		if (det == 0.0f) {
+		float9 minv;
+		float cofactor11 = m[4] * m[8] - m[7] * m[5], cofactor12 = m[7] * m[2] - m[1] * m[8], cofactor13 = m[1] * m[5] - m[4] * m[2];
+		float determinant = m[0] * cofactor11 + m[3] * cofactor12 + m[6] * cofactor13;
+		if (1e-4 > determinant) {
 			return m;
 		}
-
-		float invdet = 1 / det;
-
-		float9 minv = {
-			(m[4] * m[8] - m[7] * m[5])* invdet,
-			(m[2] * m[7] - m[1] * m[8])* invdet,
-			(m[1] * m[5] - m[2] * m[4])* invdet,
-			(m[5] * m[6] - m[3] * m[8])* invdet,
-			(m[0] * m[8] - m[2] * m[6])* invdet,
-			(m[3] * m[2] - m[0] * m[5])* invdet,
-			(m[3] * m[7] - m[6] * m[4])* invdet,
-			(m[6] * m[1] - m[0] * m[7])* invdet,
-			(m[0] * m[4] - m[3] * m[1])* invdet
-		};
+		float s = 1 / determinant;
+		minv[0] = s * cofactor11; minv[1] = s * cofactor12; minv[2] = s * cofactor13;
+		minv[3] = s * m[6] * m[5] - s * m[3] * m[8]; minv[4] = s * m[0] * m[8] - s * m[6] * m[2]; minv[5] = s * m[3] * m[2] - s * m[0] * m[5];
+		minv[6] = s * m[3] * m[7] - s * m[6] * m[4]; minv[7] = s * m[6] * m[1] - s * m[0] * m[7]; minv[8] = s * m[0] * m[4] - s * m[3] * m[1];
 
 		return minv;
 	}
 
 	__device__ inline float9 computeTranspose(float9 m) {
-		float9 mtrans = {
-			m[0],
-			m[3],
-			m[6],
-			m[1],
-			m[4],
-			m[7],
-			m[2],
-			m[5],
-			m[8]
-		};
+		float9 mtrans;
+		mtrans[0] = m[0]; mtrans[1] = m[3]; mtrans[2] = m[6];
+		mtrans[3] = m[1]; mtrans[4] = m[4]; mtrans[5] = m[7];
+		mtrans[6] = m[2]; mtrans[7] = m[5]; mtrans[8] = m[8];
 
 		return mtrans;
 	}
 
 	__device__ inline float9 computeMatrixMultiplication(float9 m1, float9 m2) {
 		float9 mmulti;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				int sum = 0;
-				for (int k = 0; k < 3; k++)
-					sum = sum + m1[i * 3 + k] * m2[k * 3 + j];
-				mmulti[i * 3 + j] = sum;
-			}
-		}
+		mmulti[0] = m1[0] * m2[0] + m1[3] * m2[1] + m1[6] * m2[2];
+		mmulti[1] = m1[1] * m2[0] + m1[4] * m2[1] + m1[7] * m2[2];
+		mmulti[2] = m1[2] * m2[0] + m1[5] * m2[1] + m1[8] * m2[2];
+		mmulti[3] = m1[0] * m2[3] + m1[3] * m2[4] + m1[6] * m2[5];
+		mmulti[4] = m1[1] * m2[3] + m1[4] * m2[4] + m1[7] * m2[5];
+		mmulti[5] = m1[2] * m2[3] + m1[5] * m2[4] + m1[8] * m2[5];
+		mmulti[6] = m1[0] * m2[6] + m1[3] * m2[7] + m1[6] * m2[8];
+		mmulti[7] = m1[1] * m2[6] + m1[4] * m2[7] + m1[7] * m2[8];
+		mmulti[8] = m1[2] * m2[6] + m1[5] * m2[7] + m1[8] * m2[8];
 
 		return mmulti;
 	}
 
 	__device__ inline float4 computeMatrixVectorMultiplication(float9 m, float4 v) {
-		float vec[3] = { v.x, v.y, v.z };
-		float mmultiv[3] = { 0.0f, 0.0f, 0.0f };
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				mmultiv[i] += m[3 * i + j] * vec[j];
-			}
-		}
+		float4 mvec;
+		mvec.x = m[0] * v.x + m[3] * v.y + m[6] * v.z;
+		mvec.y = m[1] * v.x + m[4] * v.y + m[7] * v.z;
+		mvec.z = m[2] * v.x + m[5] * v.y + m[8] * v.z;
+		mvec.w = 0.0f;
 
-		return make_float4(mmultiv[0], mmultiv[1], mmultiv[2], 0.0f);
+		return mvec;
 	}
 
 	__device__ inline float9 quatToRotationCUDA(float4 quat) {
@@ -152,6 +145,14 @@ namespace STARDUST {
 		float4 vector
 	)
 	{
+		// Convert vector to pseudo-quaternion
+		float4 vector_quaternion = make_float4(
+			0.0f,
+			vector.x,
+			vector.y,
+			vector.z
+		);
+
 		float4 conjugate_quaternion = make_float4(
 			quaternion.x,
 			-quaternion.y,
@@ -159,10 +160,10 @@ namespace STARDUST {
 			-quaternion.w);
 
 
-		float4 quat_by_vec = multiplyQuaternionsCUDA(quaternion, vector);
+		float4 quat_by_vec = multiplyQuaternionsCUDA(quaternion, vector_quaternion);
 		float4 rotated_vec = multiplyQuaternionsCUDA(quat_by_vec, conjugate_quaternion);
 
-		return rotated_vec;
+		return make_float4(rotated_vec.y, rotated_vec.z, rotated_vec.w, 0.0f);
 	}
 
 	__device__ inline void prefixSumCUDA(

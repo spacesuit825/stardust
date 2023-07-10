@@ -23,6 +23,7 @@ namespace STARDUST {
 		DEMParticle(unsigned int id, int grid_resolution, Scalar size, Scalar diameter, Scalar mass, float4 position, float4 velocity)
 			: m_id(id), m_grid_resolution(grid_resolution), m_size(size), diameter(diameter), mass(mass), position(position), velocity(velocity) {
 			
+			COM = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 			initParticles(m_grid_resolution); // Create particles in Entity Space
 			getCenterOfMass(); // Compute Center of Mass of the entity
 			setParticlesInWorldSpace(); // Move the particles into the World Space

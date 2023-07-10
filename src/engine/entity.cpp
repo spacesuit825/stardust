@@ -37,8 +37,6 @@ namespace STARDUST {
 	}
 
 	void DEMParticle::getCenterOfMass() {
-		float4 COM = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
-
 		for (int i = 0; i < particles.size(); i++) {
 			COM += particles[i].position;
 		}
@@ -52,14 +50,15 @@ namespace STARDUST {
 		for (int i = 0; i < particles.size(); i++) {
 
 			DEMSphere& particle = particles[i];
-
+			
 			float4 pos = particle.position;
+			printf("position: %.3f, %.3f, %.3f\n", pos.x, pos.y, pos.z);
 
 			// Shift reference location to the COM
 			float4 COM_pos = pos - COM;
 
 			// Transmute position into world space, no rotation here so simple addition will work
-			float4 world_pos = pos - position;
+			float4 world_pos = position - COM_pos;
 			
 			particle.position = world_pos;
 		}

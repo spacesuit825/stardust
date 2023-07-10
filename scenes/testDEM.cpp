@@ -47,19 +47,23 @@ void initGui() {
 }
 
 void run() {
-	float4 pos1 = make_float4(0.0f, 0.1f, 1.0f, 0.0f);
+	float4 pos1 = make_float4(0.0f, 0.1f, 0.0f, 0.0f);
 	float4 vel1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	float4 pos2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 vel2 = make_float4(0.0f, 0.0f, -1000.0f, 0.0f);
+	float4 pos2 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+	float4 pos3 = make_float4(0.0f, 0.0f, 2.0f, 0.0f);
+	float4 pos4 = make_float4(0.0f, 0.0f, 3.0f, 0.0f);
+	float4 pos5 = make_float4(0.0f, 0.0f, 4.0f, 0.0f);
+	float4 vel2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	float size = 0.2;
 
-	// Problem with clumped particles!!
-	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, 100, pos1, vel1);
-	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 1, size, size, 9, pos2, vel2);
+	// Problem with clumped particles, oscillating! Double check relative position update!
+	// Also inertia matrices may be wrong
+	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, 100, pos1, vel1); // Dead particle
+	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 2, size * 2, size, 9, pos2, vel2);
 
-	engine = new STARDUST::DEMEngine(1e-20);
+	engine = new STARDUST::DEMEngine(0.005);
 	engine->addParticle(entity1);
 	engine->addParticle(entity2);
 

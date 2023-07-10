@@ -33,18 +33,12 @@ namespace STARDUST {
 		float4* d_rigid_body_quaternion_ptr
 	)
 	{
-		printf("hello");
 		float4 init_relative_position = d_particle_init_relative_position_ptr[idx];
 		float4 rigid_body_quaternion = d_rigid_body_quaternion_ptr[rigid_body_idx];
 
-		float4 rotated_relative_position = multiplyQuaternionsCUDA(
-												rigid_body_quaternion,
-												init_relative_position);
+		float4 rotated_relative_position = multiplyQuaternionByVectorCUDA(rigid_body_quaternion, init_relative_position);
 
-		printf("rotated_rel: %.3f, %.3f, %.3f\n", rotated_relative_position.x, rotated_relative_position.y, rotated_relative_position.z);
-		
-		d_particle_relative_position_ptr[idx] = rotated_relative_position;
-		printf("rg_pos: %.3f, %.3f, %.3f\n", d_rigid_body_position_ptr[idx].x, d_rigid_body_position_ptr[idx].y, d_rigid_body_position_ptr[idx].z);
+		d_particle_relative_position_ptr[idx] = rotated_relative_position; 
 		d_particle_position_ptr[idx] = rotated_relative_position + d_rigid_body_position_ptr[rigid_body_idx];
 	}
 
@@ -62,8 +56,6 @@ namespace STARDUST {
 
 		// Cross product only supported for vec3, make conversion
 		float3 angular_to_linear_velocity = cross(make_float3(angular_velocity.x, angular_velocity.y, angular_velocity.z), make_float3(relative_position.x, relative_position.y, relative_position.z));
-
-		printf("a_t_vel: %.3f, %.3f, %.3f\n", angular_to_linear_velocity.x, angular_to_linear_velocity.y, angular_to_linear_velocity.z);
 		
 		// Convert back to supported vec4
 		d_particle_velocity_ptr[idx] = d_rigid_body_velocity_ptr[rigid_body_idx] + make_float4(angular_to_linear_velocity.x, angular_to_linear_velocity.y, angular_to_linear_velocity.z, 0.0f);
@@ -91,7 +83,6 @@ namespace STARDUST {
 
 		// Get entity owner
 		int rigid_body_idx = d_particle_to_rigid_idx_ptr[idx];
-		printf("rg_idx: %d\n", rigid_body_idx);
 
 		// Update relative positions
 		updateRelativePositionsCUDA(
@@ -192,7 +183,8 @@ namespace STARDUST {
 		}
 
 		if (mass >= 10) {
-			
+			force_sum = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+			torque_sum = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 		}
 		else {
 			force_sum += mass * gravity;
@@ -274,11 +266,12 @@ namespace STARDUST {
 
 		position += linear_velocity * timestep;
 
-		float9 interia_matrix = d_rigid_body_inertia_tensor_ptr[rigid_body_idx];
-		float9 inverse_init_inertia_matrix = compute3x3Inverse(interia_matrix);
+		float9 inertia_matrix = d_rigid_body_inertia_tensor_ptr[rigid_body_idx];
+		float9 inverse_init_inertia_matrix = compute3x3Inverse(inertia_matrix);
 
 		float9 rotation_matrix = quatToRotationCUDA(quaternion);
 		float9 rotation_inverse = computeMatrixMultiplication(rotation_matrix, inverse_init_inertia_matrix);
+
 		float9 inverse_inertia_matrix = computeMatrixMultiplication(rotation_inverse, computeTranspose(rotation_matrix));
 
 		angular_velocity = computeMatrixVectorMultiplication(inverse_inertia_matrix, angular_momentum);

@@ -48,9 +48,9 @@ namespace STARDUST {
 		float particle_diameter = 0.2;
 
 		// TODO: Add these to sphere arrays !!
-		float normal_stiffness = 2e7;
-		float tangential_stiffness = 2.0;
-		float damping = 2.0;
+		float normal_stiffness = 2e6;
+		float tangential_stiffness = 200.0;
+		float damping = 200.0;
 
 		// Use Basic Elastic Resolution for now
 		for (int j = start; j < start + h; j++) {

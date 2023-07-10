@@ -124,6 +124,7 @@ namespace STARDUST {
 
 		// Create host arrays
 		std::cout << "Particle sizes: " << m_num_particles << "\n";
+		std::cout << "Entity sizes: " << m_num_entities << "\n";
 
 		// For Particles
 		h_particle_position_ptr = new float4[m_num_particles * sizeof(float4)];
@@ -174,7 +175,6 @@ namespace STARDUST {
 			h_entity_start_ptr[i] = offset;
 			h_entity_length_ptr[i] = size;
 
-
 			// Create the terms for the inertia tensor
 			float Ixx, Iyy, Izz, Ixy, Ixz, Iyz;
 			Ixx = Iyy = Izz = Ixy = Ixz = Iyz = 0.0f;
@@ -192,6 +192,8 @@ namespace STARDUST {
 				h_particle_init_relative_position_ptr[j + offset] = particle.position - entity.position;
 				h_particle_relative_position_ptr[j + offset] = particle.position - entity.position;
 
+				printf("particle pos: %.3f, %.3f, %.3f\n", particle.position.x, particle.position.y, particle.position.z);
+				printf("entity pos: %.3f, %.3f, %.3f\n", entity.position.x, entity.position.y, entity.position.z);
 				float4 relative_position = particle.position - entity.position;
 
 				Ixx += particle.mass * (SQR(relative_position.y) + SQR(relative_position.z));
@@ -202,6 +204,7 @@ namespace STARDUST {
 				Iyz += -particle.mass * relative_position.y * relative_position.z;
 			}
 
+			printf("Inertia mat: %.3f, %.3f, %.3f\n", Ixx, Iyy, Izz);
 			// Create the inertia tensor (3x3 symmetric)
 			float9 inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 			h_rigid_body_inertia_tensor_ptr[i] = inertia_tensor;

@@ -92,11 +92,6 @@ namespace STARDUST {
 			d_temp_ptr
 		);
 
-		unsigned int count;
-		cudaMemcpy(&count, d_temp_ptr, sizeof(unsigned int), cudaMemcpyDeviceToHost);
-
-		std::cout << "Cells Occupied " << count << "\n";
-
 		sortCollisionList(
 			d_grid_ptr,
 			d_sphere_ptr,
@@ -121,13 +116,13 @@ namespace STARDUST {
 			threads_per_block
 		);
 
-		float4 force0;
+		/*float4 force0;
 		float4 force1;
 		CUDA_ERR_CHECK(cudaMemcpy(&force0, d_particle_forces_ptr, sizeof(float4), cudaMemcpyDeviceToHost));
 		CUDA_ERR_CHECK(cudaMemcpy(&force1, d_particle_forces_ptr + 1, sizeof(float4), cudaMemcpyDeviceToHost));
 
 		printf("Force on Particle 0: %.3f, %.3f, %.3f\n", force0.x, force0.y, force0.z);
-		printf("Force on Particle 1: %.3f, %.3f, %.3f\n", force1.x, force1.y, force1.z);
+		printf("Force on Particle 1: %.3f, %.3f, %.3f\n", force1.x, force1.y, force1.z);*/
 
 		// PARTICLE FORCE COMPUTATION AND POSITION/ORIENTATION UPDATE
 
@@ -159,7 +154,5 @@ namespace STARDUST {
 			d_rigid_body_angular_momentum_ptr,
 			d_rigid_body_inertia_tensor_ptr
 		);
-
-		std::this_thread::sleep_for(0.01s);
 	}
 }
