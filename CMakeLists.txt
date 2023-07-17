@@ -23,6 +23,7 @@ set(CMAKE_CUDA_FLAGS	"--expt-relaxed-constexpr; --generate-line-info")
 find_package(OpenGL REQUIRED)
 find_package(OpenMP)
 find_package(CUDAToolkit REQUIRED)
+find_package(Thrust REQUIRED)
 
 #process external libraries
 add_subdirectory(external)
@@ -32,4 +33,5 @@ message("External Libraries Added")
 add_subdirectory(src)
 
 #process test scenes
-add_subdirectory(scenes)
+#add_subdirectory(scenes)
+add_subdirectory(sandbox)

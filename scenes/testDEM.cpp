@@ -9,7 +9,12 @@
 #include <stdint.h>
 
 
-//using namespace std;
+// Meshes
+// Master Array - store basic data, single access per loop
+// Mesh Position Array
+// Mesh Quaternion Array
+// Vertex Array
+// Index Array
 
 #include <renderer.hpp>
 
@@ -58,67 +63,54 @@ void run() {
 
 	float size = 0.2;
 
-	// Problem with clumped particles, oscillating! Double check relative position update!
-	// Also inertia matrices may be wrong
-	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0 + 1, 1, size, size, 100, pos1, vel1); // Dead particle
-	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(0 + 1, 2, size * 2, size, 9, pos2, vel2);
+	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0, 1, size, size, 100, pos1, vel1); // Collider particle (set id as inactive)
+	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(1, 2, size * 2, size, 9, pos2, vel2);
 
-	engine = new STARDUST::DEMEngine(0.005);
-	engine->addParticle(entity1);
-	engine->addParticle(entity2);
+	STARDUST::DEMMesh entity3 = STARDUST::DEMMesh("C:/Users/lachl/OneDrive/Documents/c++/stardust/assets/test_mesh.stl", pos3, pos5);
 
-	std::vector<STARDUST::DEMSphere> particles1 = entity1.getParticles();
-	std::vector<STARDUST::DEMSphere> particles2 = entity2.getParticles();
+	//engine = new STARDUST::DEMEngine(0.005);
+	//engine->addParticle(entity1);
+	//engine->addParticle(entity2);
 
-	for (int p = 0; p < particles1.size(); p++) {
-		printf("%.3f, %.3f, %.3f \n", particles1[p].position.x, particles1[p].position.y, particles1[p].position.z);
-	}
+	////engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
-	std::cout << "---------------------------------------\n";
-
-	for (int p = 0; p < particles2.size(); p++) {
-		printf("%.3f, %.3f, %.3f \n", particles2[p].position.x, particles2[p].position.y, particles2[p].position.z);
-	}
-
-	//engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
-
-	std::cout << engine->getEntityLength();
-	engine->prepArrays();
-	engine->transferDataToDevice();
-	engine->is_first_step = false;
-	engine->transferDataToDevice();
+	//std::cout << engine->getEntityLength();
+	//engine->prepArrays();
+	//engine->transferDataToDevice();
+	//engine->is_first_step = false;
+	//engine->transferDataToDevice();
 
 
-	std::chrono::time_point<std::chrono::system_clock> start;
-	std::chrono::duration<double> duration;
+	//std::chrono::time_point<std::chrono::system_clock> start;
+	//std::chrono::duration<double> duration;
 
-	double time;
-	start = std::chrono::system_clock::now();
+	//double time;
+	//start = std::chrono::system_clock::now();
 
-	bool check = true;
+	//bool check = true;
 
-	renderer->prepBuffers(*engine);
-	engine->bindGLBuffers(renderer->getPosVBO());
+	//renderer->prepBuffers(*engine);
+	//engine->bindGLBuffers(renderer->getPosVBO());
 
-	initGui();
+	//initGui();
 
-	while (!renderer->windowShouldClose()) {
-		/*if (frame > 400 && frame % 25 == 0) {
-			addEntity();
-		}*/
-		engine->step(0.0005f);
-		engine->writeGLBuffers();
-		renderer->renderWithGUI(*engine, *gui);
-		handler->handleInput();
+	//while (!renderer->windowShouldClose()) {
+	//	/*if (frame > 400 && frame % 25 == 0) {
+	//		addEntity();
+	//	}*/
+	//	engine->step(0.0005f);
+	//	engine->writeGLBuffers();
+	//	renderer->renderWithGUI(*engine, *gui);
+	//	handler->handleInput();
 
-		check = false;
-	}
+	//	check = false;
+	//}
 
-	duration = std::chrono::system_clock::now() - start;
+	//duration = std::chrono::system_clock::now() - start;
 
-	time = duration.count();
+	//time = duration.count();
 
-	std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
+	//std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
 }
 int main() {
 	std::cout << "Activating Renderer... \n";

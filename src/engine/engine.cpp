@@ -61,6 +61,7 @@ namespace STARDUST {
 		writeGLPosBuffer();
 	}
 
+	// WHY IS THIS NOT WORKING??? //
 	//void DEMEngine::loadJSONSetup(std::string filepath) {
 	//	
 	//	std::ifstream jsonfile(filepath);
@@ -111,6 +112,12 @@ namespace STARDUST {
 
 		m_num_particles += particle.getParticles().size();
 		m_num_entities += 1;
+	}
+
+	void DEMEngine::addMesh(DEMMesh mesh) {
+		m_meshes.push_back(mesh);
+
+		m_num_meshes += 1;
 	}
 
 	void DEMEngine::setUpGrid() {
@@ -192,8 +199,6 @@ namespace STARDUST {
 				h_particle_init_relative_position_ptr[j + offset] = particle.position - entity.position;
 				h_particle_relative_position_ptr[j + offset] = particle.position - entity.position;
 
-				printf("particle pos: %.3f, %.3f, %.3f\n", particle.position.x, particle.position.y, particle.position.z);
-				printf("entity pos: %.3f, %.3f, %.3f\n", entity.position.x, entity.position.y, entity.position.z);
 				float4 relative_position = particle.position - entity.position;
 
 				Ixx += particle.mass * (SQR(relative_position.y) + SQR(relative_position.z));
@@ -204,7 +209,6 @@ namespace STARDUST {
 				Iyz += -particle.mass * relative_position.y * relative_position.z;
 			}
 
-			printf("Inertia mat: %.3f, %.3f, %.3f\n", Ixx, Iyy, Izz);
 			// Create the inertia tensor (3x3 symmetric)
 			float9 inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 			h_rigid_body_inertia_tensor_ptr[i] = inertia_tensor;

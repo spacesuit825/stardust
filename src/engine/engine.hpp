@@ -128,6 +128,7 @@ namespace STARDUST {
 			d_particle_init_relative_position_ptr = nullptr;
 
 			is_first_step = true;
+			spatialHashCollision = true;
 
 			m_num_entities = 0;
 			m_num_particles = 0;
@@ -142,6 +143,7 @@ namespace STARDUST {
 		//void loadXMLSetup(std::string); // Loads setup XML file and creates the scene
 		//void loadJSONSetup(std::string); // Loads setup JSON file and creates the scene
 		void addParticle(DEMParticle);
+		void addMesh(DEMMesh);
 
 		//void createEntity(int, std::string, int); // Load mesh from file and create n entities // n, filepath, grid_resolution
 		//void createEntity(int, Scalar, int); // Create n generic entities from basic inputs // n, size of cube, grid_resolution
@@ -173,6 +175,18 @@ namespace STARDUST {
 			cudaFree(d_sphere_temp_ptr);
 			cudaFree(d_radices_ptr);
 			cudaFree(d_radix_sums_ptr);
+
+			free(h_mesh_index_ptr);
+			free(h_mesh_vertex_ptr);
+			free(h_mesh_length_ptr);
+			free(h_mesh_quat_ptr);
+			free(h_mesh_start_ptr);
+
+			cudaFree(d_mesh_index_ptr);
+			cudaFree(d_mesh_vertex_ptr);
+			cudaFree(d_mesh_quat_ptr);
+			cudaFree(d_mesh_length_ptr);
+			cudaFree(d_mesh_start_ptr);
 
 			// Mass of the rigid body
 			free(h_rigid_body_mass_ptr);
@@ -360,6 +374,7 @@ namespace STARDUST {
 		float4* h_particle_init_relative_position_ptr;
 		float4* d_particle_init_relative_position_ptr;
 
+
 		// Similar to the entity trackers, tracks the start and end of the meshes //
 		int* h_mesh_start_ptr;
 		int* d_mesh_start_ptr;
@@ -381,10 +396,13 @@ namespace STARDUST {
 		int m_num_meshes;
 		int m_num_triangles;
 
+		bool spatialHashCollision;
+		bool LBVHCollision;
+
 		unsigned int m_cell_size;
 
 		std::vector<DEMParticle> m_entities;
-		//std::vector<DEMMesh> m_meshes;
+		std::vector<DEMMesh> m_meshes;
 	};
 }
 

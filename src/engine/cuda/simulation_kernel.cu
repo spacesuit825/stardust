@@ -80,41 +80,45 @@ namespace STARDUST {
 		cleanBuffers();
 
 		// COLLISION DETECTION AND RESPONSE //
-		
-		constructCollisionList(
-			m_num_particles, 
-			cell_dim, 
-			d_grid_ptr, 
-			d_sphere_ptr, 
-			d_particle_size_ptr, 
-			d_particle_position_ptr, 
-			threads_per_block,
-			d_temp_ptr
-		);
+		if (spatialHashCollision) {
+			constructCollisionList(
+				m_num_particles,
+				cell_dim,
+				d_grid_ptr,
+				d_sphere_ptr,
+				d_particle_size_ptr,
+				d_particle_position_ptr,
+				threads_per_block,
+				d_temp_ptr
+			);
 
-		sortCollisionList(
-			d_grid_ptr,
-			d_sphere_ptr,
-			d_grid_temp_ptr,
-			d_sphere_temp_ptr,
-			d_radices_ptr,
-			d_radix_sums_ptr,
-			m_num_particles
-		);
+			sortCollisionList(
+				d_grid_ptr,
+				d_sphere_ptr,
+				d_grid_temp_ptr,
+				d_sphere_temp_ptr,
+				d_radices_ptr,
+				d_radix_sums_ptr,
+				m_num_particles
+			);
 
-		tranverseAndResolveCollisionList(
-			d_grid_ptr,
-			d_sphere_ptr,
-			d_particle_position_ptr,
-			d_particle_velocity_ptr,
-			d_particle_forces_ptr,
-			d_particle_mass_ptr,
-			d_particle_size_ptr,
-			d_particle_to_rigid_idx_ptr,
-			m_num_particles,
-			d_temp_ptr,
-			threads_per_block
-		);
+			tranverseAndResolveCollisionList(
+				d_grid_ptr,
+				d_sphere_ptr,
+				d_particle_position_ptr,
+				d_particle_velocity_ptr,
+				d_particle_forces_ptr,
+				d_particle_mass_ptr,
+				d_particle_size_ptr,
+				d_particle_to_rigid_idx_ptr,
+				m_num_particles,
+				d_temp_ptr,
+				threads_per_block
+			);
+		}
+		else if (LBVHCollision) {
+
+		}
 
 		/*float4 force0;
 		float4 force1;

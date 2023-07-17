@@ -262,7 +262,7 @@ namespace STARDUST {
 		linear_momentum += d_rigid_body_forces_ptr[rigid_body_idx] * timestep;
 		angular_momentum += d_rigid_body_torques_ptr[rigid_body_idx] * timestep;
 
-		linear_velocity = linear_momentum * (1 / mass); // Add safeguard for 0 mass
+		linear_velocity = linear_momentum * (1 / mass); // TODO: Add safeguard for 0 mass!!
 
 		position += linear_velocity * timestep;
 
@@ -306,7 +306,8 @@ namespace STARDUST {
 		d_rigid_body_angular_momentum_ptr[rigid_body_idx] = angular_momentum;
 		d_rigid_body_quaternion_ptr[rigid_body_idx] = quaternion;
 	}
-
+	
+	// Change the name of this function, advect is for fluids
 	void advectParticles(
 		int n_particles,
 		int n_entities,

@@ -78,8 +78,51 @@ namespace STARDUST {
 		return h_position_ptr;
 	}
 
+	void DEMMesh::computeBoundingSpheres() {
+		
+		std::cout << "Num triangle: " << n_triangles << "\n";
+		std::cout << "Num vert: " << vertices.size() << "\n";
+		std::cout << "Num idx: " << indicies.size() << "\n";
+		for (int v = 0; v < n_triangles; v++) {
 
+			int i1 = indicies[3 * v + 0];
+			int i2 = indicies[3 * v + 1];
+			int i3 = indicies[3 * v + 2];
 
+			float3 p1 = make_float3(vertices[i1].x, vertices[i1].y, vertices[i1].z);
+			float3 p2 = make_float3(vertices[i2].x, vertices[i2].y, vertices[i2].z);
+			float3 p3 = make_float3(vertices[i3].x, vertices[i3].y, vertices[i3].z);
 
+			float radius;
+			float3 position;
 
+			// Calculate relative distances
+			float A = length(p1 - p2);
+			float B = length(p2 - p3);
+			float C = length(p3 - p1);
+
+			// Re-orient triangle (make A longest side)
+			const float3* a = &p3, * b = &p1, * c = &p2;
+			if (B < C) std::swap(B, C), std::swap(b, c);
+			if (A < B) std::swap(A, B), std::swap(a, b);
+
+			// If obtuse, just use longest diameter, otherwise circumscribe
+			if ((B * B) + (C * C) <= (A * A)) {
+				radius = A / 2.f;
+				position = (*b + *c) / 2.f;
+			}
+			else {
+				// http://en.wikipedia.org/wiki/Circumscribed_circle
+				float cos_a = (B * B + C * C - A * A) / (B * C * 2);
+				radius = A / (sqrt(1 - cos_a * cos_a) * 2.f);
+				float3 alpha = *a - *c, beta = *b - *c;
+				position = (beta * dot(alpha, alpha) - cross(alpha * dot(beta, beta), cross(alpha, beta))) /
+					(dot(cross(alpha, beta), cross(alpha, beta)) * 2.f) + *c;
+			}
+
+			std::cout << "Radius: " << radius << "\n";
+			positions.push_back(make_float4(position.x, position.y, position.z, 0.0f));
+			radii.push_back(radius);
+		}
+	}
 }

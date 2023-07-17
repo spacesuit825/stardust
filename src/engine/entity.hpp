@@ -4,6 +4,7 @@
 #include "types.hpp"
 #include <vector>
 #include "helper_math.hpp"
+#include "../IO/mesh_loader.hpp"
 
 namespace STARDUST {
 	
@@ -63,17 +64,29 @@ namespace STARDUST {
 	class DEMMesh {
 		// Lightweight class to generate a mesh struct for the GPU
 
-	//public:
-	//	//DEMMesh(float4* vertices, int* indicies, int n_triangles);
+	public:
+		DEMMesh(const char* filename, float4 position, float4 quaternion) : position(position), quat(quaternion) {
+			loadAndConvertMesh(filename, vertices, indicies, normals);
+			n_triangles = normals.size();
 
-	//	int n_triangles;
-	//	float4 position;
-	//	float4 quat;
+			computeBoundingSpheres();
+		};
 
-	//	std::vector<float4> vertices;
-	//	std::vector<int> indicies;
+		void computeBoundingSpheres();
 
-	//private:
+		int n_triangles;
+		float4 position;
+		float4 quat;
+
+		// Bounding volumes for every triangle
+		std::vector<float4> positions;
+		std::vector<float> radii;
+
+		std::vector<float4> vertices; // 3 * num triangles
+		std::vector<float4> normals; // num triangles
+		std::vector<int> indicies; // 3 * num triangles = num vertices
+
+	private:
 		
 
 
