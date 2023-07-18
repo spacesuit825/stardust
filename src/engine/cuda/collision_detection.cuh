@@ -27,39 +27,55 @@
 
 namespace STARDUST {
 	
-	void constructCollisionList(
-		int m_num_particles,
-		float cell_dim,
-		uint32_t* d_grid_ptr,
-		uint32_t* d_sphere_ptr,
-		float* d_particle_size_ptr,
-		float4* d_particle_position_ptr,
-		int threads_per_block,
-		unsigned int* d_temp_ptr);
+	class SpatialPartition {
 
-	void sortCollisionList(
-		uint32_t* d_grid_ptr,
-		uint32_t* d_sphere_ptr,
-		uint32_t* d_grid_temp_ptr,
-		uint32_t* d_sphere_temp_ptr,
-		uint32_t* d_radices_ptr,
-		uint32_t* d_radix_sums_ptr,
-		unsigned int n_particles
-	);
+	public:
+		static void constructCollisionList(
+			int m_num_particles,
+			float cell_dim,
+			uint32_t* d_grid_ptr,
+			uint32_t* d_sphere_ptr,
+			float* d_particle_size_ptr,
+			float4* d_particle_position_ptr,
+			int threads_per_block,
+			unsigned int* d_temp_ptr);
 
-	void tranverseAndResolveCollisionList(
-		uint32_t* d_grid_ptr,
-		uint32_t* d_sphere_ptr,
-		float4* d_particle_position_ptr,
-		float4* d_particle_velocity_ptr,
-		float4* d_particle_force_ptr,
-		float* d_particle_mass_ptr,
-		float* d_particle_size_ptr,
-		int* d_particle_to_rigid_idx_ptr,
-		unsigned int n_particles,
-		unsigned int* d_temp_ptr,
-		int threads_per_block
-	);
+		static void sortCollisionList(
+			uint32_t* d_grid_ptr,
+			uint32_t* d_sphere_ptr,
+			uint32_t* d_grid_temp_ptr,
+			uint32_t* d_sphere_temp_ptr,
+			uint32_t* d_radices_ptr,
+			uint32_t* d_radix_sums_ptr,
+			unsigned int n_particles
+		);
+
+		static void tranverseAndResolveCollisionList(
+			uint32_t* d_grid_ptr,
+			uint32_t* d_sphere_ptr,
+			float4* d_particle_position_ptr,
+			float4* d_particle_velocity_ptr,
+			float4* d_particle_force_ptr,
+			float* d_particle_mass_ptr,
+			float* d_particle_size_ptr,
+			int* d_particle_to_rigid_idx_ptr,
+			unsigned int n_particles,
+			unsigned int* d_temp_ptr,
+			int threads_per_block
+		);
+	};
+
+	class SpatialPrune {
+
+		static void computeAABBAndProjectToAxes();
+
+		// static void clusterPartition(); <-- Spatial partitioning
+
+		static void sortLowerExtent();
+
+		static void sweepAndPrune();
+
+	};
 }
 
 

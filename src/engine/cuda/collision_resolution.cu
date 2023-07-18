@@ -198,7 +198,7 @@ namespace STARDUST {
 		sumReduceCUDA(t, test_count);
 	}
 
-	void tranverseAndResolveCollisionList(
+	void SpatialPartition::tranverseAndResolveCollisionList(
 		uint32_t* d_grid_ptr,
 		uint32_t* d_sphere_ptr,
 		float4* d_particle_position_ptr,

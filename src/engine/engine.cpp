@@ -129,9 +129,7 @@ namespace STARDUST {
 
 	void DEMEngine::prepArrays() {
 
-		// Create host arrays
-		std::cout << "Particle sizes: " << m_num_particles << "\n";
-		std::cout << "Entity sizes: " << m_num_entities << "\n";
+		// Create host arra
 
 		// For Particles
 		h_particle_position_ptr = new float4[m_num_particles * sizeof(float4)];

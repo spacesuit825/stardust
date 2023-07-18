@@ -10,11 +10,8 @@ namespace STARDUST {
 		// For now we only deal with a cube
 		Scalar length = m_size; // m
 
-		std::cout << "\nDiameter: " << diameter << "\n";
-
 		// Cast rays in the future
 		int num_particles = SQR(floor(length / diameter));
-		std::cout << "Number of Particles: " << num_particles << "\n";
 		float dx = length / num_particles;
 
 		// 0, 0, 0 is upper left corner of the cube
@@ -28,7 +25,6 @@ namespace STARDUST {
 					particle.position = make_float4(i * dx, j * dx, k * dx, 0.0f);
 					particle.size = diameter;
 					particle.mass = mass / num_particles; // Assume equal mass distribution
-					std::cout << "creating particle: " << particle.mass << "\n";
 					particles.push_back(particle);
 
 				}
@@ -42,7 +38,6 @@ namespace STARDUST {
 		}
 
 		COM = COM / (float)particles.size();
-		printf("COM: %.3f, %.3f, %.3f \n", COM.x, COM.y, COM.z);
 	}
 
 	void DEMParticle::setParticlesInWorldSpace() {
@@ -52,7 +47,6 @@ namespace STARDUST {
 			DEMSphere& particle = particles[i];
 			
 			float4 pos = particle.position;
-			printf("position: %.3f, %.3f, %.3f\n", pos.x, pos.y, pos.z);
 
 			// Shift reference location to the COM
 			float4 COM_pos = pos - COM;
@@ -120,7 +114,6 @@ namespace STARDUST {
 					(dot(cross(alpha, beta), cross(alpha, beta)) * 2.f) + *c;
 			}
 
-			std::cout << "Radius: " << radius << "\n";
 			positions.push_back(make_float4(position.x, position.y, position.z, 0.0f));
 			radii.push_back(radius);
 		}

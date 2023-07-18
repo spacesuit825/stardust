@@ -64,30 +64,30 @@ void run() {
 	float size = 0.2;
 
 	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0, 1, size, size, 100, pos1, vel1); // Collider particle (set id as inactive)
-	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(1, 2, size * 2, size, 9, pos2, vel2);
+	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(1, 100, size * 100, size, 9, pos2, vel2);
 
-	STARDUST::DEMMesh entity3 = STARDUST::DEMMesh("C:/Users/lachl/OneDrive/Documents/c++/stardust/assets/test_mesh.stl", pos3, pos5);
+	//STARDUST::DEMMesh entity3 = STARDUST::DEMMesh("C:/Users/lachl/OneDrive/Documents/c++/stardust/assets/test_mesh.stl", pos3, pos5);
 
-	//engine = new STARDUST::DEMEngine(0.005);
-	//engine->addParticle(entity1);
-	//engine->addParticle(entity2);
+	engine = new STARDUST::DEMEngine(0.005);
+	engine->addParticle(entity1);
+	engine->addParticle(entity2);
 
-	////engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
+	//engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
-	//std::cout << engine->getEntityLength();
-	//engine->prepArrays();
-	//engine->transferDataToDevice();
-	//engine->is_first_step = false;
-	//engine->transferDataToDevice();
+	std::cout << engine->getEntityLength();
+	engine->prepArrays();
+	engine->transferDataToDevice();
+	engine->is_first_step = false;
+	engine->transferDataToDevice();
 
 
-	//std::chrono::time_point<std::chrono::system_clock> start;
-	//std::chrono::duration<double> duration;
+	std::chrono::time_point<std::chrono::system_clock> start;
+	std::chrono::duration<double> duration;
 
-	//double time;
-	//start = std::chrono::system_clock::now();
+	double time;
+	start = std::chrono::system_clock::now();
 
-	//bool check = true;
+	bool check = true;
 
 	//renderer->prepBuffers(*engine);
 	//engine->bindGLBuffers(renderer->getPosVBO());
@@ -98,24 +98,28 @@ void run() {
 	//	/*if (frame > 400 && frame % 25 == 0) {
 	//		addEntity();
 	//	}*/
-	//	engine->step(0.0005f);
-	//	engine->writeGLBuffers();
-	//	renderer->renderWithGUI(*engine, *gui);
-	//	handler->handleInput();
+	//	//engine->step(0.0005f);
+	//	//engine->writeGLBuffers();
+	//	//renderer->renderWithGUI(*engine, *gui);
+	//	//handler->handleInput();
 
 	//	check = false;
 	//}
 
-	//duration = std::chrono::system_clock::now() - start;
+	for (int i = 0; i <= 1; i++) {
+		engine->step(0.0005f);
+	}
 
-	//time = duration.count();
+	duration = std::chrono::system_clock::now() - start;
 
-	//std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
+	time = duration.count();
+
+	std::cout << "Collision analysis completed in: " << time << "s on " << engine->getNumberOfSpheres() << " particles\n";
 }
 int main() {
 	std::cout << "Activating Renderer... \n";
-	initRenderer();
-	initHandler();
+	//initRenderer();
+	//initHandler();
 	
 
 	

@@ -281,7 +281,7 @@ namespace STARDUST {
 		unsigned int* h_temp_ptr;
 		unsigned int* d_temp_ptr;
 
-		// Host and Device Arrays for the Computational Grid
+		// Spatial Partitioning Data Pointers
 		uint32_t* h_grid_ptr;
 		uint32_t* h_sphere_ptr;
 		uint32_t* h_grid_temp_ptr;
@@ -295,6 +295,9 @@ namespace STARDUST {
 		uint32_t* d_sphere_temp_ptr;
 		uint32_t* d_radices_ptr;
 		uint32_t* d_radix_sums_ptr;
+
+		// SAP Data Pointers
+
 
 		// Host and Device Arrays for Rigid Bodies (entities)
 		// Entity trackers

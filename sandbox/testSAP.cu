@@ -154,6 +154,70 @@ __device__ void populateCollisions(
     }
 }
 
+__global__ void sweepBlocks(
+    float* upperx,
+    float* lowerx,
+    float* uppery,
+    float* lowery,
+    float* upperz,
+    float* lowerz,
+    int* idxx,
+    int* idxy,
+    int* idxz,
+    int* potential_collision,
+    int n_objects,
+    int padding)
+{
+    // Shared memory
+    extern __shared__ int collisions[];
+
+    int obj_idx = blockIdx.x;
+    int sorted_home_idx = idxx[obj_idx];
+    float home_upper_extent = upperx[sorted_home_idx];
+
+    int phantom_idx;
+    float phantom_lower_extent;
+
+    int phantom_position = threadIdx.x + blockIdx.x;
+
+    if (phantom_position >= n_objects) {
+        return;
+    }
+
+    if (phantom_position == sorted_home_idx) {
+        return;
+    }
+
+    phantom_idx = idxx[phantom_position];
+
+    phantom_lower_extent = lowerx[phantom_position];
+
+    
+
+    // Check X proj
+    if (phantom_lower_extent <= home_upper_extent) { // <-- TODO: change this so it starts with axis with most position variance
+
+        home_upper_extent = uppery[sorted_home_idx];
+        phantom_lower_extent = lowery[phantom_idx];
+
+        // Check Y proj
+        if (phantom_lower_extent <= home_upper_extent) {
+
+            home_upper_extent = upperz[sorted_home_idx];
+            phantom_lower_extent = lowerz[phantom_idx];
+
+            // Check Z proj
+            if (phantom_lower_extent <= home_upper_extent) {
+
+                printf("collision detected between %d and %d\n", sorted_home_idx, phantom_idx);
+
+            }
+        }
+    }
+
+
+}
+
 __global__ void sweep(
     float* upperx,
     float* lowerx,
@@ -193,7 +257,15 @@ __global__ void sweep(
 
     int pending_collision_length = 0;
 
-    for (int i = tid + 1; i < n_objects; i++) {
+    int n_tid = tid + 10;
+    if (n_tid > n_objects) {
+        n_tid = n_objects;
+    }
+    else {
+        n_tid = 10;
+    }
+
+    for (int i = tid + 1; i < n_tid; i++) {
 
         if (i == sorted_home_idx) {
             continue;
@@ -219,7 +291,7 @@ __global__ void sweep(
                 if (phantom_lower_extent <= home_upper_extent) {
 
                     populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
-                    printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
+                    //printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
 
                 }
             }
@@ -246,10 +318,10 @@ float randFloat(float a, float b) {
 
 int main() {
 
-    int n_objects = 3;
+    int n_objects = 2;
     int max_collisions = 10;
 
-    // H has storage for 4 integers
+     //H has storage for 4 integers
     thrust::host_vector<float4> position(n_objects);
     thrust::host_vector<float> radius(n_objects);
     thrust::host_vector<float4> lower_bound(n_objects);
@@ -279,19 +351,19 @@ int main() {
 
     position[0] = make_float4(0.0, 0.0, 0.0, 0.0);
     position[1] = make_float4(0.0, 0.0, 0.5, 0.0);
-    position[2] = make_float4(0.0, 0.0, 0.5, 0.0);
+    //position[2] = make_float4(0.0, 0.0, 0.5, 0.0);
     radius[0] = 0.5;
     radius[1] = 0.5;
-    radius[2] = 0.5;
+   // radius[2] = 0.5;
     idxx[0] = 0;
     idxy[0] = 0;
     idxz[0] = 0;
     idxx[1] = 1;
     idxy[1] = 1;
     idxz[1] = 1;
-    idxx[2] = 2;
-    idxy[2] = 2;
-    idxz[2] = 2;
+    //idxx[2] = 2;
+    //idxy[2] = 2;
+    //idxz[2] = 2;
 
     for (int i = 0; i < max_collisions * n_objects + max_collisions; i++) {
         potential_collision[i] = -1;
@@ -337,11 +409,18 @@ int main() {
 
     int* d_potential_collision_ptr = thrust::raw_pointer_cast(d_potential_collision.data());
 
+    int threadsPerBlock = 256;
+    int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;
+
     std::chrono::time_point<std::chrono::system_clock> start;
     std::chrono::duration<double> duration;
 
     double time;
     start = std::chrono::system_clock::now();
+
+    
+
+    
 
     // Project to x-axis
     projectAABBx(d_lower_bound, d_upper_bound, d_lowerx, d_upperx);
@@ -354,11 +433,25 @@ int main() {
     //radixSort(d_lowerz, d_idxz);
 
     // Perform the sweep
-    int threadsPerBlock = 256;
-    int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;
+   /* int threadsPerBlock = 256;
+    int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;*/
 
-    std::cout << "Launching kernel\n";
-    sweep << <numBlocks, threadsPerBlock >> > (
+    //std::cout << "Launching kernel\n";
+    /*sweep << <numBlocks, threadsPerBlock >> > (
+        d_upperx_ptr,
+        d_lowerx_ptr,
+        d_upperx_ptr,
+        d_lowerx_ptr,
+        d_upperx_ptr,
+        d_lowerx_ptr,
+        d_idxx_ptr,
+        d_idxy_ptr,
+        d_idxz_ptr,
+        d_potential_collision_ptr,
+        n_objects,
+        max_collisions);*/
+
+    sweepBlocks << <n_objects, threadsPerBlock >> > (
         d_upperx_ptr,
         d_lowerx_ptr,
         d_upperx_ptr,
@@ -372,18 +465,21 @@ int main() {
         n_objects,
         max_collisions);
 
-    std::cout << "Kernel completed\n";
+    //std::cout << "Kernel completed\n";
 
     duration = std::chrono::system_clock::now() - start;
 
     time = duration.count();
 
+    
+
     int sum = thrust::count_if(d_potential_collision.begin(), d_potential_collision.end(), isValid());
 
+    std::cout << sum << " Collisions detected in " << time << " secs\n" << std::endl;
     // int sum = thrust::reduce(d_potential_collision.begin(), d_potential_collision.end(), 0, thrust::plus<int>());
 
     std::cout << "Number of objects: " << n_objects << "\n";
-    std::cout << sum << " collisions detected in " << time << " secs\n" << std::endl;
+    
 
 
 

@@ -9,6 +9,9 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <stdint.h>
 #include <thread>
 
 // CUDA
@@ -81,7 +84,14 @@ namespace STARDUST {
 
 		// COLLISION DETECTION AND RESPONSE //
 		if (spatialHashCollision) {
-			constructCollisionList(
+
+			std::chrono::time_point<std::chrono::system_clock> start;
+			std::chrono::duration<double> duration;
+
+			double time;
+			start = std::chrono::system_clock::now();
+
+			SpatialPartition::constructCollisionList(
 				m_num_particles,
 				cell_dim,
 				d_grid_ptr,
@@ -92,7 +102,7 @@ namespace STARDUST {
 				d_temp_ptr
 			);
 
-			sortCollisionList(
+			SpatialPartition::sortCollisionList(
 				d_grid_ptr,
 				d_sphere_ptr,
 				d_grid_temp_ptr,
@@ -102,7 +112,8 @@ namespace STARDUST {
 				m_num_particles
 			);
 
-			tranverseAndResolveCollisionList(
+
+			SpatialPartition::tranverseAndResolveCollisionList(
 				d_grid_ptr,
 				d_sphere_ptr,
 				d_particle_position_ptr,
@@ -115,6 +126,13 @@ namespace STARDUST {
 				d_temp_ptr,
 				threads_per_block
 			);
+
+			duration = std::chrono::system_clock::now() - start;
+
+			time = duration.count();
+
+			std::cout << "Done Collision analysis completed in: " << time << "s on " << m_num_particles << " particles\n";
+
 		}
 		else if (LBVHCollision) {
 

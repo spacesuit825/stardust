@@ -282,7 +282,7 @@ namespace STARDUST {
 		}
 	}
 
-	void constructCollisionList(
+	void SpatialPartition::constructCollisionList(
 		int m_num_particles, 
 		float cell_dim, 
 		uint32_t* d_grid_ptr,
@@ -307,7 +307,7 @@ namespace STARDUST {
 
 	
 
-	void sortCollisionList(
+	void SpatialPartition::sortCollisionList(
 		uint32_t* d_grid_ptr,
 		uint32_t* d_sphere_ptr,
 		uint32_t* d_grid_temp_ptr,
