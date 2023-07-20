@@ -51,11 +51,11 @@ void initGui() {
 }
 
 void run() {
-	float4 pos1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 pos1 = make_float4(3.0f, 3.0f, 3.0f, 0.0f);
 	float4 vel1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	float4 pos2 = make_float4(0.0f, 0.0f, 0.5f, 0.0f);
-	float4 pos3 = make_float4(0.0f, 1.0f, 0.0f, 0.0f);
+	float4 pos3 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 pos4 = make_float4(0.0f, 0.0f, 3.0f, 0.0f);
 	float4 pos5 = make_float4(0.0f, 0.0f, 4.0f, 0.0f);
 	float4 vel2 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -64,7 +64,7 @@ void run() {
 
 	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0, 1, size, size, 100, pos1, vel1); // Collider particle (set id as inactive)
 	STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(1, 1, size , size, 9, pos2, vel2);
-	STARDUST::DEMParticle entity3 = STARDUST::DEMParticle(1, 10, size * 10, size, 9, pos3, vel2);
+	STARDUST::DEMParticle entity3 = STARDUST::DEMParticle(1, 1, size * 1, size, 9, pos3, vel2);
 
 	//STARDUST::DEMMesh entity3 = STARDUST::DEMMesh("C:/Users/lachl/OneDrive/Documents/c++/stardust/assets/test_mesh.stl", pos3, pos5);
 

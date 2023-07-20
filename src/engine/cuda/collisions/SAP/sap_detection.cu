@@ -295,8 +295,10 @@ namespace STARDUST {
 		}
 		else {
 
-			pending_collisions[collision_length + 1] = idx;
-			collision_length += 1;
+			if (collision_length <= 10) {
+				pending_collisions[collision_length] = idx;
+				collision_length += 1;
+			}
 
 			return;
 		}
@@ -342,11 +344,11 @@ namespace STARDUST {
 		int pending_collision_length = 0;
 
 		int n_tid = tid + padding;
-		if (n_tid > n_objects) {
+		if (n_tid >= n_objects) {
 			n_tid = n_objects;
 		}
 		else {
-			n_tid = padding;
+			
 		}
 
 		for (int i = tid + 1; i < n_tid; i++) {
@@ -358,6 +360,8 @@ namespace STARDUST {
 			phantom_lower_extent = lowerx[i];
 
 			phantom_idx = idxx[i];
+
+			//printf("chill %d %d\n", i, phantom_idx);
 
 			// Check X proj
 			if (phantom_lower_extent <= home_upper_extent) { // <-- TODO: change this so it starts with axis with most position variance
@@ -374,8 +378,8 @@ namespace STARDUST {
 					// Check Z proj
 					if (phantom_lower_extent <= home_upper_extent) {
 
-						populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
-						//printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
+						//populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
+						printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
 
 					}
 				}
@@ -417,15 +421,21 @@ namespace STARDUST {
 			n_objects
 		);
 
+		
+
 		SAPCollision::computeAABB(
 			d_position_ptr,
 			d_radius_ptr,
 			n_objects
 		);
 
+		
+
 		SAPCollision::projectAABB(
 			n_objects
 		);
+
+		
 
 		SAPCollision::sortLowestExtents(
 			n_objects
@@ -435,6 +445,7 @@ namespace STARDUST {
 			n_objects
 		);
 
+		CUDA_ERR_CHECK(cudaDeviceSynchronize());
 	}
 
 }

@@ -327,7 +327,7 @@ namespace STARDUST {
 			RadixTabulateCUDA << <NUM_BLOCKS, GROUPS_PER_BLOCK* THREADS_PER_GROUP, GROUPS_PER_BLOCK* NUM_RADICES * sizeof(int) >> > (
 				d_grid_ptr,
 				d_radices_ptr,
-				n_particles * 9,
+				n_particles,
 				cells_per_group,
 				i
 				);
@@ -344,7 +344,7 @@ namespace STARDUST {
 				d_sphere_temp_ptr,
 				d_radices_ptr,
 				d_radix_sums_ptr,
-				n_particles * 9,
+				n_particles,
 				cells_per_group,
 				i
 				);
