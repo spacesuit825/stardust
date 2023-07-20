@@ -24,6 +24,7 @@ find_package(OpenGL REQUIRED)
 find_package(OpenMP)
 find_package(CUDAToolkit REQUIRED)
 find_package(Thrust REQUIRED)
+find_package(cub REQUIRED)
 
 #process external libraries
 add_subdirectory(external)

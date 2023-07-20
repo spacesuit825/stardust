@@ -49,8 +49,8 @@ namespace STARDUST {
 		CUDA_ERR_CHECK(cudaGraphicsMapResources(1, &vbo_position, NULL));
 		CUDA_ERR_CHECK(cudaGraphicsResourceGetMappedPointer((void**)&bufptr, &size, vbo_position));
 		CUDA_ERR_CHECK(cudaMemcpy(bufptr,
-			d_particle_position_ptr,
-			sizeof(float4) * m_num_particles,
+			entity_handler.d_particle_position_ptr,
+			sizeof(float4) * entity_handler.getNumberOfSpheres(),
 			cudaMemcpyDeviceToDevice
 		));
 		CUDA_ERR_CHECK(cudaGraphicsUnmapResources(1, &vbo_position, NULL));
@@ -596,5 +596,26 @@ namespace STARDUST {
 
 			std::cout << "Data Transfer to Device Successful!\n";
 		}
+	}
+
+	void DEMEngine::add(DEMParticle particle) {
+		entity_handler.addEntity(particle);
+	}
+
+	void DEMEngine::prep() {
+		entity_handler.prepareArrays();
+	}
+
+	void DEMEngine::transfer() {
+		entity_handler.allocateCUDA();
+		entity_handler.transferDataToDevice();
+
+		collision_handler.allocateCUDA(entity_handler.getNumberOfSpheres(), 10);
+	}
+
+	void DEMEngine::update(float dt) {
+
+		collision_handler.processCollisions(entity_handler.d_particle_position_ptr, entity_handler.d_particle_size_ptr, entity_handler.getNumberOfSpheres());
+
 	}
 }

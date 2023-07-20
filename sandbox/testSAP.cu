@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <stdint.h>
 
+
 // Thrust
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
@@ -19,6 +20,12 @@
 #include <device_launch_parameters.h>
 #include <nvfunctional>
 #include <cuda_runtime_api.h>
+
+// CUB
+#include <cub/device/device_radix_sort.cuh>
+
+#include <../src/engine/cuda/collision_detection.cuh>
+#include <../src/engine/cuda/cuda_utils.hpp>
 
 #include <iostream>
 
@@ -90,6 +97,30 @@ struct project_functorz
     }
 };
 
+void radixSortCustom(
+    uint32_t* keys_in,
+    uint32_t* values_in,
+    uint32_t* keys_out,
+    uint32_t* values_out,
+    uint32_t* radices,
+    uint32_t* radix_sums,
+    int n
+)
+{
+
+    // Note: this only works for positive floats for now
+    STARDUST::SpatialPartition::sortCollisionList(
+        keys_in,
+        values_in,
+        keys_out,
+        values_out,
+        radices,
+        radix_sums,
+        n
+    );
+
+}
+
 void projectAABBx(
     thrust::device_vector<float4>& lower_bound,
     thrust::device_vector<float4>& upper_bound,
@@ -121,10 +152,11 @@ void projectAABBz(
 }
 
 void radixSort(
-    thrust::device_vector<float>& lower,
-    thrust::device_vector<int>& idx)
+    float* lower,
+    int* idx,
+    int n_objects)
 {
-    thrust::sort_by_key(lower.begin(), lower.end(), idx.begin());
+    thrust::sort_by_key(thrust::device, lower, lower + n_objects, idx);
 }
 
 __device__ void populateCollisions(
@@ -209,13 +241,11 @@ __global__ void sweepBlocks(
             // Check Z proj
             if (phantom_lower_extent <= home_upper_extent) {
 
-                printf("collision detected between %d and %d\n", sorted_home_idx, phantom_idx);
+                //printf("collision detected between %d and %d\n", sorted_home_idx, phantom_idx);
 
             }
         }
     }
-
-
 }
 
 __global__ void sweep(
@@ -300,6 +330,35 @@ __global__ void sweep(
 
 }
 
+__global__ void projectAxis(
+    float4* d_lower_bound_ptr,
+    float4* d_upper_bound_ptr,
+    float* d_lowerx_ptr,
+    float* d_upperx_ptr,
+    float* d_lowery_ptr,
+    float* d_uppery_ptr,
+    float* d_lowerz_ptr,
+    float* d_upperz_ptr,
+    int n_objects)
+{
+    unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+
+    if (tid >= n_objects) {
+        return;
+    }
+
+    float4 lower_bound = d_lower_bound_ptr[tid];
+    float4 upper_bound = d_upper_bound_ptr[tid];
+
+    d_lowerx_ptr[tid] = lower_bound.x;
+    d_lowery_ptr[tid] = lower_bound.y;
+    d_lowerz_ptr[tid] = lower_bound.z;
+
+    d_upperx_ptr[tid] = upper_bound.x;
+    d_uppery_ptr[tid] = upper_bound.y;
+    d_upperz_ptr[tid] = upper_bound.z;
+}
+
 struct isValid
 {
     __host__ __device__
@@ -318,7 +377,7 @@ float randFloat(float a, float b) {
 
 int main() {
 
-    int n_objects = 2;
+    int n_objects = 200000;
     int max_collisions = 10;
 
      //H has storage for 4 integers
@@ -338,32 +397,38 @@ int main() {
     thrust::host_vector<int> idxy(n_objects);
     thrust::host_vector<int> idxz(n_objects);
 
+    thrust::host_vector<int> sorted_idxx(n_objects);
+    thrust::host_vector<float> sorted_lowerx(n_objects);
+
+    thrust::host_vector<int> radix(NUM_BLOCKS * NUM_RADICES * GROUPS_PER_BLOCK);
+    thrust::host_vector<int> radix_sum(NUM_RADICES);
+
     thrust::host_vector<int> potential_collision(max_collisions * n_objects + max_collisions);
 
-    /*for (int i = 0; i < n_objects; i++) {
-        position[i] = make_float4(randFloat(0.5, 10.0), randFloat(0.5, 10.0), randFloat(0.5, 10.0), 0.0f);
-        radius[i] = randFloat(0.4, 0.5);
+    for (int i = 0; i < n_objects; i++) {
+        position[i] = make_float4(randFloat(0.5, 100.0), randFloat(0.5, 100.0), randFloat(0.5, 100.0), 0.0f);
+        radius[i] = randFloat(0.5, 0.5);
         idxx[i] = i;
         idxy[i] = i;
         idxz[i] = i;
         
-    }*/
+    }
 
-    position[0] = make_float4(0.0, 0.0, 0.0, 0.0);
+    /*position[0] = make_float4(0.0, 0.0, 0.0, 0.0);
     position[1] = make_float4(0.0, 0.0, 0.5, 0.0);
-    //position[2] = make_float4(0.0, 0.0, 0.5, 0.0);
+    position[2] = make_float4(0.0, 0.0, 1.0, 0.0);
     radius[0] = 0.5;
     radius[1] = 0.5;
-   // radius[2] = 0.5;
+    radius[2] = 0.5;
     idxx[0] = 0;
     idxy[0] = 0;
     idxz[0] = 0;
     idxx[1] = 1;
     idxy[1] = 1;
     idxz[1] = 1;
-    //idxx[2] = 2;
-    //idxy[2] = 2;
-    //idxz[2] = 2;
+    idxx[2] = 2;
+    idxy[2] = 2;
+    idxz[2] = 2;*/
 
     for (int i = 0; i < max_collisions * n_objects + max_collisions; i++) {
         potential_collision[i] = -1;
@@ -390,6 +455,12 @@ int main() {
 
     thrust::device_vector<int> d_potential_collision = potential_collision;
 
+    thrust::device_vector<int> d_sorted_idxx = sorted_idxx;
+    thrust::device_vector<float> d_sorted_lowerx = sorted_lowerx;
+
+    thrust::device_vector<int> d_radix = radix;
+    thrust::device_vector<int> d_radix_sum = radix_sum;
+
     // First cast all device_vectors to pointers
     float4* d_position_ptr = thrust::raw_pointer_cast(d_position.data());
     float4* d_lower_bound_ptr = thrust::raw_pointer_cast(d_lower_bound.data());
@@ -409,26 +480,81 @@ int main() {
 
     int* d_potential_collision_ptr = thrust::raw_pointer_cast(d_potential_collision.data());
 
+    float* d_sorted_lowerx_ptr = thrust::raw_pointer_cast(d_sorted_lowerx.data());
+    int* d_sorted_idxx_ptr = thrust::raw_pointer_cast(d_sorted_idxx.data());
+
+    int* d_radix_ptr = thrust::raw_pointer_cast(d_radix.data());
+    int* d_radix_sum_ptr = thrust::raw_pointer_cast(d_radix_sum.data());
+
     int threadsPerBlock = 256;
     int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;
 
-    std::chrono::time_point<std::chrono::system_clock> start;
-    std::chrono::duration<double> duration;
+    std::chrono::time_point<std::chrono::system_clock> start1;
+    std::chrono::duration<double> duration1;
 
-    double time;
-    start = std::chrono::system_clock::now();
+    double time1;
+    start1 = std::chrono::system_clock::now();
+
+    // Project to x-axis, make this
+    projectAxis << < numBlocks, threadsPerBlock >> > (
+        d_lower_bound_ptr,
+        d_upper_bound_ptr,
+        d_lowerx_ptr,
+        d_upperx_ptr,
+        d_lowery_ptr,
+        d_uppery_ptr,
+        d_lowerz_ptr,
+        d_upperz_ptr,
+        n_objects
+        );
 
     
-
-    
-
-    // Project to x-axis
-    projectAABBx(d_lower_bound, d_upper_bound, d_lowerx, d_upperx);
+    /*projectAABBx(d_lower_bound, d_upper_bound, d_lowerx, d_upperx);
     projectAABBy(d_lower_bound, d_upper_bound, d_lowery, d_uppery);
-    projectAABBz(d_lower_bound, d_upper_bound, d_lowerz, d_upperz);
+    projectAABBz(d_lower_bound, d_upper_bound, d_lowerz, d_upperz);*/
 
-    // Radix sort
-    radixSort(d_lowerx, d_idxx);
+    
+
+    radixSortCustom(
+        (uint32_t*)d_lowerx_ptr,
+        (uint32_t*)d_idxx_ptr,
+        (uint32_t*)d_sorted_lowerx_ptr,
+        (uint32_t*)d_sorted_idxx_ptr,
+        (uint32_t*)d_radix_ptr,
+        (uint32_t*)d_radix_sum_ptr,
+        n_objects
+    );
+
+    //CUDA_ERR_CHECK(cudaDeviceSynchronize());
+
+    /*d_lowerx_ptr = (float*)d_lowerx_ptr;
+    d_idxx_ptr = (int*)d_idxx_ptr;
+    d_sorted_lowerx_ptr = (float*)d_sorted_lowerx_ptr;
+    d_sorted_idxx_ptr = (int*)d_sorted_idxx_ptr;
+    d_radix_ptr = (int*)d_radix_ptr;
+    d_radix_sum_ptr = (int*)d_radix_sum_ptr;*/
+
+    //radixSort(d_lowerx_ptr, d_idxx_ptr, n_objects);
+    //// Radix sort
+    //// Determine temporary device storage requirements
+    //void* d_temp_storage = NULL;
+    //size_t temp_storage_bytes = 0;
+
+    //cub::DeviceRadixSort::SortPairs(d_temp_storage, temp_storage_bytes,
+    //    d_lowerx_ptr, d_sorted_lowerx_ptr, d_idxx_ptr, d_sorted_idxx_ptr, n_objects);
+
+    //// Allocate temporary storage
+    //cudaMalloc(&d_temp_storage, temp_storage_bytes);
+
+    //// Run sorting operation
+    //cub::DeviceRadixSort::SortPairs(d_temp_storage, temp_storage_bytes,
+    //    d_lowerx_ptr, d_sorted_lowerx_ptr, d_idxx_ptr, d_sorted_idxx_ptr, n_objects);
+
+    //cudaFree(d_temp_storage);
+
+   
+
+    //
     //radixSort(d_lowery, d_idxy);
     //radixSort(d_lowerz, d_idxz);
 
@@ -437,13 +563,27 @@ int main() {
     int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;*/
 
     //std::cout << "Launching kernel\n";
-    /*sweep << <numBlocks, threadsPerBlock >> > (
+    sweep << <numBlocks, threadsPerBlock >> > (
+        d_upperx_ptr,
+        d_sorted_lowerx_ptr,
+        d_uppery_ptr,
+        d_lowery_ptr,
+        d_upperz_ptr,
+        d_lowerz_ptr,
+        d_sorted_idxx_ptr,
+        d_idxy_ptr,
+        d_idxz_ptr,
+        d_potential_collision_ptr,
+        n_objects,
+        max_collisions);
+
+    /*sweepBlocks << <n_objects, threadsPerBlock >> > (
         d_upperx_ptr,
         d_lowerx_ptr,
-        d_upperx_ptr,
-        d_lowerx_ptr,
-        d_upperx_ptr,
-        d_lowerx_ptr,
+        d_uppery_ptr,
+        d_lowery_ptr,
+        d_upperz_ptr,
+        d_lowerz_ptr,
         d_idxx_ptr,
         d_idxy_ptr,
         d_idxz_ptr,
@@ -451,34 +591,19 @@ int main() {
         n_objects,
         max_collisions);*/
 
-    sweepBlocks << <n_objects, threadsPerBlock >> > (
-        d_upperx_ptr,
-        d_lowerx_ptr,
-        d_upperx_ptr,
-        d_lowerx_ptr,
-        d_upperx_ptr,
-        d_lowerx_ptr,
-        d_idxx_ptr,
-        d_idxy_ptr,
-        d_idxz_ptr,
-        d_potential_collision_ptr,
-        n_objects,
-        max_collisions);
-
     //std::cout << "Kernel completed\n";
 
-    duration = std::chrono::system_clock::now() - start;
+    duration1 = std::chrono::system_clock::now() - start1;
 
-    time = duration.count();
+    time1 = duration1.count();
 
-    
+   
+    int sum = thrust::count_if(thrust::device,  d_potential_collision.begin(), d_potential_collision.end(), isValid());
 
-    int sum = thrust::count_if(d_potential_collision.begin(), d_potential_collision.end(), isValid());
+    //int sum = thrust::reduce(thrust::device, d_potential_collision.begin(), d_potential_collision.end(), 0, thrust::plus<int>());
+    std::cout << sum << " Collisions detected in " << time1 << " secs\n" << std::endl;
 
-    std::cout << sum << " Collisions detected in " << time << " secs\n" << std::endl;
-    // int sum = thrust::reduce(d_potential_collision.begin(), d_potential_collision.end(), 0, thrust::plus<int>());
-
-    std::cout << "Number of objects: " << n_objects << "\n";
+    std::cout << "Number of objects (AABBs): " << n_objects << "\n";
     
 
 

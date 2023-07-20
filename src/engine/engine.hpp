@@ -3,7 +3,9 @@
 
 // Internal
 #include "types.hpp"
-#include "entity.hpp"
+#include "./entities/entity.hpp"
+#include "./entities/entity_handler.hpp"
+#include "./cuda/collisions/SAP/sap_collision.cuh"
 
 // CUDA
 #include <vector_types.h>
@@ -16,13 +18,38 @@
 
 namespace STARDUST {
 
+	enum CollisionEngine {
+		SAP,
+		SHP
+	};
+
+	enum Device {
+		CPU,
+		GPU
+	};
+
+
+	struct engineConfig {
+		CollisionEngine collision_engine;
+		Device device;
+	};
+
 	class DEMEngine {
 		// Class to setup and initate simulations (only handles host events)
 		// Runs in parallel to DEMKernel.cu at runtime, passes events to the kernel
 		// for user interaction
 	public:
 
-		DEMEngine(Scalar test) : m_domain(test) {
+		DEMEngine(engineConfig config, Scalar test) : m_domain(test), engineConfiguration(config) {
+
+			entity_handler = EntityHandler();
+
+			if (engineConfiguration.collision_engine == SAP) {
+				collision_handler = SAPCollision();
+			}
+			else {
+				std::cout << "Invalid Collision Engine!" << "\n";
+			}
 			
 			// Computational grid pointers
 			h_grid_ptr = nullptr;
@@ -157,6 +184,11 @@ namespace STARDUST {
 		void cleanBuffers();
 		void step(Scalar);
 
+		void add(DEMParticle particle);
+		void prep();
+		void transfer();
+		void update(float);
+
 		~DEMEngine() {
 
 			std::cout << "Destroying Engine...\n";
@@ -268,9 +300,15 @@ namespace STARDUST {
 		int getEntityLength() { return m_entities.size(); };
 		int getNumberOfSpheres() { return m_num_particles; };
 
+		EntityHandler& getEntityHandler() { return entity_handler; };
+
 		bool is_first_step;
 
 	private:
+
+		engineConfig engineConfiguration;
+		SAPCollision collision_handler;
+		EntityHandler entity_handler;
 
 		struct cudaGraphicsResource* vbo_position;
 

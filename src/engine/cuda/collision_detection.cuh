@@ -67,13 +67,52 @@ namespace STARDUST {
 
 	class SpatialPrune {
 
-		static void computeAABBAndProjectToAxes();
+		static void computeAABB(
+			float4* position,
+			float* radius,
+			float4* lower,
+			float4* upper,
+			int n_objects
+		);
+		
+		static void projectAABB(
+			float4* d_lower_bound_ptr,
+			float4* d_upper_bound_ptr,
+			float* d_lowerx_ptr,
+			float* d_upperx_ptr,
+			float* d_lowery_ptr,
+			float* d_uppery_ptr,
+			float* d_lowerz_ptr,
+			float* d_upperz_ptr,
+			int n_objects
+		);
 
 		// static void clusterPartition(); <-- Spatial partitioning
 
-		static void sortLowerExtent();
+		static void sortLowerExtents(
+			uint32_t* keys_in,
+			uint32_t* values_in,
+			uint32_t* keys_out,
+			uint32_t* values_out,
+			uint32_t* radices,
+			uint32_t* radix_sums,
+			int n
+		);
 
-		static void sweepAndPrune();
+		static void sweepAndPrune(
+			float* upperx,
+			float* lowerx,
+			float* uppery,
+			float* lowery,
+			float* upperz,
+			float* lowerz,
+			int* idxx,
+			int* idxy,
+			int* idxz,
+			int* potential_collision,
+			int n_objects,
+			int padding
+		);
 
 	};
 }

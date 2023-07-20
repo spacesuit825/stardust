@@ -15,7 +15,7 @@ Camera& Renderer::getCamera() {
 void Renderer::prepBuffers(STARDUST::DEMEngine& engine) {
 	glBindBuffer(GL_ARRAY_BUFFER, m_engine_vbo_id);
 	glBufferData(GL_ARRAY_BUFFER,
-		engine.getNumberOfSpheres() * sizeof(float4),
+		engine.getEntityHandler().getNumberOfSpheres() * sizeof(float4),
 		0,
 		GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -50,10 +50,10 @@ void Renderer::renderWithGUI(STARDUST::DEMEngine& engine, GUIwrapper& gui) {
 	m_shader->setUniform("Ks", glm::vec3(0.1, 0.1, 0.1));
 	m_shader->setUniform("Ke", glm::vec3(0, 0, 0));
 	m_shader->setUniform("sh", 0.1f);
-	m_shader->setUniform("particle_scale", 1.0f);
+	m_shader->setUniform("particle_scale", 5.0f);
 
 	// Set model/view/proj matrices
-	m_shader->setUniform("modelMat", glm::scale(glm::vec3(m_particle_scale, m_particle_scale, m_particle_scale)));
+	m_shader->setUniform("modelMat", glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)));
 	m_shader->setUniform("viewMat", m_camera->getViewMatrix());
 	m_shader->setUniform("projMat", m_camera->getProjectionMatrix());
 
@@ -144,7 +144,7 @@ void Renderer::renderWithGUI(STARDUST::DEMEngine& engine, GUIwrapper& gui) {
 	// passed to the vertex shader. If the divisor had 0 set, a new position would be retrieved
 	// for every vertex of the sphere and we would have a mangled mess.
 	glDrawElementsInstanced(GL_TRIANGLES, m_sphere_mesh.getTriangleCount() * 3,
-		GL_UNSIGNED_INT, nullptr, engine.getNumberOfSpheres());
+		GL_UNSIGNED_INT, nullptr, engine.getEntityHandler().getNumberOfSpheres());
 
 	
 	glfwPollEvents();
