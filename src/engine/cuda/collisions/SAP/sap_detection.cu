@@ -129,6 +129,7 @@ namespace STARDUST {
 	// Clear and initiate some tracking arrays
 	__global__ void initIdxCUDA(
 		int n_objects,
+		int max_collisions,
 		int* d_idx_ptr,
 		int* d_potential_collision_ptr
 	)
@@ -141,12 +142,16 @@ namespace STARDUST {
 		}
 
 		d_idx_ptr[tid] = tid;
-		d_potential_collision_ptr[tid] = -1;
+
+		for (int i = 0; i < max_collisions; i++) {
+			d_potential_collision_ptr[tid + i] = -1;
+		}
 
 	}
 
 	void SAPCollision::initIdx(
-		int n_objects)
+		int n_objects,
+		int max_collisions)
 	{
 
 		int threadsPerBlock = 256;
@@ -154,6 +159,7 @@ namespace STARDUST {
 
 		initIdxCUDA << <numBlocks, threadsPerBlock >> > (
 			n_objects,
+			max_collisions,
 			d_idx_ptr,
 			d_potential_collision_ptr
 			);
@@ -183,6 +189,7 @@ namespace STARDUST {
 
 		upper[tid] = make_float4(pos.x + r, pos.y + r, pos.z + r, 0.0f);
 		lower[tid] = make_float4(pos.x - r, pos.y - r, pos.z - r, 0.0f);
+
 	}
 
 	void SAPCollision::computeAABB(
@@ -228,12 +235,15 @@ namespace STARDUST {
 		float4 upper_bound = d_upper_bound_ptr[tid];
 
 		d_lowerx_ptr[tid] = lower_bound.x;
+
 		d_lowery_ptr[tid] = lower_bound.y;
 		d_lowerz_ptr[tid] = lower_bound.z;
 
 		d_upperx_ptr[tid] = upper_bound.x;
 		d_uppery_ptr[tid] = upper_bound.y;
 		d_upperz_ptr[tid] = upper_bound.z;
+
+	
 	}
 
 	void SAPCollision::projectAABB(
@@ -295,7 +305,7 @@ namespace STARDUST {
 		}
 		else {
 
-			if (collision_length <= 10) {
+			if (collision_length <= 10 && idx != tid) {
 				pending_collisions[collision_length] = idx;
 				collision_length += 1;
 			}
@@ -332,6 +342,8 @@ namespace STARDUST {
 
 		int collision = 0;
 
+		int coll_counter = 0;
+
 		int pending_collisions[10];
 
 		int home_idx = tid;
@@ -353,15 +365,13 @@ namespace STARDUST {
 
 		for (int i = tid + 1; i < n_tid; i++) {
 
-			if (i == sorted_home_idx) {
+			if (i == home_idx) {
 				continue;
 			}
 
 			phantom_lower_extent = lowerx[i];
 
 			phantom_idx = idxx[i];
-
-			//printf("chill %d %d\n", i, phantom_idx);
 
 			// Check X proj
 			if (phantom_lower_extent <= home_upper_extent) { // <-- TODO: change this so it starts with axis with most position variance
@@ -378,14 +388,14 @@ namespace STARDUST {
 					// Check Z proj
 					if (phantom_lower_extent <= home_upper_extent) {
 
-						//populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
-						printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
+						coll_counter += 1;
+						populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
+						//printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
 
 					}
 				}
 			}
 		}
-
 	}
 
 	void SAPCollision::sweepAndPrune(
@@ -403,7 +413,7 @@ namespace STARDUST {
 			d_lower_extent_y_ptr,
 			d_upper_extent_z_ptr,
 			d_lower_extent_z_ptr,
-			d_idx_ptr,
+			d_temp_value_ptr,
 			d_idx_ptr,
 			d_idx_ptr,
 			d_potential_collision_ptr,
@@ -414,11 +424,13 @@ namespace STARDUST {
 	void SAPCollision::processCollisions(
 		float4* d_position_ptr,
 		float* d_radius_ptr,
-		int n_objects
+		int n_objects,
+		int max_collisions
 	) 
 	{
 		SAPCollision::initIdx(
-			n_objects
+			n_objects,
+			max_collisions
 		);
 
 		
@@ -441,9 +453,13 @@ namespace STARDUST {
 			n_objects
 		);
 
+
+
 		SAPCollision::sweepAndPrune(
 			n_objects
 		);
+
+
 
 		CUDA_ERR_CHECK(cudaDeviceSynchronize());
 	}

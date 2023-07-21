@@ -66,6 +66,8 @@ namespace STARDUST {
 				// Iterate through particles and convert to arrays
 				DEMSphere particle = particles[j];
 
+				//printf("Particle: %d, position: %.3f, %.3f, %.3f", j, particle.position.x, particle.position.y, particle.position)
+
 				h_particle_sorted_idx_ptr[j + offset] = j + offset;
 				h_particle_idx_ptr[j + offset] = j + offset;
 				h_particle_position_ptr[j + offset] = particle.position;

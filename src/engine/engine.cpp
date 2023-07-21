@@ -613,9 +613,4 @@ namespace STARDUST {
 		collision_handler.allocateCUDA(entity_handler.getNumberOfSpheres(), 10);
 	}
 
-	void DEMEngine::update(float dt) {
-
-		collision_handler.processCollisions(entity_handler.d_particle_position_ptr, entity_handler.d_particle_size_ptr, entity_handler.getNumberOfSpheres());
-
-	}
 }

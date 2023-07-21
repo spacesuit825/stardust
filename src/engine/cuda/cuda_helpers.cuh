@@ -3,6 +3,10 @@
 #include <iostream>
 #include <fstream>
 
+// Internal
+#include "../types.hpp"
+#include "../helper_math.hpp"
+
 // CUDA
 #include <vector_types.h>
 #include "cuda.h"

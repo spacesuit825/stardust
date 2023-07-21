@@ -3,6 +3,7 @@
 
 // Internal
 #include "../../cuda_utils.hpp"
+#include "../../../helper_math.hpp"
 
 // C++
 #include <string>
@@ -38,15 +39,21 @@ namespace STARDUST {
 		void prepareData();
 		void allocateCUDA(int, int);
 		void transferDataToDevice();
-		void processCollisions(float4*, float*, int);
+		void processCollisions(float4*, float*, int, int);
 
-		void initIdx(int);
+		void initIdx(int, int);
 		void computeAABB(float4*, float*, int);
 		void projectAABB(int);
 		void sortLowestExtents(int);
 		void sweepAndPrune(int);
 
-		void reactCollisions();
+		void reactCollisions(int n_objects,
+			int max_collisions,
+			float4* d_particle_forces_ptr,
+			float4* d_particle_position_ptr,
+			float4* d_particle_velocity_ptr,
+			float* d_particle_size_ptr,
+			int* d_particle_to_rigid_idx_ptr);
 
 		// Pointers
 		int* d_idx_ptr;
