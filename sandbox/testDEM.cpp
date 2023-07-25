@@ -82,7 +82,7 @@ void run() {
 
 	//engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
-	//std::cout << engine->getEntityLength();
+	//std::cout << engine->getEntityLength()
 	engine->prep();
 	engine->transfer();
 	//engine->transferDataToDevice();
