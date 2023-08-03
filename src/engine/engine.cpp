@@ -610,7 +610,7 @@ namespace STARDUST {
 		entity_handler.allocateCUDA();
 		entity_handler.transferDataToDevice();
 
-		collision_handler.allocateCUDA(entity_handler.getNumberOfSpheres(), 10);
+		collision_handler.allocateCUDA(entity_handler.getNumberOfSpheres(), 16);
 	}
 
 }

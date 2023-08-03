@@ -210,6 +210,8 @@ namespace STARDUST {
 		unsigned int entity_block_size = 64;
 		unsigned int entity_grid_size = (n_entities + entity_block_size - 1) / entity_block_size;
 
+		//std::cout << "n_entities: " << n_entities << "\n";
+
 		// Launch a kernel with a thread per entity
 		computeForcesAndTorquesCUDA << <entity_grid_size, entity_block_size >> > (
 			n_particles,

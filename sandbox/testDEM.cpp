@@ -50,6 +50,13 @@ void initGui() {
 		.build();
 }
 
+float randFloat(float a, float b) {
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}
+
 void run() {
 	float4 pos1 = make_float4(0.10f, 0.0f, 0.0f, 0.0f);
 	float4 vel1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -66,7 +73,7 @@ void run() {
 
 	STARDUST::DEMParticle entity1 = STARDUST::DEMParticle(0, 1, size, size, 100, pos1, vel1); // Collider particle (set id as inactive)
 	//STARDUST::DEMParticle entity2 = STARDUST::DEMParticle(1, 1, size , size, 9, pos2, vel2);
-	STARDUST::DEMParticle entity3 = STARDUST::DEMParticle(1, 10, size * 10, size, 9, pos3, vel2);
+	STARDUST::DEMParticle entity3 = STARDUST::DEMParticle(1, 2, size * 2, size, 9, pos3, vel2);
 
 	//STARDUST::DEMMesh entity3 = STARDUST::DEMMesh("C:/Users/lachl/OneDrive/Documents/c++/stardust/assets/test_mesh.stl", pos3, pos5);
 
@@ -80,6 +87,16 @@ void run() {
 	//engine->add(entity2);
 	engine->add(entity3);
 
+	for (int i = 0; i < 1000000; i++) {
+
+		float4 pos = make_float4(randFloat(1.0, 40.0), randFloat(1.0, 40.0), randFloat(1.0, 40.0), 0.0f);
+		float4 vel = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+		STARDUST::DEMParticle entity = STARDUST::DEMParticle(0, 1, size, size, 9, pos, vel);
+
+		engine->add(entity);
+	}
+
 	//engine->loadJSONSetup("C:/Users/lachl/OneDrive/Documents/c++/stardust/setup/star_test.json");
 
 	//std::cout << engine->getEntityLength()
@@ -89,24 +106,23 @@ void run() {
 	engine->is_first_step = false;
 	//engine->transferDataToDevice();
 
-
-	
-
 	bool check = true;
 
-	renderer->prepBuffers(*engine);
-	engine->bindGLBuffers(renderer->getPosVBO());
+	//renderer->prepBuffers(*engine);
+	//engine->bindGLBuffers(renderer->getPosVBO());
 
-	initGui();
+	//initGui();
 
-	while (!renderer->windowShouldClose()) {
+	//while (!renderer->windowShouldClose()) {
+
+	for (int i = 0; i < 300; i++) {
 		/*if (frame > 400 && frame % 25 == 0) {
 			addEntity();
 		}*/
 		engine->update(0.0005f);
-		engine->writeGLBuffers();
-		renderer->renderWithGUI(*engine, *gui);
-		handler->handleInput();
+		//engine->writeGLBuffers();
+		//renderer->renderWithGUI(*engine, *gui);
+		//handler->handleInput();
 
 		check = false;
 	}
@@ -121,15 +137,17 @@ void run() {
 }
 int main() {
 	std::cout << "Activating Renderer... \n";
-	initRenderer();
-	initHandler();
+	//initRenderer();
+	//initHandler();
 
 	run();
 	
 	delete engine;
-	delete renderer;
-	delete handler;
-	delete gui;
+	//delete renderer;
+	//delete handler;
+	//delete gui;
+
+	cudaDeviceReset();
 
 	exit(EXIT_SUCCESS);
 }

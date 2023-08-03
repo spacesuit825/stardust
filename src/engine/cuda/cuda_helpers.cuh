@@ -126,7 +126,7 @@ namespace STARDUST {
 
 		return rotation_matrix;
 	}
-	
+
 	__device__ inline float4 multiplyQuaternionsCUDA(
 		float4 quaternion1, // (1, 0, 0, 0)
 		float4 quaternion2
@@ -179,7 +179,7 @@ namespace STARDUST {
 		uint32_t temp;
 
 		for (int d = n / 2; d; d /= 2) {
-			
+
 			__syncthreads();
 
 			if (threadIdx.x < d) {
@@ -209,8 +209,8 @@ namespace STARDUST {
 	}
 
 	__device__ inline void sumReduceCUDA(
-		unsigned int* values, 
-		unsigned int* out) 
+		unsigned int* values,
+		unsigned int* out)
 	{
 		__syncthreads();
 
@@ -236,4 +236,74 @@ namespace STARDUST {
 		}
 	}
 
+	__device__ inline void sumReduceCUDA(
+		int* values,
+		int* out,
+		int n)
+	{
+		unsigned int tid = threadIdx.x;
+		
+		if (tid >= n) {
+			return;
+		}
+
+		__syncthreads();
+
+		unsigned int threads = blockDim.x;
+		unsigned int half = threads / 2;
+
+		while (half) {
+			if (threadIdx.x < half) {
+				for (int k = threadIdx.x + half; k < threads; k += half) {
+					values[threadIdx.x] += values[k];
+				}
+
+				threads = half;
+			}
+
+			half /= 2;
+
+			__syncthreads();
+		}
+
+		if (!threadIdx.x) {
+			atomicAdd(out, values[0]);
+		}
+	}
+
+	
+	//__device__ inline void prefixSumScan(int* input, int* output, int n) {
+	//	int offset = 1;
+	//	int a;
+	//	int temp;
+
+	//	for (int d = n / 2; d; d /= 2) {
+
+	//		__syncthreads();
+
+	//		if (threadIdx.x < d) {
+	//			a = (threadIdx.x * 2 + 1) * offset - 1;
+	//			output[a + offset] += input[a];
+	//		}
+
+	//		offset *= 2;
+	//	}
+
+	//	if (!threadIdx.x) {
+	//		output[n - 1] = 0;
+	//	}
+
+	//	for (int d = 1; d < n; d *= 2) {
+
+	//		__syncthreads();
+	//		offset /= 2;
+
+	//		if (threadIdx.x < d) {
+	//			a = (threadIdx.x * 2 + 1) * offset - 1;
+	//			temp = input[a];
+	//			//output[a] = input[a + offset];
+	//			output[a + offset] += temp;
+	//		}
+	//	}
+	//}
 }

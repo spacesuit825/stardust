@@ -292,7 +292,7 @@ namespace STARDUST {
 			free(h_particle_init_relative_position_ptr);
 			cudaFree(d_particle_init_relative_position_ptr);
 
-			cudaGraphicsUnregisterResource(vbo_position);
+			//cudaGraphicsUnregisterResource(vbo_position);
 		};
 
 

@@ -64,7 +64,11 @@ namespace STARDUST {
 		int threads_per_block = 128;
 		unsigned int particle_size = (entity_handler.getNumberOfSpheres() - 1) / threads_per_block + 1;
 
-		
+		std::chrono::time_point<std::chrono::system_clock> start;
+		std::chrono::duration<double> duration;
+
+		double time;
+		start = std::chrono::system_clock::now();
 
 		// PARTICLE UPDATES AND RELATIVE POSITIONS
 		updateSphereData(
@@ -84,21 +88,20 @@ namespace STARDUST {
 
 		cleanBuffers();
 
-		std::chrono::time_point<std::chrono::system_clock> start;
-		std::chrono::duration<double> duration;
-
-		double time;
-		start = std::chrono::system_clock::now();
+		
 
 		collision_handler.processCollisions(
 			entity_handler.d_particle_position_ptr,
 			entity_handler.d_particle_size_ptr,
 			entity_handler.getNumberOfSpheres(),
-			10);
+			16);
+
+		
+		
 
 		collision_handler.reactCollisions(
 			entity_handler.getNumberOfSpheres(),
-			10,
+			16,
 			entity_handler.d_particle_forces_ptr,
 			entity_handler.d_particle_position_ptr,
 			entity_handler.d_particle_velocity_ptr,
@@ -107,11 +110,7 @@ namespace STARDUST {
 
 		// PARTICLE FORCE COMPUTATION AND POSITION/ORIENTATION UPDATE
 
-		duration = std::chrono::system_clock::now() - start;
-
-		time = duration.count();
-
-		std::cout << "Analysis completed in: " << time << "s\n";
+		
 		
 
 		computeForcesAndTorquesOnParticles(
@@ -145,6 +144,11 @@ namespace STARDUST {
 			entity_handler.d_rigid_body_inertia_tensor_ptr
 		);
 
-		
+		//CUDA_ERR_CHECK(cudaThreadSynchronize());
+		duration = std::chrono::system_clock::now() - start;
+
+		time = duration.count();
+
+		std::cout << time << "\n";
 	}
 }

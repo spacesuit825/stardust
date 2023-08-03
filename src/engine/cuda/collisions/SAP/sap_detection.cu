@@ -7,6 +7,11 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <stdint.h>
+#include <thread>
 
 // CUDA
 #include <vector_types.h>
@@ -293,7 +298,7 @@ namespace STARDUST {
 	{
 
 		bool unique_collision = true;
-		for (int k = 0; k < 10; k++) { // <-- Max collisions is 10!!
+		for (int k = 0; k < 16; k++) { // <-- Max collisions is 10!!
 			if (idx == pending_collisions[k]) {
 
 				unique_collision = false;
@@ -305,16 +310,217 @@ namespace STARDUST {
 		}
 		else {
 
-			if (collision_length <= 10 && idx != tid) {
+			if (collision_length <= 8 && idx != tid) {
 				pending_collisions[collision_length] = idx;
 				collision_length += 1;
+			} 
+
+			if (collision_length > 16) {
+				printf("More collisions than expected!\n");
 			}
 
 			return;
 		}
 	}
 
+	__device__ void removeDuplicates(int* input_array, int* output_array, int array_size, int collision_size) {
+
+		int output_size = 0;
+
+		for (int i = 0; i < array_size; i++) {
+			float currentValue = input_array[i];
+			bool is_duplicate = false;
+
+			for (int j = 0; j < output_size; j++) {
+				if (currentValue == output_array[j]) {
+					is_duplicate = true;
+					break;
+				}
+			}
+
+			if (!is_duplicate && output_size < collision_size) {
+				output_array[output_size] = currentValue;
+				output_size++;
+			}
+		}
+	}
+
+	__global__ void sweepAndPrunePrimaryCUDA(
+		int n_objects,
+		float* upperx,
+		float* lowerx,
+		int* idxx,
+		int* potential_collision,
+		int padding)
+	{
+
+		unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+
+		if (tid >= n_objects) {
+			return;
+		}
+
+		int pending_collisions[10];
+
+		int home_idx = tid;
+		int sorted_home_idx = idxx[home_idx];
+		float home_upper_extent = upperx[sorted_home_idx];
+
+		int phantom_idx;
+		float phantom_lower_extent;
+
+		int pending_collision_length = 0;
+
+		int n_tid = tid + 512;
+		if (n_tid >= n_objects) {
+			n_tid = n_objects;
+		}
+
+		int j = 0;
+
+		for (int i = tid + 1; i < n_tid; i++) {
+
+			if (i == home_idx) {
+				continue;
+			}
+
+			phantom_lower_extent = lowerx[i];
+
+			phantom_idx = idxx[i];
+
+			// Check primary proj
+			if (phantom_lower_extent <= home_upper_extent) {
+
+				populateCollisions(tid, pending_collision_length, potential_collision + tid * 256, phantom_idx);
+
+			}
+			//home_upper_extent = uppery[sorted_home_idx];
+			//phantom_lower_extent = lowery[phantom_idx];
+
+			//// Check Y proj
+			//if (phantom_lower_extent <= home_upper_extent) {
+
+			//	home_upper_extent = upperz[sorted_home_idx];
+			//	phantom_lower_extent = lowerz[phantom_idx];
+
+			//	// Check Z proj
+			//	if (phantom_lower_extent <= home_upper_extent) {
+
+			//		//coll_counter += 1;
+			//		collection[j] = phantom_idx;
+					//populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
+					//printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
+
+				//}
+			//}
+		//}
+		//j++;
+	//}
+
+	//removeDuplicates(collection, potential_collision + tid * padding, size, padding);
+		}
+	}
+
 	__global__ void sweepAndPruneCUDA(
+		int n_objects,
+		float* upperx,
+		float* lowerx,
+		float* uppery,
+		float* lowery,
+		int* idxx,
+		int* idxy,
+		int* potential_collision,
+		int padding)
+	{
+
+		unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+
+		if (tid >= n_objects) {
+			return;
+		}
+
+		int pending_collisions[10];
+
+		int home_idx = tid;
+		int sorted_home_idx = idxx[home_idx];
+		float home_upper_extent = upperx[sorted_home_idx];
+
+		int phantom_idx;
+		float phantom_lower_extent;
+
+		int pending_collision_length = 0;
+
+		int n_tid = tid + 64;
+		if (n_tid >= n_objects) {
+			n_tid = n_objects;
+		}
+
+		int j = 0;
+
+		for (int i = tid + 1; i < n_tid; i++) {
+
+			if (i == home_idx) {
+				continue;
+			}
+
+			phantom_lower_extent = lowerx[i];
+
+			phantom_idx = idxx[i];
+
+			// Check primary proj
+			if (phantom_lower_extent <= home_upper_extent) {
+
+				//populateCollisions(tid, pending_collision_length, potential_collision + tid * 256, phantom_idx);
+
+				home_upper_extent = uppery[sorted_home_idx];
+				phantom_lower_extent = lowery[phantom_idx];
+
+				// Check Y proj
+				if (phantom_lower_extent <= home_upper_extent) {
+
+					//coll_counter += 1;
+					populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
+					//printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
+
+				}
+			}
+		}
+	}
+
+
+	__global__ void sweepAndPruneSecondaryCUDA(
+		int n_objects,
+		float* upper,
+		float* lower,
+		int* idxx,
+		int* potential_collision,
+		int padding)
+	{
+		unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+
+		if (tid >= n_objects) {
+			return;
+		}
+
+		int home_idx = tid;
+
+		float home_upper_extent = upper[home_idx];
+
+		for (int i = 0; i < padding; i++) {
+
+			int phantom_idx = potential_collision[tid * padding + i];
+
+			float phantom_lower_extent = lower[phantom_idx];
+
+			if (phantom_lower_extent > home_upper_extent) {
+				potential_collision[tid * padding + i] = -1;
+			}
+		}
+	}
+
+
+	// Sweep and Prune Block Implementation
+	__global__ void sweepAndPruneBlocksCUDA(
 		int n_objects,
 		float* upperx,
 		float* lowerx,
@@ -329,9 +535,9 @@ namespace STARDUST {
 		int padding)
 	{
 
-		unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+		unsigned int bid = blockIdx.x;
 
-		if (tid >= n_objects) {
+		if (bid >= n_objects) {
 			return;
 		}
 
@@ -346,7 +552,7 @@ namespace STARDUST {
 
 		int pending_collisions[10];
 
-		int home_idx = tid;
+		int home_idx = bid;
 		int sorted_home_idx = idxx[home_idx];
 		float home_upper_extent = upperx[sorted_home_idx];
 
@@ -355,18 +561,24 @@ namespace STARDUST {
 
 		int pending_collision_length = 0;
 
-		int n_tid = tid + padding;
+		int n_tid = bid + padding;
 		if (n_tid >= n_objects) {
 			n_tid = n_objects;
 		}
 		else {
-			
+
 		}
 
-		for (int i = tid + 1; i < n_tid; i++) {
+		int i = threadIdx.x + blockDim.x * blockIdx.x;
+
+		if (i >= n_objects) {
+			return;
+		}
+
+		//for (int i = tid + 1; i < n_tid; i++) {
 
 			if (i == home_idx) {
-				continue;
+				return;
 			}
 
 			phantom_lower_extent = lowerx[i];
@@ -389,13 +601,13 @@ namespace STARDUST {
 					if (phantom_lower_extent <= home_upper_extent) {
 
 						coll_counter += 1;
-						populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
+						//populateCollisions(tid, pending_collision_length, potential_collision + tid * padding, phantom_idx);
 						//printf("Collision detected between: %d and %d\n", sorted_home_idx, phantom_idx);
 
 					}
 				}
 			}
-		}
+		//}
 	}
 
 	void SAPCollision::sweepAndPrune(
@@ -405,7 +617,39 @@ namespace STARDUST {
 		int threadsPerBlock = 256;
 		int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;
 
-		sweepAndPruneCUDA << <numBlocks, threadsPerBlock >> > (
+		sweepAndPruneCUDA << < numBlocks, threadsPerBlock >> > (
+			n_objects,
+			d_upper_extent_x_ptr,
+			d_temp_key_ptr,
+			d_upper_extent_y_ptr,
+			d_lower_extent_y_ptr,
+			d_temp_value_ptr,
+			d_idx_ptr,
+			d_potential_collision_ptr,
+			16);
+
+		/*sweepAndPruneSecondaryCUDA << < numBlocks, threadsPerBlock >> > (
+			n_objects,
+			d_upper_extent_y_ptr,
+			d_lower_extent_y_ptr,
+			d_idx_ptr,
+			d_potential_collision_ptr,
+			32);
+
+		sweepAndPruneSecondaryCUDA << < numBlocks, threadsPerBlock >> > (
+			n_objects,
+			d_upper_extent_z_ptr,
+			d_lower_extent_z_ptr,
+			d_idx_ptr,
+			d_potential_collision_ptr,
+			10);*/
+
+		// Only check x, then use that as the key for y and z
+
+		/*int threadsPerBlock = 64;
+		int numBlocks = (n_objects + threadsPerBlock - 1) / threadsPerBlock;
+
+		sweepAndPruneBlocksCUDA << < n_objects, threadsPerBlock >> > (
 			n_objects,
 			d_upper_extent_x_ptr,
 			d_temp_key_ptr,
@@ -417,7 +661,7 @@ namespace STARDUST {
 			d_idx_ptr,
 			d_idx_ptr,
 			d_potential_collision_ptr,
-			10);
+			10);*/
 
 	}
 
@@ -454,14 +698,11 @@ namespace STARDUST {
 		);
 
 
-
 		SAPCollision::sweepAndPrune(
 			n_objects
 		);
 
-
-
-		CUDA_ERR_CHECK(cudaDeviceSynchronize());
+		//CUDA_ERR_CHECK(cudaDeviceSynchronize());
 	}
 
 }
