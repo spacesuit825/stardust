@@ -715,7 +715,7 @@ float randomFloat(float a, float b) {
 
 int main() {
 
-	int n_objects = 10;
+	int n_objects = 1000000;
 	int max_depth = 4;
 
 	int n_internal_nodes = n_objects - 1;
@@ -881,7 +881,18 @@ int main() {
 		d_internal_child_nodes_ptr
 	);
 	
-	printf("Tree construction complete...\n");
+	//printf("Tree construction complete... %d levels deep\n", max_tree_depth);
+
+	printf("Initiating tree traversal process...\n");
+
+
+	printf("Leaf index ranges found...\n");
+
+
+	// TODO: 
+	// 1.) Find the contiguous sections of the aabbs that belong to each node
+	// 2.) Find overlapping pairs
+	// 3.) Implement collision table
 
 	cudaEventRecord(stop);
 	cudaDeviceSynchronize();
@@ -891,10 +902,7 @@ int main() {
 	cudaEventElapsedTime(&milliseconds, start, stop);
 	cudaEventDestroy(start);
 	cudaEventDestroy(stop);
-	printf("Tree construction completed in %.5f seconds.\n", milliseconds / 1000.0f);
-
-	
-	printf("Tree depth: %d\n", max_tree_depth);
+	printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
 
 
 	return 0;
