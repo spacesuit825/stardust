@@ -1,4 +1,4 @@
-add_executable(test_scale "testSAP.cu")
+add_executable(test_scale "testLBVH.cu" "util.hpp")
 
 set(CMAKE_BUILD_TYPE Debug)
 

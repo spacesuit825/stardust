@@ -566,10 +566,10 @@ void launchPrefixScan(int* output, int* input, int length) {
 
 int main() {
 
-    int n_objects = 2;
+    int n_objects = 2000000;
     int max_collisions = 10;
 
-    int particles_per_cell = 5;
+    int particles_per_cell = 5000;
 
     float4 global_upper = make_float4(1.0, 1.0, 1.0, 0.0);
     float4 global_lower = make_float4(0.0, 0.0, 0.0, 0.0);
@@ -608,7 +608,7 @@ int main() {
         
     }*/
 
-    int cell_count = 2;//floorf(n_objects / particles_per_cell);
+    int cell_count = 30;//floorf(n_objects / particles_per_cell);
     thrust::host_vector<int> cells(cell_count * cell_count *  particles_per_cell);
     thrust::host_vector<int> temp_cells(cell_count * cell_count * particles_per_cell);
     thrust::host_vector<int> cell_occupation(cell_count * cell_count);
@@ -738,10 +738,12 @@ int main() {
     int threadsPerBlockCells = 256;
     int numBlocksCells = ((cell_count * cell_count * particles_per_cell) + threadsPerBlock - 1) / threadsPerBlock;
 
-    launchPrefixScan(
+    /*launchPrefixScan(
         d_cell_prefix_ptr,
         d_cells_occ_ptr,
-        cell_count * cell_count);
+        cell_count * cell_count);*/
+
+    thrust::exclusive_scan(thrust::device, d_cells_occ_ptr, d_cells_occ_ptr + (cell_count * cell_count), d_cell_prefix_ptr);
 
     int toic = thrust::reduce(thrust::device, d_cells_occ_ptr, d_cells_occ_ptr + (cell_count * cell_count));
 
@@ -783,7 +785,7 @@ int main() {
         (uint32_t*)d_sorted_idxx_ptr,
         (uint32_t*)d_radix_ptr,
         (uint32_t*)d_radix_sum_ptr,
-        n_objects
+        toic
     );
 
 
@@ -799,7 +801,7 @@ int main() {
         d_idxy_ptr,
         d_idxz_ptr,
         d_potential_collision_ptr,
-        n_objects,
+        toic,
         max_collisions);
 
     /*sweepBlocks << <n_objects, threadsPerBlock >> > (
@@ -837,13 +839,13 @@ int main() {
     cell_occupation = d_cell_occ;
     total_objs_in_cells = d_toic;
 
-    printf("Total possible collisions: %d\n", toic);
+    //printf("Total possible collisions: %d\n", toic);
     
-    printf("Cell [ ");
+    /*printf("Cell [ ");
         for (int j = 0; j < particles_per_cell * cell_count * cell_count; j++) {
             printf("%d, ", cells[j]);
         }
-    printf(" ]\n");
+    printf(" ]\n");*/
 
     printf("Cell occupation [ ");
     for (int j = 0; j < cell_count * cell_count; j++) {
