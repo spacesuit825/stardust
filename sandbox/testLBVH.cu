@@ -1121,7 +1121,8 @@ int main() {
 	);
 
 	// TODO: 
-	// 1.) Implement collision table
+	// 1.) Fix double-testing
+	// 2.) Implement collision table
 
 	cudaEventRecord(stop);
 	cudaDeviceSynchronize();
