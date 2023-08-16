@@ -24,7 +24,9 @@ struct AABB
 	// initialize a box containing a single point
 	inline __host__ __device__
 		AABB(const float4& p, float radius) : upper_extent(make_float4(p.x + radius, p.y + radius, p.z + radius, 0.0f)), lower_extent(make_float4(p.x - radius, p.y - radius, p.z - radius, 0.0f))
-	{}
+	{
+		//printf("Lower extent: %.3f, %.3f, %.3f\n", lower_extent.x, lower_extent.y, lower_extent.z);
+	}
 };
 
 //__host__ __device__ int tagPoints(

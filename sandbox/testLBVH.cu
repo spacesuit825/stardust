@@ -31,6 +31,8 @@
 
 #define INVALID_COMMON_PREFIX 128
 #define ROOT_NODE_MARKER -1
+#define TRAVERSAL_STACK_SIZE 128
+#define NEW_PAIR_MARKER -1
 
 // Testing a Linear Bounding Volume Hierarchy for large-scale broad-phase analysis
 
@@ -65,7 +67,7 @@ struct constructSubDomain
 		subdomain.upper_extent.x = max(a.upper_extent.x, b.upper_extent.x);
 		subdomain.lower_extent.y = min(a.lower_extent.y, b.lower_extent.y);
 		subdomain.upper_extent.y = max(a.upper_extent.y, b.upper_extent.y);
-		subdomain.lower_extent.z = max(a.lower_extent.z, b.lower_extent.z);
+		subdomain.lower_extent.z = min(a.lower_extent.z, b.lower_extent.z);
 		subdomain.upper_extent.z = max(a.upper_extent.z, b.upper_extent.z);
 
 		return subdomain;
@@ -694,6 +696,198 @@ void buildBinaryRadixAABBs(
 	}
 }
 
+__global__ void findLeafIndexRangeCUDA(
+	int n_internal_nodes,
+	int2* d_internal_child_nodes_ptr,
+	int2* d_internal_leaf_idx_range_ptr
+)
+{
+	unsigned int tid = threadIdx.x + blockDim.x * blockIdx.x;
+
+	unsigned int internal_node_idx = tid;
+	if (internal_node_idx >= n_internal_nodes) {
+		return;
+	}
+
+	int n_leaf_nodes = n_internal_nodes + 1;
+
+	int2 child_nodes = d_internal_child_nodes_ptr[internal_node_idx];
+
+	int2 leaf_idx_range;
+
+	// Lowest leaf
+	{
+		int lowest_idx = child_nodes.x;
+
+		while (!isLeafNode(lowest_idx)) lowest_idx = d_internal_child_nodes_ptr[removeInternalMarker(lowest_idx)].x;
+
+		leaf_idx_range.x = lowest_idx;
+	}
+
+	// Highest leaf
+	{
+		int highest_idx = child_nodes.y;
+
+		while (!isLeafNode(highest_idx)) highest_idx = d_internal_child_nodes_ptr[removeInternalMarker(highest_idx)].y;
+
+		leaf_idx_range.y = highest_idx;
+	}
+
+	d_internal_leaf_idx_range_ptr[internal_node_idx] = leaf_idx_range;
+}
+
+void findLeafIndexRange(
+	int n_internal_nodes,
+	int2* d_internal_child_nodes_ptr,
+	int2* d_internal_leaf_idx_range_ptr
+)
+{
+	int threads_per_block = 256;
+	int num_blocks = (n_internal_nodes + threads_per_block - 1) / threads_per_block;
+
+	findLeafIndexRangeCUDA << < num_blocks, threads_per_block >> > (
+		n_internal_nodes,
+		d_internal_child_nodes_ptr,
+		d_internal_leaf_idx_range_ptr
+		);
+}
+
+__device__ bool testAABBCollision(const AABB* aabb1, const AABB* aabb2)
+{
+	bool overlap = true;
+	
+	overlap = (aabb1->lower_extent.x > aabb2->upper_extent.x || aabb1->upper_extent.x < aabb2->lower_extent.x) ? false : overlap;
+	overlap = (aabb1->lower_extent.z > aabb2->upper_extent.z || aabb1->upper_extent.z < aabb2->lower_extent.z) ? false : overlap;
+	overlap = (aabb1->lower_extent.y > aabb2->upper_extent.y || aabb1->upper_extent.y < aabb2->lower_extent.y) ? false : overlap;
+	
+	return overlap;
+}
+
+__global__ void findPotentialCollisionsCUDA(
+	int n_objects,
+	int max_collisions,
+	int* d_idx_ptr,
+	int* d_n_pairs_ptr,
+	int4* d_overlapping_pairs_ptr,
+	AABB* d_aabb_ptr,
+	int* d_root_node_idx_ptr,
+	int2* d_internal_child_nodes_ptr,
+	AABB* d_internal_aabb_ptr,
+	int2* d_internal_leaf_idx_range_ptr,
+	unsigned int* d_z_code_ptr
+)
+{
+	unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+	unsigned int query_node_idx = tid;
+	if (query_node_idx >= n_objects) {
+		return;
+	}
+
+	int query_idx = d_idx_ptr[query_node_idx];
+
+	AABB query_aabb = d_aabb_ptr[query_idx];
+
+	int stack[TRAVERSAL_STACK_SIZE];
+
+	int stack_size = 1;
+	stack[0] = *d_root_node_idx_ptr;
+
+	//printf("root node: %d\n", stack[0]);
+
+	while (stack_size) {
+
+		int internal_leaf_idx = stack[stack_size - 1];
+
+		--stack_size;
+
+		//printf("hello\n");
+
+		int is_leaf = isLeafNode(internal_leaf_idx);
+		int node_idx = removeInternalMarker(internal_leaf_idx);
+
+		{
+			int highest_leaf_idx = (is_leaf) ? node_idx : d_internal_leaf_idx_range_ptr[node_idx].y;
+			
+			//printf("leaf contents: %d, %d\n", d_internal_leaf_idx_range_ptr[node_idx].x, d_internal_leaf_idx_range_ptr[node_idx].y);
+			
+			//printf("highest leaf idx: %d, %d\n", highest_leaf_idx, query_node_idx);
+			
+			
+			// BROKEN MUST FIX
+			//if (highest_leaf_idx <= query_node_idx) continue;
+		}
+
+		int rigid_idx = (is_leaf) ? d_idx_ptr[node_idx] : -1;
+
+		AABB node_aabb = (is_leaf) ? d_aabb_ptr[rigid_idx] : d_internal_aabb_ptr[node_idx];
+
+		//printf("Query aabb: %.3f, %.3f, %.3f\n", node_aabb.lower_extent.x, node_aabb.lower_extent.y, node_aabb.lower_extent.z);
+		//printf("Node aabb: %.3f, %.3f, %.3f\n", query_aabb.lower_extent.x, query_aabb.lower_extent.y, query_aabb.lower_extent.z);
+		
+		if (testAABBCollision(&query_aabb, &node_aabb)) {
+			if (is_leaf) {
+				int4 pair;
+
+				pair.x = d_idx_ptr[query_node_idx];
+				pair.y = d_idx_ptr[rigid_idx];
+				pair.z = NEW_PAIR_MARKER;
+				pair.w = NEW_PAIR_MARKER;
+
+				atomicAdd(&d_n_pairs_ptr[0], 1);
+				int pair_idx = d_n_pairs_ptr[0];
+
+				//printf("%d\n", pair_idx);
+
+				if (pair_idx < max_collisions) d_overlapping_pairs_ptr[pair_idx] = pair;
+			}
+
+			if (!is_leaf) {
+				if (stack_size + 2 > TRAVERSAL_STACK_SIZE) {
+					// ERROR
+				}
+				else {
+					stack[stack_size++] = d_internal_child_nodes_ptr[node_idx].x;
+					stack[stack_size++] = d_internal_child_nodes_ptr[node_idx].y;
+				}
+			}
+		}
+	}
+
+}
+
+void findPotentialCollisions(
+	int n_objects,
+	int max_collisions,
+	int* d_idx_ptr,
+	int* d_n_pairs_ptr,
+	int4* d_overlapping_pairs_ptr,
+	AABB* d_aabb_ptr,
+	int* d_root_node_idx_ptr,
+	int2* d_internal_child_nodes_ptr,
+	AABB* d_internal_aabb_ptr,
+	int2* d_internal_leaf_idx_range_ptr,
+	unsigned int* d_z_code_ptr
+)
+{
+	int threads_per_block = 256;
+	int num_blocks = (n_objects + threads_per_block - 1) / threads_per_block;
+
+	findPotentialCollisionsCUDA << < num_blocks, threads_per_block >> > (
+		n_objects,
+		max_collisions,
+		d_idx_ptr,
+		d_n_pairs_ptr,
+		d_overlapping_pairs_ptr,
+		d_aabb_ptr,
+		d_root_node_idx_ptr,
+		d_internal_child_nodes_ptr,
+		d_internal_aabb_ptr,
+		d_internal_leaf_idx_range_ptr,
+		d_z_code_ptr
+		);
+}
+
 void sortKeys(
 	int n_objects,
 	uint32_t* d_z_code_ptr,
@@ -716,7 +910,7 @@ float randomFloat(float a, float b) {
 int main() {
 
 	int n_objects = 1000000;
-	int max_depth = 4;
+	int max_collisions = n_objects * 10;
 
 	int n_internal_nodes = n_objects - 1;
 	int n_nodes = 2 * n_objects - 1;
@@ -727,12 +921,15 @@ int main() {
 	thrust::host_vector<int> idx(n_objects);
 
 	thrust::host_vector<int> root_node(1);
+	thrust::host_vector<int> n_pairs(1);
 	thrust::host_vector<unsigned int> z_code(n_objects);
 	thrust::host_vector<int> leaf_parent_nodes(n_objects);
 	thrust::host_vector<int2> internal_child_nodes(n_internal_nodes);
 	thrust::host_vector<int> internal_parent_nodes(n_internal_nodes);
 	thrust::host_vector<int> distance_to_root(n_internal_nodes);
 	thrust::host_vector<int> max_distance_to_root(1);
+
+	thrust::host_vector<int2> internal_leaf_idx_range(n_internal_nodes);
 
 	thrust::host_vector<int64_t> common_prefixes(n_internal_nodes);
 	thrust::host_vector<int64_t> common_prefix_lengths(n_internal_nodes);
@@ -741,13 +938,17 @@ int main() {
 	thrust::host_vector<AABB> internal_aabb(n_internal_nodes);
 	thrust::host_vector<Node> nodes(n_nodes);
 
+	thrust::host_vector<int4> overlapping_pairs(max_collisions);
+
 
 	// Define the initial values
 	for (int i = 0; i < n_objects; i++) {
 		position[i] = make_float4(randomFloat(0.0, 5.0), randomFloat(0.0, 5.0), randomFloat(0.0, 5.0), 0.0);
-		radius[i] = 0.01;
+		radius[i] = 1.0;
 		idx[i] = i;
 	}
+
+	n_pairs[0] = 0;
 
 	// Send vectors to the device
 	thrust::device_vector<float4> d_position = position;
@@ -764,9 +965,13 @@ int main() {
 	thrust::device_vector<int64_t> d_common_prefixes = common_prefixes;
 	thrust::device_vector<int64_t> d_common_prefix_lengths = common_prefix_lengths;
 
+	thrust::device_vector<int2> d_internal_leaf_idx_range = internal_leaf_idx_range;
+
 	thrust::device_vector<AABB> d_aabb = aabb;
 	thrust::device_vector<AABB> d_internal_aabb = internal_aabb;
 	thrust::device_vector<Node> d_nodes = nodes;
+	thrust::device_vector<int4> d_overlapping_pairs = overlapping_pairs;
+	thrust::device_vector<int> d_n_pairs = n_pairs;
 
 	// Extract raw pointers
 	float4* d_position_ptr = thrust::raw_pointer_cast(d_position.data());
@@ -783,9 +988,15 @@ int main() {
 	int64_t* d_common_prefixes_ptr = thrust::raw_pointer_cast(d_common_prefixes.data());
 	int64_t* d_common_prefix_lengths_ptr = thrust::raw_pointer_cast(d_common_prefix_lengths.data());
 
+	int2* d_internal_leaf_idx_range_ptr = thrust::raw_pointer_cast(d_internal_leaf_idx_range.data());
+
 	AABB* d_aabb_ptr = thrust::raw_pointer_cast(d_aabb.data());
 	AABB* d_internal_aabb_ptr = thrust::raw_pointer_cast(d_internal_aabb.data());
 	Node* d_nodes_ptr = thrust::raw_pointer_cast(d_nodes.data());
+
+	int4* d_overlapping_pairs_ptr = thrust::raw_pointer_cast(d_overlapping_pairs.data());
+
+	int* d_n_pairs_ptr = thrust::raw_pointer_cast(d_n_pairs.data());
 
 	// Initiate Nodes
 	//thrust::transform(thrust::device, d_nodes_ptr, d_nodes_ptr + n_nodes, d_nodes_ptr, InitNodes());
@@ -813,6 +1024,8 @@ int main() {
 		n_objects,
 		d_aabb_ptr
 	);
+
+	printf("Global domain is: %.3f %.3f, %.3f\n", global_domain.upper_extent.x, global_domain.upper_extent.y, global_domain.upper_extent.z);
 
 	// 3.) Compute Morton codes for every AABB
 	computeSpaceFillingCurve(
@@ -885,14 +1098,30 @@ int main() {
 
 	printf("Initiating tree traversal process...\n");
 
-
 	printf("Leaf index ranges found...\n");
+	
+	findLeafIndexRange(
+		n_internal_nodes,
+		d_internal_child_nodes_ptr,
+		d_internal_leaf_idx_range_ptr
+	);
 
+	findPotentialCollisions(
+		n_objects,
+		max_collisions,
+		d_idx_ptr,
+		d_n_pairs_ptr,
+		d_overlapping_pairs_ptr,
+		d_aabb_ptr,
+		d_root_node_idx_ptr,
+		d_internal_child_nodes_ptr,
+		d_internal_aabb_ptr,
+		d_internal_leaf_idx_range_ptr,
+		d_z_code_ptr
+	);
 
 	// TODO: 
-	// 1.) Find the contiguous sections of the aabbs that belong to each node
-	// 2.) Find overlapping pairs
-	// 3.) Implement collision table
+	// 1.) Implement collision table
 
 	cudaEventRecord(stop);
 	cudaDeviceSynchronize();
@@ -902,8 +1131,14 @@ int main() {
 	cudaEventElapsedTime(&milliseconds, start, stop);
 	cudaEventDestroy(start);
 	cudaEventDestroy(stop);
-	printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
 
+	n_pairs = d_n_pairs;
+	max_distance_to_root = d_max_distance_to_root;
+
+	printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
+	printf("%d Collisions detected...\n", n_pairs[0]);
+
+	printf("%d level tree\n", max_distance_to_root[0]);
 
 	return 0;
 }
