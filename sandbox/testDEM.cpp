@@ -27,7 +27,7 @@ void initRenderer() {
 	renderer = Renderer::Builder()
 		.init("Test Scene", 1000, 800)
 		.camera(glm::vec3(5., 5., 5.), glm::vec3(0, 0, 0))
-		.shader("C:/Users/lachl/OneDrive/Documents/c++/aurora/src/render/shader/vertex.glsl", "C:/Users/lachl/OneDrive/Documents/c++/aurora/src/render/shader/fragment.glsl")
+		.shader("C:/Users/lachl/Documents/c++/aurora/src/render/shader/vertex.glsl", "C:/Users/lachl/Documents/c++/aurora/src/render/shader/fragment.glsl")
 		.light(glm::vec3(0.5, 0.5, 0.5),
 			glm::vec3(1., 1., 1.),
 			glm::vec3(0.1, 0.1, 0.1),

@@ -936,14 +936,14 @@ int main() {
 
 	thrust::host_vector<AABB> aabb(n_objects);
 	thrust::host_vector<AABB> internal_aabb(n_internal_nodes);
-	thrust::host_vector<Node> nodes(n_nodes);
+	//thrust::host_vector<Node> nodes(n_nodes);
 
 	thrust::host_vector<int4> overlapping_pairs(max_collisions);
 
 
 	// Define the initial values
 	for (int i = 0; i < n_objects; i++) {
-		position[i] = make_float4(randomFloat(0.0, 5.0), randomFloat(0.0, 5.0), randomFloat(0.0, 5.0), 0.0);
+		position[i] = make_float4(randomFloat(0.0, 6.0), randomFloat(0.0, 6.0), randomFloat(0.0, 6.0), 0.0);
 		radius[i] = 1.0;
 		idx[i] = i;
 	}
@@ -969,7 +969,7 @@ int main() {
 
 	thrust::device_vector<AABB> d_aabb = aabb;
 	thrust::device_vector<AABB> d_internal_aabb = internal_aabb;
-	thrust::device_vector<Node> d_nodes = nodes;
+	//thrust::device_vector<Node> d_nodes = nodes;
 	thrust::device_vector<int4> d_overlapping_pairs = overlapping_pairs;
 	thrust::device_vector<int> d_n_pairs = n_pairs;
 
@@ -992,7 +992,7 @@ int main() {
 
 	AABB* d_aabb_ptr = thrust::raw_pointer_cast(d_aabb.data());
 	AABB* d_internal_aabb_ptr = thrust::raw_pointer_cast(d_internal_aabb.data());
-	Node* d_nodes_ptr = thrust::raw_pointer_cast(d_nodes.data());
+	//Node* d_nodes_ptr = thrust::raw_pointer_cast(d_nodes.data());
 
 	int4* d_overlapping_pairs_ptr = thrust::raw_pointer_cast(d_overlapping_pairs.data());
 
