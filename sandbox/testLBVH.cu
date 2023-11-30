@@ -18,15 +18,18 @@
 #include <thrust/for_each.h>
 #include <thrust/sort.h>
 #include <thrust/count.h>
+#include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 
 // CUB
 #include <cub/device/device_radix_sort.cuh>
 
 // Internal
-#include <../src/engine/cuda/cuda_utils.hpp>
-#include <../src/engine/cuda/cuda_helpers.cuh>
+#include "cuda_utils.hpp"
+#include "helper_math.hpp"
 #include "util.hpp"
+#include "primitives.hpp"
+#include "testGJK.cu"
 
 
 #define INVALID_COMMON_PREFIX 128
@@ -767,6 +770,7 @@ __global__ void findPotentialCollisionsCUDA(
 	int n_objects,
 	int max_collisions,
 	int* d_idx_ptr,
+	int* d_type_ptr,
 	int* d_n_pairs_ptr,
 	int4* d_overlapping_pairs_ptr,
 	AABB* d_aabb_ptr,
@@ -808,13 +812,8 @@ __global__ void findPotentialCollisionsCUDA(
 
 		{
 			int highest_leaf_idx = (is_leaf) ? node_idx : d_internal_leaf_idx_range_ptr[node_idx].y;
-			
-			//printf("leaf contents: %d, %d\n", d_internal_leaf_idx_range_ptr[node_idx].x, d_internal_leaf_idx_range_ptr[node_idx].y);
-			
-			//printf("highest leaf idx: %d, %d\n", highest_leaf_idx, query_node_idx);
-			
-			
-			// BROKEN MUST FIX
+				
+			// SELF-TEST BROKEN
 			//if (highest_leaf_idx <= query_node_idx) continue;
 		}
 
@@ -822,24 +821,30 @@ __global__ void findPotentialCollisionsCUDA(
 
 		AABB node_aabb = (is_leaf) ? d_aabb_ptr[rigid_idx] : d_internal_aabb_ptr[node_idx];
 
-		//printf("Query aabb: %.3f, %.3f, %.3f\n", node_aabb.lower_extent.x, node_aabb.lower_extent.y, node_aabb.lower_extent.z);
-		//printf("Node aabb: %.3f, %.3f, %.3f\n", query_aabb.lower_extent.x, query_aabb.lower_extent.y, query_aabb.lower_extent.z);
-		
 		if (testAABBCollision(&query_aabb, &node_aabb)) {
 			if (is_leaf) {
 				int4 pair;
 
-				pair.x = d_idx_ptr[query_node_idx];
-				pair.y = d_idx_ptr[rigid_idx];
-				pair.z = NEW_PAIR_MARKER;
-				pair.w = NEW_PAIR_MARKER;
+				int query_node_idx = d_idx_ptr[query_node_idx];
+				int rigid_node_idx = d_idx_ptr[rigid_idx];
+
+				int query_node_type = d_type_ptr[query_node_idx];
+				int rigid_node_type = d_type_ptr[rigid_node_idx];
+
+				pair.x = query_node_idx;
+				pair.y = rigid_node_idx;
+				pair.z = query_node_type;
+				pair.w = rigid_node_type;
 
 				atomicAdd(&d_n_pairs_ptr[0], 1);
 				int pair_idx = d_n_pairs_ptr[0];
 
 				//printf("%d\n", pair_idx);
 
-				if (pair_idx < max_collisions) d_overlapping_pairs_ptr[pair_idx] = pair;
+				if (pair_idx < max_collisions) {
+					d_overlapping_pairs_ptr[pair_idx] = pair;
+				}
+
 			}
 
 			if (!is_leaf) {
@@ -860,6 +865,7 @@ void findPotentialCollisions(
 	int n_objects,
 	int max_collisions,
 	int* d_idx_ptr,
+	int* d_type_ptr,
 	int* d_n_pairs_ptr,
 	int4* d_overlapping_pairs_ptr,
 	AABB* d_aabb_ptr,
@@ -877,6 +883,7 @@ void findPotentialCollisions(
 		n_objects,
 		max_collisions,
 		d_idx_ptr,
+		d_type_ptr,
 		d_n_pairs_ptr,
 		d_overlapping_pairs_ptr,
 		d_aabb_ptr,
@@ -897,6 +904,53 @@ void sortKeys(
 	thrust::sort_by_key(thrust::device, d_z_code_ptr, d_z_code_ptr + n_objects, d_idx_ptr);
 }
 
+struct sph_sph_or_else
+{
+	__host__ __device__
+		bool operator()(const int4& x)
+	{
+		return (x.z == 0) && (x.w == 0);
+	}
+};
+
+struct sph_tri_or_else
+{
+	__host__ __device__
+		bool operator()(const int4& x)
+	{
+		return !((x.z == 1) && (x.w == 1));
+	}
+};
+
+void segregateCollisionArray(
+	int n_primitives,
+	int n_collisions,
+	int expected_collision_size,
+	int4* d_unsorted_collision_ptr,
+	int4* d_sorted_collision_ptr
+) 
+{
+
+	auto sorted_sph_sph = thrust::copy_if(
+		thrust::device,
+		d_unsorted_collision_ptr,
+		d_unsorted_collision_ptr + n_collisions,
+		d_sorted_collision_ptr,
+		sph_sph_or_else()
+	);
+
+	auto sorted_sph_tri = thrust::copy_if(
+		thrust::device,
+		d_unsorted_collision_ptr,
+		d_unsorted_collision_ptr + n_collisions,
+		d_sorted_collision_ptr + expected_collision_size,
+		sph_tri_or_else()
+	);
+
+	printf("test1: %d\n", sorted_sph_tri - sorted_sph_sph);
+
+}
+
 
 
 float randomFloat(float a, float b) {
@@ -909,8 +963,10 @@ float randomFloat(float a, float b) {
 
 int main() {
 
-	int n_objects = 1000000;
-	int max_collisions = n_objects * 10;
+	int n_objects = 6;
+	int max_collisions = n_objects;
+
+	int n_expected_collisions = (int)(max_collisions / 3);
 
 	int n_internal_nodes = n_objects - 1;
 	int n_nodes = 2 * n_objects - 1;
@@ -919,9 +975,10 @@ int main() {
 	thrust::host_vector<float4> position(n_objects);
 	thrust::host_vector<float> radius(n_objects);
 	thrust::host_vector<int> idx(n_objects);
+	thrust::host_vector<int> o_type(n_objects);
 
 	thrust::host_vector<int> root_node(1);
-	thrust::host_vector<int> n_pairs(1);
+	thrust::host_vector<int> n_pairs(3);
 	thrust::host_vector<unsigned int> z_code(n_objects);
 	thrust::host_vector<int> leaf_parent_nodes(n_objects);
 	thrust::host_vector<int2> internal_child_nodes(n_internal_nodes);
@@ -939,6 +996,7 @@ int main() {
 	//thrust::host_vector<Node> nodes(n_nodes);
 
 	thrust::host_vector<int4> overlapping_pairs(max_collisions);
+	thrust::host_vector<int4> sorted_pairs(max_collisions);
 
 
 	// Define the initial values
@@ -946,6 +1004,7 @@ int main() {
 		position[i] = make_float4(randomFloat(0.0, 6.0), randomFloat(0.0, 6.0), randomFloat(0.0, 6.0), 0.0);
 		radius[i] = 1.0;
 		idx[i] = i;
+		o_type[i] = rand() % 2;
 	}
 
 	n_pairs[0] = 0;
@@ -954,6 +1013,7 @@ int main() {
 	thrust::device_vector<float4> d_position = position;
 	thrust::device_vector<float> d_radius = radius;
 	thrust::device_vector<int> d_idx = idx;
+	thrust::device_vector<int> d_type = o_type;
 
 	thrust::device_vector<int> d_root_node = root_node;
 	thrust::device_vector<unsigned int> d_z_code = z_code;
@@ -971,12 +1031,14 @@ int main() {
 	thrust::device_vector<AABB> d_internal_aabb = internal_aabb;
 	//thrust::device_vector<Node> d_nodes = nodes;
 	thrust::device_vector<int4> d_overlapping_pairs = overlapping_pairs;
+	thrust::device_vector<int4> d_sorted_pairs = sorted_pairs;
 	thrust::device_vector<int> d_n_pairs = n_pairs;
 
 	// Extract raw pointers
 	float4* d_position_ptr = thrust::raw_pointer_cast(d_position.data());
 	float* d_radius_ptr = thrust::raw_pointer_cast(d_radius.data());
 	int* d_idx_ptr = thrust::raw_pointer_cast(d_idx.data());
+	int* d_type_ptr = thrust::raw_pointer_cast(d_type.data());
 
 	int* d_root_node_idx_ptr = thrust::raw_pointer_cast(d_root_node.data());
 	unsigned int* d_z_code_ptr = thrust::raw_pointer_cast(d_z_code.data());
@@ -995,6 +1057,7 @@ int main() {
 	//Node* d_nodes_ptr = thrust::raw_pointer_cast(d_nodes.data());
 
 	int4* d_overlapping_pairs_ptr = thrust::raw_pointer_cast(d_overlapping_pairs.data());
+	int4* d_sorted_pairs_ptr = thrust::raw_pointer_cast(d_sorted_pairs.data());
 
 	int* d_n_pairs_ptr = thrust::raw_pointer_cast(d_n_pairs.data());
 
@@ -1011,7 +1074,7 @@ int main() {
 	cudaDeviceSynchronize();
 	cudaEventRecord(start);
 
-	// 1.) Compute AABB for all objects in the scene (embarassingly parallel)
+	// 1.) Compute AABB for all objects in the scene
 	computeAABB(
 		n_objects,
 		d_position_ptr,
@@ -1019,7 +1082,7 @@ int main() {
 		d_aabb_ptr
 	);
 
-	// 2.) Use these boxes to compute a tight global domain which we can subdivide (requires thrust reduce)
+	// 2.) Use these boxes to compute a tight global domain
 	AABB global_domain = constructGlobalDomain(
 		n_objects,
 		d_aabb_ptr
@@ -1036,7 +1099,7 @@ int main() {
 		d_idx_ptr
 	);
 
-	// 4.) Sort the Morton codes (use the idx array so we know how to get back)
+	// 4.) Sort the Morton codes (use the idx array as the keys)
 	sortKeys(
 		n_objects,
 		d_z_code_ptr,
@@ -1110,6 +1173,7 @@ int main() {
 		n_objects,
 		max_collisions,
 		d_idx_ptr,
+		d_type_ptr,
 		d_n_pairs_ptr,
 		d_overlapping_pairs_ptr,
 		d_aabb_ptr,
@@ -1119,6 +1183,7 @@ int main() {
 		d_internal_leaf_idx_range_ptr,
 		d_z_code_ptr
 	);
+
 
 	// TODO: 
 	// 1.) Fix double-testing

@@ -27,11 +27,11 @@ find_package(Thrust REQUIRED)
 find_package(cub REQUIRED)
 
 #process external libraries
-add_subdirectory(external)
+#add_subdirectory(external)
 message("External Libraries Added")
 
 #process source files
-add_subdirectory(src)
+#add_subdirectory(src)
 
 #process test scenes
 #add_subdirectory(scenes)

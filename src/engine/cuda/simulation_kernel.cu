@@ -68,7 +68,7 @@ namespace STARDUST {
 		std::chrono::duration<double> duration;
 
 		double time;
-		start = std::chrono::system_clock::now();
+		start = std::chrono::system_clock::now();n  b
 
 		// PARTICLE UPDATES AND RELATIVE POSITIONS
 		updateSphereData(
