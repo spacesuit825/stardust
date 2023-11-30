@@ -110,7 +110,7 @@ namespace STARDUST {
 				break;
 
 			case TRIANGLE:
-				supportPointSoupNaive(-direction, host_hull.vertex_idx, host_hull.vertex_idx, d_vertex_ptr, host_extent);
+				supportPointSoupNaive(-direction, host_hull.vertex_idx, host_hull.n_vertices, d_vertex_ptr, host_extent);
 				break;
 
 			case POLYHEDRA:
@@ -319,19 +319,32 @@ namespace STARDUST {
 
 void main() {
 	unsigned int n_primitives = 2;
-	unsigned int n_vertices = 1;
+	unsigned int n_vertices = 4;
 	unsigned int n_collisions = 1;
 
 	thrust::host_vector<STARDUST::Hull> hulls(n_primitives);
 	thrust::host_vector<float4> vertex(n_vertices);
 	thrust::host_vector<int4> potential_collision(n_collisions);
 
-	hulls[0].type = 0;
-	hulls[0].position = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
-	hulls[0].radius = 0.5f;
+	float4 point1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 point2 = make_float4(1.0f, 0.0f, 0.0f, 0.0f);
+	float4 point3 = make_float4(0.0f, 1.0f, 0.0f, 0.0f);
+	float4 point4 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+
+	vertex[0] = point1;
+	vertex[1] = point2;
+	vertex[2] = point3;
+	vertex[3] = point4;
+
+	hulls[0].type = 2;
+	hulls[0].position = (1 / 4) * (point1 + point2 + point3 + point4); // Barycentre/centroid
+	hulls[0].radius = -1.0f;
+	hulls[0].vertex_idx = 0;
+	hulls[0].n_vertices = 4;
+
 
 	hulls[1].type = 0;
-	hulls[1].position = make_float4(0.5f, 0.0f, 0.0f, 0.0f);
+	hulls[1].position = make_float4(0.0f, 0.0f, 1.5f, 0.0f);
 	hulls[1].radius = 0.5f;
 
 	potential_collision[0].x = 0;
@@ -358,4 +371,5 @@ void main() {
 		d_vertex_ptr
 		);
 
+	cudaDeviceSynchronize();
 }
