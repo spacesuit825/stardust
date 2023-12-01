@@ -821,6 +821,8 @@ __global__ void findPotentialCollisionsCUDA(
 
 		AABB node_aabb = (is_leaf) ? d_aabb_ptr[rigid_idx] : d_internal_aabb_ptr[node_idx];
 
+		// TODO: Add some logic here to prevent collisions inside Groups
+
 		if (testAABBCollision(&query_aabb, &node_aabb)) {
 			if (is_leaf) {
 				int4 pair;

@@ -29,68 +29,6 @@
 
 namespace STARDUST {
 
-	typedef struct Sphere {
-		unsigned int clump_owner; // Allows owner to be accessed
-
-		float4 relative_position; // Sphere has no worldspace position, it only exists in reference to the clump
-
-		float4 force;
-
-		float mass;
-		float radius;
-
-		nvstd::function<void()> support_function_ptr; // Assigned at runtime on the device
-
-	} Sphere;
-
-	typedef struct Triangle {
-		unsigned int mesh_owner; // Allows owner to be accessed
-
-		// Vertex data
-		unsigned int vertex_idx;
-		unsigned int n_vertices = 3;
-
-		// Simulation data
-		float4 relative_position;
-		float4 quaternion;
-
-		float4 force;
-		float4 torque;
-
-		nvstd::function<void()> support_function_ptr; // Assigned at runtime on the device
-
-	} Triangle;
-
-	typedef struct Polyhedra {
-		// Master data
-		bool is_active;
-		bool is_visible;
-
-		// Vertex data
-		unsigned int vertex_idx;
-		unsigned int n_vertices;
-
-		// Simulation data
-		float mass;
-
-		float4 position;
-		float4 quaternion = make_float4(1.0f, 0.0f, 0.0f, 0.0f);
-
-		float4 linear_velocity;
-		float4 angular_velocity;
-
-		float4 linear_momentum;
-		float4 angular_momentum;
-
-		float4 force;
-		float4 torque;
-
-		float9 inertial_tensor;
-
-		nvstd::function<void()> support_function_ptr; // Assigned at runtime on the device
-
-	} Polyhedra;
-
 	/// <summary>
 	/// Unified Primitive Representation - Convex Hull
 	/// - All derived Groups are collections of one or more primitives
@@ -98,6 +36,8 @@ namespace STARDUST {
 
 	typedef struct Hull {
 		unsigned int type; // sphere: 0, tri: 1, polyhedra: 2
+
+		unsigned int group_owner; // Group to which this primitve belongs
 
 		bool is_active;
 		bool is_visible;

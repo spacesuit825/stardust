@@ -45,8 +45,6 @@ namespace STARDUST {
 
 	typedef struct CollisionData {
 		bool have_we_collided = false;
-		float4 host_position;
-		float4 phantom_position;
 
 		float penetration_depth;
 	} CollisionData;
@@ -103,7 +101,6 @@ namespace STARDUST {
 		float4 host_extent;
 		float4 phantom_extent;
 
-		// Replace these with a better solution in the future
 		switch (host_hull.type) {
 			case SPHERE:
 				supportSphere(-direction, host_hull.position, host_hull.radius, host_extent);
@@ -125,7 +122,7 @@ namespace STARDUST {
 				break;
 
 			case TRIANGLE:
-				supportPointSoupNaive(direction, phantom_hull.vertex_idx, phantom_hull.vertex_idx, d_vertex_ptr, phantom_extent);
+				supportPointSoupNaive(direction, phantom_hull.vertex_idx, phantom_hull.n_vertices, d_vertex_ptr, phantom_extent);
 				break;
 
 			case POLYHEDRA:
@@ -311,8 +308,10 @@ namespace STARDUST {
 			}
 		}
 		
-		if (have_we_collided)
+		if (have_we_collided) {
 			printf("Yo, you just collided!\n");
+			collision_data.have_we_collided = have_we_collided;
+		}
 	}
 	
 }
