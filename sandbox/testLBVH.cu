@@ -29,7 +29,7 @@
 #include "helper_math.hpp"
 #include "util.hpp"
 #include "primitives.hpp"
-#include "testGJK.cu"
+//#include "testGJK.cu"
 
 
 #define INVALID_COMMON_PREFIX 128
@@ -265,7 +265,7 @@ void generatePrefixes(
 }
 
 __device__ int isLeafNode(
-	int idx
+	int& idx
 )
 {
 	return (idx >> 31 == 0);
@@ -965,7 +965,7 @@ float randomFloat(float a, float b) {
 
 int main() {
 
-	int n_objects = 6;
+	int n_objects = 1000000;
 	int max_collisions = n_objects;
 
 	int n_expected_collisions = (int)(max_collisions / 3);

@@ -29,6 +29,8 @@
 #include "util.hpp"
 #include "primitives.hpp"
 
+#include "lean-vtk/include/lean_vtk.hpp"
+
 // Narrow phase receives a collision array with int4s from broad phase
 // pair.x = d_idx_ptr[query_node_idx];
 // pair.y = d_idx_ptr[rigid_idx];
@@ -40,11 +42,18 @@
 // sphere-triangle
 
 #define GJK_MAX_ITERATIONS 64 // Arbitrary number, this is reasonably low
+#define MPR_MAX_ITERATIONS 64
+
+#define MPR_TOL 1e-4
 
 namespace STARDUST {
 
 	typedef struct CollisionData {
 		bool have_we_collided = false;
+
+		float4 collision_normal;
+		float4 pointA;
+		float4 pointB;
 
 		float penetration_depth;
 	} CollisionData;
@@ -67,7 +76,7 @@ namespace STARDUST {
 		float4& direction,
 		int vertex_start,
 		int vertex_length,
-		float4* d_vertex_ptr,
+		const float4* d_vertex_ptr,
 		float4& extent) {
 
 		// Use this for polyhedra and raw triangles
@@ -91,17 +100,41 @@ namespace STARDUST {
 		extent = d_vertex_ptr[vertex_start + idx];
 	}
 
+	__device__ float4 getSupportPoint(
+		const float4* d_vertex_ptr,
+		Hull& hull,
+		float4& direction
+	)
+	{
+		float4 extent;
+
+		switch (hull.type) {
+		case SPHERE:
+			supportSphere(direction, hull.position, hull.radius, extent);
+			break;
+
+		case TRIANGLE:
+			supportPointSoupNaive(direction, hull.vertex_idx, hull.n_vertices, d_vertex_ptr, extent);
+			break;
+
+		case POLYHEDRA:
+			supportPointSoupNaive(direction, hull.vertex_idx, hull.n_vertices, d_vertex_ptr, extent);
+			break;
+		}
+
+		return extent;
+	}
+
+
 	__device__ float4 computeMinkowskiDifference(
-		float4* d_vertex_ptr,
+		const float4* d_vertex_ptr,
 		Hull& host_hull,
 		Hull& phantom_hull,
 		float4& direction
 	)
 	{
-		float4 host_extent;
-		float4 phantom_extent;
 
-		switch (host_hull.type) {
+		/*switch (host_hull.type) {
 			case SPHERE:
 				supportSphere(-direction, host_hull.position, host_hull.radius, host_extent);
 				break;
@@ -129,9 +162,9 @@ namespace STARDUST {
 				supportPointSoupNaive(direction, phantom_hull.vertex_idx, phantom_hull.n_vertices, d_vertex_ptr, phantom_extent);
 				break;
 
-		}
+		}*/
 
-		return phantom_extent - host_extent;
+		return getSupportPoint(d_vertex_ptr, phantom_hull, direction) - getSupportPoint(d_vertex_ptr, host_hull, -direction);
 
 	}
 
@@ -313,62 +346,369 @@ namespace STARDUST {
 			collision_data.have_we_collided = have_we_collided;
 		}
 	}
+
+	__device__ void swap(float4& a, float4& b) {
+		
+		float4 tmp = a;
+
+		a = b;
+		b = tmp;
+	}
+
+	__device__ bool zeroPhaseMPR(
+		Hull& host_hull,
+		Hull& phantom_hull,
+		const float4* d_vertex_ptr,
+		float& penetration,
+		float4& normal,
+		float4& point_A,
+		float4& point_B
+	)
+	{
+
+		float4 v, a, a1, a2, b, b1, b2, c, c1, c2, d, d1, d2; // define the simplex vertices
+
+		float4 search_direction;
+
+		v = phantom_hull.position - host_hull.position;
+
+		if (length(v) == 0.0f) {
+			v = make_float4(1e-5, 0.0f, 0.0f, 0.0f);
+		}
+
+		search_direction = -v;
+
+		a1 = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
+		a2 = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
+		
+		a = a2 - a1;
+		
+		if (dot(a, search_direction) <= MPR_TOL) {
+			// COLLISION FAILURE
+			return false;
+		}
+
+
+		search_direction = make_float4(cross(make_float3(a), make_float3(v)));
+		if (length(search_direction) == 0.0f) {
+			//COLLISION SUCCESS
+
+			normal = normalize(a - v);
+
+			point_A = a1;
+			point_B = a2;
+
+			float4 position = 0.5 * (a1 + a2);
+
+			penetration = abs(dot((a1 - position), -normal)) + abs(dot((a2 - position), normal));
+			return true;
+		}
+
+		b1 = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
+		b2 = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
+
+		b = b2 - b1;
+
+		if (dot(b, search_direction) == 0.0f) {
+			// COLLISION FAILURE
+			return false;
+		}
+
+
+		search_direction = make_float4(cross(make_float3(a - v), make_float3(b - v)));
+		float distance_to_origin = dot(search_direction, v);
+
+		if (distance_to_origin > 0.0f) {
+			swap(a, b);
+			swap(a1, b1);
+			swap(a2, b2);
+
+			search_direction = -search_direction;
+		}
+
+		float triple_product;
+
+		for (int i = 0; i < MPR_MAX_ITERATIONS; i++) {
+
+			c1 = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
+			c2 = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
+
+			c = c2 - c1;
+
+			if (dot(c, search_direction) == 0.0f) {
+				// COLLISION FAILURE
+				return false;
+			}
+
+			triple_product = dot(make_float4(cross(make_float3(a), make_float3(c))), v);
+			if (triple_product < 0.0f) {
+				b = c;
+				b1 = c1;
+				b2 = c2;
+
+				search_direction = make_float4(cross(make_float3(a - v), make_float3(c - v)));
+				continue;
+			}
+
+			triple_product = dot(make_float4(cross(make_float3(c), make_float3(b))), v);
+			if (triple_product < 0.0f) {
+				a = c;
+				a1 = c1;
+				a2 = c2;
+
+				search_direction = make_float4(cross(make_float3(c - v), make_float3(b - v)));
+				continue;
+			}
+
+			bool hit = false;
+			int phase_2 = 0;
+
+			for (int j = 0; j < MPR_MAX_ITERATIONS; j++) {
+
+				phase_2++;
+
+				search_direction = make_float4(cross(make_float3(b - a), make_float3(c - a)));
+
+				if (length(search_direction) == 0.0f) {
+					// COLLISION SUCCESS
+					return false;
+				}
+
+				search_direction = normalize(search_direction);
+
+				float distance = dot(search_direction, a);
+
+				if (distance >= 0.0f && !hit) {
+					// COLLISION SUCCESS, HIT DETECTED
+
+					normal = search_direction;
+
+					float h0 = dot(make_float4(cross(make_float3(a), make_float3(b))), c);
+					float h1 = dot(make_float4(cross(make_float3(c), make_float3(b))), v);
+					float h2 = dot(make_float4(cross(make_float3(v), make_float3(a))), c);
+					float h3 = dot(make_float4(cross(make_float3(b), make_float3(a))), v);
+
+					float sum = h0 + h1 + h2 + h3;
+
+					if (sum <= 0.0f) {
+						
+						h0 = 0.0f;
+						h1 = dot(make_float4(cross(make_float3(b), make_float3(c))), search_direction);
+						h2 = dot(make_float4(cross(make_float3(c), make_float3(a))), search_direction);
+						h3 = dot(make_float4(cross(make_float3(a), make_float3(b))), search_direction);
+
+						sum = h1 + h2 + h3;
+					}
+
+					float inverse = 1.0f / sum;
+
+					float4 pA = (h0 * phantom_hull.position + h1 * a1 + h2 * b1 + h3 * c1) * inverse;
+					float4 pB = (h0 * host_hull.position + h1 * a2 + h2 * b2 + h3 * c2) * inverse;
+
+					float4 suppA = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
+					float4 suppB = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
+
+					float4 pointA = pA + abs(dot((suppA - pA), -search_direction));
+					float4 pointB = pB + abs(dot((suppB - pB), search_direction));
+
+					float4 position = 0.5 * (pointA + pointB);
+
+					point_A = pointA;
+					point_B = pointB;
+
+					penetration = abs(dot((pointA - position), -normal)) + abs(dot((pointB - position), -normal));
+					hit = true;
+				}
+
+
+				d1 = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
+				d2 = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
+
+				d = d2 - d1;
+
+				float delta = dot((d - c), search_direction);
+				float separation = -dot(d, search_direction);
+
+				if (delta <= MPR_TOL || separation >= 0.0f) {
+					// COLLISION SUCCESS
+					normal = search_direction;
+					return hit; //hit;
+				}
+
+
+				float dividing_face_1 = dot(make_float4(cross(make_float3(d), make_float3(a))), v);
+				float dividing_face_2 = dot(make_float4(cross(make_float3(d), make_float3(b))), v);
+				float dividing_face_3 = dot(make_float4(cross(make_float3(d), make_float3(c))), v);
+
+				if (dividing_face_1 < 0.0f) {
+					if (dividing_face_2 < 0.0f) {
+						a = d;
+						a1 = d1;
+						a2 = d2;
+					}
+					else {
+						c = d;
+						c1 = d1;
+						c2 = d2;
+					}
+				}
+				else {
+					if (dividing_face_3 < 0.0f) {
+						b = d;
+						b1 = d1;
+						b2 = d2;
+					}
+					else {
+						a = d;
+						a1 = d1;
+						a2 = d2;
+					}
+				}
+			}
+		}
+		
+	}
 	
+	__global__ void minkowskiPortalRefinementCUDA(
+		unsigned int n_collisions,
+		unsigned int n_primitives,
+		const int4* __restrict__ d_potential_collision_ptr,
+		const Hull* __restrict__ d_hull_ptr,
+		const float4* __restrict__ d_vertex_ptr,
+		int* d_n_pairs_ptr
+	)
+	{
+		unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+		if (tid >= n_collisions) {
+			return;
+		}
+
+		bool have_we_collided; // well, have we?
+
+		CollisionData collision_data;
+
+		int4 collision = d_potential_collision_ptr[tid];
+
+		// Extract possibly colliding hulls
+		Hull host_hull = d_hull_ptr[collision.x];
+		Hull phantom_hull = d_hull_ptr[collision.y];
+
+		float penetration = 0.0f;
+		float4 normal;
+		float4 pointA;
+		float4 pointB;
+
+		have_we_collided = zeroPhaseMPR(
+								host_hull, 
+								phantom_hull, 
+								d_vertex_ptr, 
+								penetration,
+								normal,
+								pointA,
+								pointB);
+
+		if (have_we_collided) {
+			/*printf("Yo, collision detected!\n");
+			printf("Penetration distance: %.3f\n", penetration);
+			printf("Contact 0 point: %.3f, %.3f, %.3f\n", pointA.x, pointA.y, pointA.z);
+			printf("Contact 1 point: %.3f, %.3f, %.3f\n", pointB.x, pointB.y, pointB.z);
+			printf("Normal: %.3f, %.3f, %.3f\n", normal.x, normal.y, normal.z);*/
+
+			atomicAdd(&d_n_pairs_ptr[0], 1);
+		}
+
+
+	}
 }
 
 void main() {
-	unsigned int n_primitives = 2;
-	unsigned int n_vertices = 4;
-	unsigned int n_collisions = 1;
+	unsigned int n_primitives = 60000;
+	unsigned int n_vertices = 3;
+	unsigned int n_collisions = n_primitives / 2;
 
 	thrust::host_vector<STARDUST::Hull> hulls(n_primitives);
 	thrust::host_vector<float4> vertex(n_vertices);
 	thrust::host_vector<int4> potential_collision(n_collisions);
+	thrust::host_vector<int> n_pairs(1);
 
 	float4 point1 = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 point2 = make_float4(1.0f, 0.0f, 0.0f, 0.0f);
 	float4 point3 = make_float4(0.0f, 1.0f, 0.0f, 0.0f);
-	float4 point4 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+	//float4 point4 = make_float4(0.0f, 0.0f, 1.0f, 0.0f);
+
+	n_pairs[0] = 0;
 
 	vertex[0] = point1;
 	vertex[1] = point2;
 	vertex[2] = point3;
-	vertex[3] = point4;
+	//vertex[3] = point4;
 
-	hulls[0].type = 2;
-	hulls[0].position = (1 / 4) * (point1 + point2 + point3 + point4); // Barycentre/centroid
-	hulls[0].radius = -1.0f;
-	hulls[0].vertex_idx = 0;
-	hulls[0].n_vertices = 4;
+	//hulls[0].type = 2;
+	//hulls[0].position = (1 / 4) * (point1 + point2 + point3 + point4); // Barycentre/centroid
+	//hulls[0].radius = -1.0f;
+	//hulls[0].vertex_idx = 0;
+	//hulls[0].n_vertices = 4;
 
+	for (int i = 0; i < n_primitives / 2; i++) {
+		hulls[2 * i + 0].type = 0;
+		hulls[2 * i + 0].position = make_float4(0.0f, 0.0f, i + 0.05, 0.0f);
+		hulls[2 * i + 0].radius = 0.1f;
 
-	hulls[1].type = 0;
-	hulls[1].position = make_float4(0.0f, 0.0f, 1.5f, 0.0f);
-	hulls[1].radius = 0.5f;
+		hulls[2 * i + 1].type = 0;
+		hulls[2 * i + 1].position = make_float4(0.0f, 0.0f, i - 0.05, 0.0f);
+		hulls[2 * i + 1].radius = 0.1f;
 
-	potential_collision[0].x = 0;
-	potential_collision[0].y = 1;
-	potential_collision[0].z = -1;
-	potential_collision[0].w = -1;
+		potential_collision[i].x = 2 * i + 0;
+		potential_collision[i].y = 2 * i + 1;
+		potential_collision[i].z = -1;
+		potential_collision[i].w = -1;
+	}
+
+	//hulls[0].type = 1;
+	//hulls[0].position = (1 / 3) * (point1 + point2 + point3); // Barycentre/centroid
+	//hulls[0].radius = -1.0f;
+	//hulls[0].vertex_idx = 0;
+	//hulls[0].n_vertices = 3;
+
+	///*hulls[0].type = 0;
+	//hulls[0].position = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
+	//hulls[0].radius = 0.5f;*/
+
+	//hulls[1].type = 0;
+	//hulls[1].position = make_float4(0.3333f, 0.3333f, 0.499f, 0.0f);
+	//hulls[1].radius = 0.5f;
+
+	//potential_collision[0].x = 0;
+	//potential_collision[0].y = 1;
+	//potential_collision[0].z = -1;
+	//potential_collision[0].w = -1;
 
 	thrust::device_vector<STARDUST::Hull> d_hulls = hulls;
 	thrust::device_vector<float4> d_vertex = vertex;
 	thrust::device_vector<int4> d_potential_collision = potential_collision;
+	thrust::device_vector<int> d_n_pairs = n_pairs;
 
 	STARDUST::Hull* d_hull_ptr = thrust::raw_pointer_cast(d_hulls.data());
 	float4* d_vertex_ptr = thrust::raw_pointer_cast(d_vertex.data());
 	int4* d_potential_collision_ptr = thrust::raw_pointer_cast(d_potential_collision.data());
+	int* d_n_pairs_ptr = thrust::raw_pointer_cast(d_n_pairs.data());
 
 	int threads_per_block = 256;
 	int num_blocks = (n_collisions + threads_per_block - 1) / threads_per_block;
 
-	STARDUST::gjkCUDA << < num_blocks, threads_per_block >> > (
+	STARDUST::minkowskiPortalRefinementCUDA << < num_blocks, threads_per_block >> > (
 		n_collisions,
 		n_primitives,
 		d_potential_collision_ptr,
 		d_hull_ptr,
-		d_vertex_ptr
+		d_vertex_ptr,
+		d_n_pairs_ptr
 		);
 
 	cudaDeviceSynchronize();
+
+	n_pairs = d_n_pairs;
+
+	std::cout << n_pairs[0] << " collisions detected...\n" << std::endl;
 }
