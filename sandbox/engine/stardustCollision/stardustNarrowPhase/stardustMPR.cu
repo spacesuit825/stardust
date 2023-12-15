@@ -18,16 +18,18 @@
 #include <thrust/for_each.h>
 #include <thrust/sort.h>
 #include <thrust/count.h>
+#include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 
 // CUB
 #include <cub/device/device_radix_sort.cuh>
 
 // Internal
-#include "../../stardustUtility/cuda_utils.hpp"
+//#include "../../stardustUtility/cuda_utils.hpp"
 #include "../../stardustUtility/helper_math.hpp"
 #include "../../stardustUtility/util.hpp"
-#include "../../stardustGeometry/primitives.hpp"
+#include "../../stardustGeometry/stardustPrimitives.hpp"
+#include "../../stardustCollision/stardustNarrowPhase/stardustMPR.hpp"
 
 // #include "lean-vtk/include/lean_vtk.hpp"
 
@@ -48,15 +50,7 @@
 
 namespace STARDUST {
 
-	typedef struct CollisionData {
-		bool have_we_collided = false;
-
-		float4 collision_normal;
-		float4 pointA;
-		float4 pointB;
-
-		float penetration_depth;
-	} CollisionData;
+	
 
 	__device__ void supportSphere(
 		float4& direction,
@@ -285,8 +279,6 @@ namespace STARDUST {
 
 		bool have_we_collided; // well, have we?
 
-		CollisionData collision_data;
-
 		float4 A, B, C, D; // define the simplex vertices
 
 		int4 collision = d_potential_collision_ptr[tid];
@@ -343,7 +335,7 @@ namespace STARDUST {
 
 		if (have_we_collided) {
 			printf("Yo, you just collided!\n");
-			collision_data.have_we_collided = have_we_collided;
+			//collision_data.have_we_collided = have_we_collided;
 		}
 	}
 
@@ -572,6 +564,7 @@ namespace STARDUST {
 	__global__ void minkowskiPortalRefinementCUDA(
 		unsigned int n_collisions,
 		unsigned int n_primitives,
+		CollisionManifold* d_collision_manifold_ptr,
 		const int4* __restrict__ d_potential_collision_ptr,
 		const Hull* __restrict__ d_hull_ptr,
 		const float4* __restrict__ d_vertex_ptr,
@@ -586,7 +579,7 @@ namespace STARDUST {
 
 		bool have_we_collided; // well, have we?
 
-		CollisionData collision_data;
+		CollisionManifold collision_data;
 
 		int4 collision = d_potential_collision_ptr[tid];
 
@@ -609,15 +602,89 @@ namespace STARDUST {
 			pointB);
 
 		if (have_we_collided) {
-			/*printf("Yo, collision detected!\n");
-			printf("Penetration distance: %.3f\n", penetration);
-			printf("Contact 0 point: %.3f, %.3f, %.3f\n", pointA.x, pointA.y, pointA.z);
-			printf("Contact 1 point: %.3f, %.3f, %.3f\n", pointB.x, pointB.y, pointB.z);
-			printf("Normal: %.3f, %.3f, %.3f\n", normal.x, normal.y, normal.z);*/
+
+			// Build collision manifold
+
+			collision_data.collision_normal = normal;
+			collision_data.pointA = pointA;
+			collision_data.pointB = pointB;
+			collision_data.penetration_depth = penetration;
+
+			collision_data.host_hull_idx = collision.x;
+			collision_data.phantom_hull_idx = collision.y;
 
 			atomicAdd(&d_n_pairs_ptr[0], 1);
+			int pair_idx = d_n_pairs_ptr[0];
+
+			// Add something to stop writing over the end of the array!!!
+			
+			d_collision_manifold_ptr[pair_idx] = collision_data;
+			
 		}
 
-
 	}
+
+	void MPR::minkowskiPortalRefinement(
+		unsigned int n_collisions,
+		unsigned int n_primitives,
+		const int4* d_potential_collision_ptr,
+		const Hull* d_hull_ptr,
+		const float4* d_vertex_ptr,
+		int* d_n_pairs_ptr
+	)
+	{
+		int threads_per_block = 256;
+		int num_blocks = (n_collisions + threads_per_block - 1) / threads_per_block;
+
+		minkowskiPortalRefinementCUDA << < num_blocks, threads_per_block >> > (
+			n_collisions,
+			n_primitives,
+			d_collision_manifold_ptr,
+			d_potential_collision_ptr,
+			d_hull_ptr,
+			d_vertex_ptr,
+			d_n_pairs_ptr
+			);
+	}
+
+	void MPR::allocate(
+		unsigned int n_collisions,
+		unsigned int n_primitives,
+		unsigned int max_collisions
+	)
+	{
+
+		collision_manifold.resize(max_collisions);
+		n_pairs.resize(1);
+
+		d_collision_manifold = collision_manifold;
+		d_n_pairs = n_pairs;
+
+		d_collision_manifold_ptr = thrust::raw_pointer_cast(d_collision_manifold.data());
+		d_n_pairs_ptr = thrust::raw_pointer_cast(d_n_pairs.data());
+	}
+
+	void MPR::execute(
+		unsigned int n_collisions,
+		unsigned int n_primitives,
+		int max_collisions,
+		const int4* d_potential_collision_ptr,
+		const Hull* d_hull_ptr,
+		const float4* d_vertex_ptr
+	)
+	{
+		minkowskiPortalRefinement(
+			n_collisions,
+			n_primitives,
+			d_potential_collision_ptr,
+			d_hull_ptr,
+			d_vertex_ptr,
+			d_n_pairs_ptr
+		);
+
+		n_pairs = d_n_pairs;
+		n_collided = n_pairs[0];
+	}
+
+
 }

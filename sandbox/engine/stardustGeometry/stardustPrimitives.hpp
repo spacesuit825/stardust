@@ -1,13 +1,15 @@
 #ifndef _STARDUST_PRIMITIVE_HEADER_
 #define _STARDUST_PRIMITIVE_HEADER_
 
+// C++
+#include <vector>
+
 // CUDA
 #include <cuda_runtime.h>
 
 // Internal
-#include "helper_math.hpp"
-#include "helper_math.hpp"
-#include "types.hpp"
+#include "../stardustUtility/helper_math.hpp"
+#include "../stardustUtility/types.hpp"
 
 #define SPHERE 0
 #define TRIANGLE 1
@@ -29,6 +31,45 @@
 
 namespace STARDUST {
 
+	typedef struct Sphere {
+		float mass;
+
+		float4 position;
+
+		float radius;
+
+		float normal_stiffness;
+		float damping;
+		float tangential_stiffness;
+
+	} Sphere;
+
+	typedef struct Triangle {
+		float mass;
+
+		float4 position;
+
+		std::vector<float4> vertices; // Always 3 long
+
+		float normal_stiffness;
+		float damping;
+		float tangential_stiffness;
+
+	} Triangle;
+
+	typedef struct Polyhedron {
+		float mass;
+
+		float4 position;
+
+		std::vector<float4> vertices;
+
+		float normal_stiffness;
+		float damping;
+		float tangential_stiffness;
+
+	} Polyhedron;
+
 	/// <summary>
 	/// Unified Primitive Representation - Convex Hull
 	/// - All derived Groups are collections of one or more primitives
@@ -37,7 +78,7 @@ namespace STARDUST {
 	typedef struct Hull {
 		unsigned int type; // sphere: 0, tri: 1, polyhedra: 2
 
-		unsigned int group_owner; // Group to which this primitve belongs
+		unsigned int entity_owner; // If we need to know which entity this primitive belongs to
 
 		bool is_active;
 		bool is_visible;
@@ -51,8 +92,19 @@ namespace STARDUST {
 
 		// Simulation data
 		float4 position; // Centroid/Barycentre for all primitives
+		float4 initial_relative_position;
+		float4 relative_position;
+
+		float4 velocity;
+
 		float4 force;
-		float4 torque;
+
+		float4 force_application_position;
+
+		float normal_stiffness;
+		float damping;
+		float tangential_stiffness;
+		
 
 	};
 }

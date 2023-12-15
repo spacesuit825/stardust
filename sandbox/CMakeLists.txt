@@ -1,7 +1,7 @@
 file(GLOB_RECURSE ENGINE_SRC 
                             "engine/*.cu"
                             "engine/*/*.cu"
-                            "engine/*.cuh"
+                            "engine/*/*.cuh"
                             "engine/*.cpp"
                             "engine/*.hpp"
                             "engine/*/*.hpp"
@@ -12,13 +12,15 @@ file(GLOB_RECURSE ENGINE_SRC
 
 add_library(engine ${ENGINE_SRC})
 
-target_include_directories(engine PUBLIC ENGINE_SRC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-target_link_libraries(engine PUBLIC ENGINE_SRC OpenMP::OpenMP_CXX ${CUDART_LIBRARY} glew ${OPENGL_LIBRARIES} glfw imgui fmt)
+target_include_directories(engine PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+target_link_libraries(engine PUBLIC OpenMP::OpenMP_CXX ${CUDART_LIBRARY} ${OPENGL_LIBRARIES})
 
 set_source_files_properties(engine/stardustCollision/stardustBroadPhase/stardustLBVH.cu PROPERTIES LANGUAGE CUDA)
 set_source_files_properties(engine/stardustCollision/stardustNarrowPhase/stardustMPR.cu PROPERTIES LANGUAGE CUDA)
+set_source_files_properties(engine/stardustDynamics/stardustEngine.cu PROPERTIES LANGUAGE CUDA)
+set_source_files_properties(engine/stardustDynamics/stardustEntityHandler.cpp PROPERTIES LANGUAGE CUDA)
 
-add_executable(test_scale "engine/testEngine.cpp")
+add_executable(test_scale "testEngine.cpp")
 
 set(CMAKE_BUILD_TYPE Debug)
 

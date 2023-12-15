@@ -2,6 +2,8 @@
 #ifndef _STARDUST_APP_HEADER_
 #define _STARDUST_APP_HEADER_
 
+#include <string>
+
 
 namespace STARDUST {
 
@@ -17,7 +19,7 @@ namespace STARDUST {
 
 
 
-	Application* createApplication();
+	//Application* createApplication();
 
 }
 

@@ -1,7 +1,23 @@
+#ifndef _STARDUST_UTILITY_HEADER_
+#define _STARDUST_UTILITY_HEADER_
+
 #include <vector_types.h>
 #include <cuda_runtime.h>
 #include <cstdint>
-#include <device_functions.h>
+//#include <device_functions.h>
+
+struct CollisionManifold {
+	bool have_we_collided; //= false;
+
+	int host_hull_idx;
+	int phantom_hull_idx;
+
+	float4 collision_normal;
+	float4 pointA;
+	float4 pointB;
+
+	float penetration_depth;
+};
 
 struct Node
 {
@@ -13,20 +29,12 @@ struct Node
 
 struct AABB
 {
+
+	float4 init_upper_extent;
+	float4 init_lower_extent;
+
 	float4 upper_extent;
 	float4 lower_extent;
-
-	// initialize empty box
-	inline __host__ __device__
-		AABB() : upper_extent(make_float4(-FLT_MAX, -FLT_MAX, -FLT_MAX, 0.0f)), lower_extent(make_float4(FLT_MAX, FLT_MAX, FLT_MAX, 0.0f))
-	{}
-
-	// initialize a box containing a single point
-	inline __host__ __device__
-		AABB(const float4& p, float radius) : upper_extent(make_float4(p.x + radius, p.y + radius, p.z + radius, 0.0f)), lower_extent(make_float4(p.x - radius, p.y - radius, p.z - radius, 0.0f))
-	{
-		//printf("Lower extent: %.3f, %.3f, %.3f\n", lower_extent.x, lower_extent.y, lower_extent.z);
-	}
 };
 
 //__host__ __device__ int tagPoints(
@@ -79,4 +87,6 @@ struct AABB
 //		return tagPoints(p, aabb, max_level);
 //	}
 //};
+
+#endif // _STARDUST_UTILITY_HEADER_
 
