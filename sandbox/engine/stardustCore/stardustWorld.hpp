@@ -15,16 +15,7 @@ namespace STARDUST {
 	public:
 
 		
-		
-
-
-		void run(); // Initiate the simulation pipeline
-		
 	private:
-		void bulkTransferDataToDevice(); // Transfers all necessary pipeline data to the GPU
-		void bulkTransferDataFromDevice();// Transfers all necessary pipeline data from the GPU
-
-		Engine* engine;
 
 	};
 
