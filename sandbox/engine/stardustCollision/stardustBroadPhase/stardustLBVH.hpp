@@ -45,6 +45,7 @@ namespace STARDUST {
 
 		void allocate(int, int); // Allocates required support arrays for the LBVH tree
 		void execute(int n_primitives, int max_collisions, Hull* d_hull_ptr, AABB* d_aabb_ptr); // 
+		void reset();
 		//void resetLBVH();
 		//void destroyLBVH();
 

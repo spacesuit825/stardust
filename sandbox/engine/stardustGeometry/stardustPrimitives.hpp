@@ -60,6 +60,8 @@ namespace STARDUST {
 	typedef struct Polyhedron {
 		float mass;
 
+		std::vector<int> indices;
+
 		float4 position;
 
 		std::vector<float4> vertices;

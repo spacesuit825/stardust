@@ -37,24 +37,44 @@ namespace STARDUST {
 		std::cout << "Allocation and Device Transfer success!\n";
 	}
 
+	void Engine::reset() {
+		
+		lbvh.reset();
+		mpr.reset();
+
+	}
+
 	__device__ void updatePrimitivePositionsCUDA(
 		int tid,
 		Hull& hull,
 		Entity& entity,
-		AABB& aabb
+		AABB& aabb,
+		float4* d_vertex_ptr,
+		float4* d_init_vertex_ptr
 	)
 	{
 		
 		float4 rotated_relative_position = multiplyQuaternionByVectorCUDA(entity.quaternion, hull.initial_relative_position);
 		
-		float4 rotated_upper_extent = multiplyQuaternionByVectorCUDA(entity.quaternion, aabb.init_upper_extent);
-		float4 rotated_lower_extent = multiplyQuaternionByVectorCUDA(entity.quaternion, aabb.init_lower_extent);
+		float4 rotated_upper_extent = multiplyQuaternionByVectorCUDA(entity.quaternion, aabb.init_upper_extent - entity.init_position);
+		float4 rotated_lower_extent = multiplyQuaternionByVectorCUDA(entity.quaternion, aabb.init_lower_extent - entity.init_position);
 
 		hull.relative_position = rotated_relative_position;
 		hull.position = rotated_relative_position + entity.position;
 
 		aabb.upper_extent = rotated_upper_extent + entity.position;
 		aabb.lower_extent = rotated_lower_extent + entity.position;
+
+		if (hull.type == POLYHEDRA) {
+			for (int i = hull.vertex_idx; i < hull.vertex_idx + hull.n_vertices; i++) {
+				float4 init_vertex = d_init_vertex_ptr[i];
+				float4 rotated_vertex = multiplyQuaternionByVectorCUDA(entity.quaternion, init_vertex - entity.init_position);
+
+				d_vertex_ptr[i] = rotated_vertex + entity.position;
+			}
+		}
+
+		//printf("\nLower extent: %.3f, %.3f, %.3f\n", aabb.upper_extent.x, aabb.upper_extent.y, aabb.upper_extent.z);
 	}
 
 	__device__ void updatePrimitiveVelocitiesCUDA(
@@ -76,7 +96,9 @@ namespace STARDUST {
 		int n_primitives,
 		Hull* d_hull_ptr,
 		Entity* d_entity_ptr,
-		AABB* d_aabb_ptr
+		AABB* d_aabb_ptr,
+		float4* d_vertex_ptr,
+		float4* d_init_vertex_ptr
 	)
 	{
 		unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
@@ -84,22 +106,26 @@ namespace STARDUST {
 		if (tid >= n_primitives) return;
 
 		// Load the hull
-		printf("called1");
 		Hull hull = d_hull_ptr[tid];
 		AABB aabb = d_aabb_ptr[tid];
-		printf("called2");
 
 		int entity_idx = hull.entity_owner;
 
 		
 		Entity entity = d_entity_ptr[entity_idx];
+
+		//if (entity_idx == 2) {
+		//	printf("entity quat %.3f, %.3f, %.3f\n", entity.quaternion.x, entity.quaternion.y, entity.quaternion.z);
+		//}
 		
 		
 		updatePrimitivePositionsCUDA(
 			tid,
 			hull,
 			entity,
-			aabb
+			aabb,
+			d_vertex_ptr,
+			d_init_vertex_ptr
 		);
 		
 		
@@ -113,8 +139,6 @@ namespace STARDUST {
 		d_hull_ptr[tid] = hull;
 		d_aabb_ptr[tid] = aabb;
 
-		//aabb = d_aabb_ptr[tid];
-		//printf("\ncalled %.3f, %.3f, %.3f\n", aabb.upper_extent.x, aabb.upper_extent.y, aabb.upper_extent.z);
 	}
 
 	__global__ void resolveCollisionsCUDA(
@@ -133,6 +157,10 @@ namespace STARDUST {
 		Hull host_hull = d_hull_ptr[collision_manifold.host_hull_idx];
 		Hull phantom_hull = d_hull_ptr[collision_manifold.phantom_hull_idx];
 
+		if (host_hull.entity_owner == phantom_hull.entity_owner) {
+			return;
+		}
+
 		float4 normal_force;
 		float4 damping;
 		float4 tangent_force;
@@ -146,14 +174,17 @@ namespace STARDUST {
 		damping = host_hull.damping * relative_velocity;
 		tangent_force = host_hull.tangential_stiffness * tangent_velocity;
 
-		host_hull.force = (normal_force + damping + tangent_force);
-		phantom_hull.force = -(normal_force + damping + tangent_force);
+		host_hull.force = -(normal_force + damping + tangent_force);
+		phantom_hull.force = (normal_force + damping + tangent_force);
+
+		//printf("\n ho Force %.3f, %.3f, %.3f\n", host_hull.force.x, host_hull.force.y, host_hull.force.z);
+		//printf(" ph Force %.3f, %.3f, %.3f\n", phantom_hull.force.x, phantom_hull.force.y, phantom_hull.force.z);
 
 		host_hull.force_application_position = collision_manifold.pointA;
 		phantom_hull.force_application_position = collision_manifold.pointB;
 
 		d_hull_ptr[collision_manifold.host_hull_idx] = host_hull;
-		d_hull_ptr[collision_manifold.host_hull_idx] = phantom_hull;
+		d_hull_ptr[collision_manifold.phantom_hull_idx] = phantom_hull;
 
 	}
 
@@ -175,16 +206,20 @@ namespace STARDUST {
 		int primitive_idx = entity.primitive_idx;
 		int n_primitives = entity.n_primitives;
 
+		//printf("\n %d n_prim %d\n", tid, n_primitives);
+
 		float mass = 0.0f;
 
 		// Use warps to parallelise this better
-		for (int i = 0; i < primitive_idx + n_primitives; i++) {
+		for (int i = primitive_idx; i < primitive_idx + n_primitives; i++) {
 
 			Hull hull = d_hull_ptr[i];
 
 			entity.force += hull.force;
 
-			float4 application_vector = hull.relative_position - hull.force_application_position;
+			//printf("\n%d hull force: %.3f", tid, hull.force);
+
+			float4 application_vector = hull.force_application_position - hull.relative_position;
 
 			float3 torque = cross(make_float3(application_vector), make_float3(hull.force));
 
@@ -194,9 +229,15 @@ namespace STARDUST {
 
 		}
 
-		if (entity.type == CLUMP || entity.type == POLYHEDRA) {
+		if ((entity.type == CLUMP || entity.type == POLYHEDRA) && (entity.is_active)) {
 			entity.force += mass * make_float4(0.0f, 0.0f, -9.81f, 0.0f);
 		}
+
+		if (entity.type == MESH) {
+			entity.force = make_float4(0.0f);
+		}
+
+		//printf("\n %d collated force: %.3f, %.3f, %.3f\n", tid, entity.force.x, entity.force.y, entity.force.z);
 
 		d_entity_ptr[tid] = entity;
 		
@@ -215,6 +256,8 @@ namespace STARDUST {
 
 		Entity entity = d_entity_ptr[tid];
 
+		//printf("\n Force %.3f, %.3f, %.3f\n", entity.force.x, entity.force.y, entity.force.z);
+
 		entity.linear_momentum += entity.force * time_step;
 		entity.angular_momentum += entity.torque * time_step;
 
@@ -231,6 +274,10 @@ namespace STARDUST {
 		float9 inverse_inertia_tensor = computeMatrixMultiplication(rotation_inverse_inertia, computeTranspose(rotation_matrix));
 
 		entity.angular_velocity = computeMatrixVectorMultiplication(inverse_inertia_tensor, entity.angular_momentum);
+
+		if (tid == 2) {
+			printf("entity tor %.3f, %.3f, %.3f\n", entity.angular_velocity.x, entity.angular_velocity.y, entity.angular_velocity.z);
+		}
 
 		float4 angular_displacement = entity.angular_velocity * time_step;
 
@@ -254,13 +301,52 @@ namespace STARDUST {
 		float4 dq = make_float4(s, v.x, v.y, v.z);
 		entity.quaternion = multiplyQuaternionsCUDA(dq, entity.quaternion);
 
+		//if (tid == 2) {
+		//	printf("entity quat %.3f, %.3f, %.3f\n", entity.quaternion.x, entity.quaternion.y, entity.quaternion.z);
+		//}
+
 		d_entity_ptr[tid] = entity;
 
-		printf("entity %.3f, %.3f, %.3f\n", entity.position.x, entity.position.y, entity.position.z);
+		//printf("entity %.3f, %.3f, %.3f\n", entity.position.x, entity.position.y, entity.position.z);
 	}
 
+	__global__ void resetEntitiesCUDA(
+		int n_entities,
+		Entity* d_entity_ptr
+	)
+	{
+
+		unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+		if (tid >= n_entities) return;
 
 
+		Entity entity = d_entity_ptr[tid];
+
+		entity.force = make_float4(0.0f);
+		entity.torque = make_float4(0.0f);
+
+		d_entity_ptr[tid] = entity;
+	}
+
+	__global__ void resetPrimitivesCUDA(
+		int n_primitives,
+		Hull* d_hull_ptr
+	)
+	{
+
+		unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
+
+		if (tid >= n_primitives) return;
+
+
+		Hull hull = d_hull_ptr[tid];
+
+		hull.force = make_float4(0.0f);
+
+		d_hull_ptr[tid] = hull;
+	}
+	
 
 
 
@@ -273,12 +359,24 @@ namespace STARDUST {
 		DeviceGeometryData device_data = entity_handler.getDeviceData();
 		float time_step = engine_parameters.time_step;
 
+		resetPrimitives(
+			entity_handler.getNPrimitives(),
+			device_data.d_hull_ptr
+		);
+
+		resetEntities(
+			entity_handler.getNEntities(),
+			device_data.d_entity_ptr
+		);
+
 		// Primitive Update
 		updatePrimitives(
 			entity_handler.getNPrimitives(),
 			device_data.d_hull_ptr,
 			device_data.d_entity_ptr,
-			device_data.d_aabb_ptr
+			device_data.d_aabb_ptr,
+			device_data.d_vertex_ptr,
+			device_data.d_init_vertex_ptr
 		);
 
 		///// Collision detection ////
@@ -289,6 +387,8 @@ namespace STARDUST {
 			device_data.d_aabb_ptr
 		);
 
+		//std::cout << "n collisions: " << lbvh.getCollisionNumber() << "\n";
+
 		mpr.execute(
 			lbvh.getCollisionNumber(),
 			entity_handler.getNPrimitives(),
@@ -297,6 +397,8 @@ namespace STARDUST {
 			device_data.d_hull_ptr,
 			device_data.d_vertex_ptr
 		);
+
+	
 
 		// Resolve collisions
 		resolveCollisions(
@@ -322,11 +424,41 @@ namespace STARDUST {
 
 	}
 
+	void Engine::resetEntities(
+		int n_entities,
+		Entity* d_entity_ptr
+	) 
+	{
+		unsigned int entity_block_size = 256;
+		unsigned int entity_grid_size = (n_entities + entity_block_size - 1) / entity_block_size;
+
+		resetEntitiesCUDA << <entity_grid_size, entity_block_size >> > (
+			n_entities,
+			d_entity_ptr
+			);
+	}
+
+	void Engine::resetPrimitives(
+		int n_primitives,
+		Hull* d_hull_ptr
+	)
+	{
+		unsigned int primitive_block_size = 256;
+		unsigned int primitive_grid_size = (n_primitives + primitive_block_size - 1) / primitive_block_size;
+
+		resetPrimitivesCUDA << <primitive_grid_size, primitive_block_size >> > (
+			n_primitives,
+			d_hull_ptr
+			);
+	}
+
 	void Engine::updatePrimitives(
 		int n_primitives,
 		Hull* d_hull_ptr,
 		Entity* d_entity_ptr,
-		AABB* d_aabb_ptr
+		AABB* d_aabb_ptr,
+		float4* d_vertex_ptr,
+		float4* d_init_vertex_ptr
 	)
 	{
 
@@ -337,7 +469,9 @@ namespace STARDUST {
 			n_primitives,
 			d_hull_ptr,
 			d_entity_ptr,
-			d_aabb_ptr
+			d_aabb_ptr,
+			d_vertex_ptr,
+			d_init_vertex_ptr
 			);
 
 	}
@@ -380,6 +514,8 @@ namespace STARDUST {
 		Entity* d_entity_ptr
 	)
 	{
+
+		//printf("n entities %d\n", n_entities);
 		unsigned int entity_block_size = 256;
 		unsigned int entity_grid_size = (n_entities + entity_block_size - 1) / entity_block_size;
 

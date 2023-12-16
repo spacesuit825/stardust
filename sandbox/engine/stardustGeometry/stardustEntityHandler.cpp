@@ -1,6 +1,9 @@
 #include "stardustEntityHandler.hpp"
 #include "stardustEntities.hpp"
 
+#include <fstream>
+
+
 #define SQR(x) ((x)*(x))
 
 namespace STARDUST {
@@ -67,6 +70,8 @@ namespace STARDUST {
 		aabb.init_upper_extent = upper_extent + padding;
 		aabb.init_lower_extent = lower_extent - padding;
 
+		printf("tri upper: %.3f, %.3f, %.3f\n", aabb.init_upper_extent.x, aabb.init_upper_extent.y, aabb.init_upper_extent.z);
+
 		return aabb;
 	}
 
@@ -119,6 +124,7 @@ namespace STARDUST {
 		entity.is_visible = true;
 
 		entity.position = getCentreOfMass(clump);
+		entity.init_position = entity.position;
 
 		entity.velocity = make_float4(0.0f);
 		entity.angular_velocity = make_float4(0.0f);
@@ -178,6 +184,10 @@ namespace STARDUST {
 
 		entity.mass = entity_mass;
 
+		if (entity.mass > 10000.0f) {
+			entity.is_active = false;
+		}
+
 		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 
 		entities.push_back(entity);
@@ -197,6 +207,8 @@ namespace STARDUST {
 
 		entity.type = MESH;
 
+		float entity_mass = 0.0f;
+
 		entity.primitive_idx = hull_idx;
 		entity.n_primitives = n_hulls;
 
@@ -204,6 +216,7 @@ namespace STARDUST {
 		entity.is_visible = true;
 
 		entity.position = getCentreOfMass(mesh);
+		entity.init_position = entity.position;
 
 		entity.velocity = make_float4(0.0f);
 		entity.angular_velocity = make_float4(0.0f);
@@ -257,7 +270,7 @@ namespace STARDUST {
 			Ixz += -triangle.mass * relative_position.x * relative_position.z;
 			Iyz += -triangle.mass * relative_position.y * relative_position.z;
 
-			entity.mass += hull.mass;
+			entity_mass += hull.mass;
 
 			hull.normal_stiffness = triangle.normal_stiffness;
 			hull.damping = triangle.damping;
@@ -267,6 +280,8 @@ namespace STARDUST {
 			aabb.push_back(computeBoundingBox(triangle));
 		}
 
+		entity.mass = entity_mass;
+
 		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 
 		entities.push_back(entity);
@@ -275,26 +290,228 @@ namespace STARDUST {
 	}
 
 	void EntityHandler::addEntity(std::vector<Polyhedron> complex_polyhedron) {
+		int entity_idx = entities.size();
 
+		int hull_idx = hulls.size();
+		int n_hulls = complex_polyhedron.size();
+
+		float Ixx, Iyy, Izz, Ixy, Ixz, Iyz;
+		Ixx = Iyy = Izz = Ixy = Ixz = Iyz = 0.0f;
+
+		Entity entity;
+
+		entity.type = COMPLEX_POLYHEDRON;
+
+		float entity_mass = 0.0f;
+
+		entity.primitive_idx = hull_idx;
+		entity.n_primitives = n_hulls;
+
+		entity.is_active = true;
+		entity.is_visible = true;
+
+		entity.position = getCentreOfMass(complex_polyhedron);
+		entity.init_position = entity.position;
+
+		entity.velocity = make_float4(0.0f);
+		entity.angular_velocity = make_float4(0.0f);
+
+		entity.linear_momentum = make_float4(0.0f);
+		entity.angular_momentum = make_float4(0.0f);
+
+		entity.force = make_float4(0.0f);
+		entity.torque = make_float4(0.0f);
+
+		entity.quaternion = make_float4(1.0f, 0.0f, 0.0f, 0.0f); // Unit Quaternion
+
+		// Add all the hulls to the hull vector
+		for (int prim = 0; prim < complex_polyhedron.size(); prim++) {
+
+			Polyhedron polyhedron = complex_polyhedron[prim];
+
+			Hull hull;
+
+			hull.type = POLYHEDRA;
+
+			hull.entity_owner = entity_idx;
+
+			hull.position = polyhedron.position;
+			hull.mass = polyhedron.mass;
+			hull.radius = -1;
+
+			int vertex_idx = vertex.size();
+
+			for (int vert = 0; vert < polyhedron.vertices.size(); vert++) {
+				vertex.push_back(polyhedron.vertices[vert]);
+			}
+
+			hull.vertex_idx = vertex_idx;
+			hull.n_vertices = polyhedron.vertices.size();
+
+			hull.is_active = true;
+			hull.is_visible = true;
+
+			hull.force = make_float4(0.0f);
+
+			float4 relative_position = polyhedron.position - entity.position + 0.1; // CAREFUL THIS IS FOR TESTING
+
+			hull.initial_relative_position = relative_position;
+			hull.relative_position = relative_position;
+
+			Ixx += polyhedron.mass * (SQR(relative_position.y) + SQR(relative_position.z));
+			Iyy += polyhedron.mass * (SQR(relative_position.x) + SQR(relative_position.z));
+			Izz += polyhedron.mass * (SQR(relative_position.x) + SQR(relative_position.y));
+			Ixy += -polyhedron.mass * relative_position.x * relative_position.y;
+			Ixz += -polyhedron.mass * relative_position.x * relative_position.z;
+			Iyz += -polyhedron.mass * relative_position.y * relative_position.z;
+
+			entity_mass += hull.mass;
+
+			hull.normal_stiffness = polyhedron.normal_stiffness;
+			hull.damping = polyhedron.damping;
+			hull.tangential_stiffness = polyhedron.tangential_stiffness;
+
+			hulls.push_back(hull);
+			aabb.push_back(computeBoundingBox(polyhedron));
+		}
+
+		entity.mass = entity_mass;
+
+		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
+
+		entities.push_back(entity);
+		n_entities = entity_idx;
 	}
 
 	void EntityHandler::allocate() {
 
 		d_hull = hulls;
 		d_entity = entities;
+		d_init_vertex = vertex;
 		d_vertex = vertex;
 		d_aabb = aabb;
 
 		d_hull_ptr = thrust::raw_pointer_cast(d_hull.data());
 		d_entity_ptr = thrust::raw_pointer_cast(d_entity.data());
+		d_init_vertex_ptr = thrust::raw_pointer_cast(d_init_vertex.data());
 		d_vertex_ptr = thrust::raw_pointer_cast(d_vertex.data());
 		d_aabb_ptr = thrust::raw_pointer_cast(d_aabb.data());
 
 		device_geometry_data.d_hull_ptr = d_hull_ptr;
 		device_geometry_data.d_entity_ptr = d_entity_ptr;
+		device_geometry_data.d_init_vertex_ptr = d_init_vertex_ptr;
 		device_geometry_data.d_vertex_ptr = d_vertex_ptr;
 		device_geometry_data.d_aabb_ptr = d_aabb_ptr;
 
+	}
+
+	void EntityHandler::writeToVTK(int time_step) {
+		hulls = d_hull;
+		vertex = d_vertex;
+
+		std::vector<float4> spheres_ls;
+		std::vector<int> indicies_ls;
+		std::vector<float4> vertices_ls;
+
+		for (int i = 0; i < hulls.size(); i++) {
+			if (hulls[i].type == SPHERE) {
+				spheres_ls.push_back(hulls[i].position);
+			}
+			else if (hulls[i].type == TRIANGLE) {
+				printf("huh1 %d\n", hulls[i].n_vertices);
+				for (int j = 0; j < hulls[i].n_vertices; j++) {
+
+					printf("huh\n");
+					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
+
+				}
+
+				indicies_ls.push_back(i);
+			}
+			else if (hulls[i].type == POLYHEDRA) {
+				for (int j = 0; j < hulls[i].n_vertices; j++) {
+
+					printf("huh\n");
+					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
+
+				}
+
+				indicies_ls.push_back(i);
+			}
+		}
+
+		std::ofstream vtkFile("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/out_" + std::to_string(time_step) + ".vtk");
+
+		// Write VTK header
+		vtkFile << "# vtk DataFile Version 2.0" << std::endl;
+		vtkFile << "VTK file for your point cloud data" << std::endl;
+		vtkFile << "ASCII" << std::endl;
+		vtkFile << "DATASET POLYDATA" << std::endl;
+
+		vtkFile << "POINTS " << spheres_ls.size() << " float" << std::endl;
+
+		for (size_t i = 0; i < spheres_ls.size(); ++i) {
+			vtkFile << spheres_ls[i].x << " " << spheres_ls[i].y << " " << spheres_ls[i].z << std::endl;
+		}
+
+		// Write point data (scalar values)
+		vtkFile << "POINT_DATA " << spheres_ls.size() << std::endl;
+		vtkFile << "SCALARS radius float 1" << std::endl;
+		vtkFile << "LOOKUP_TABLE default" << std::endl;
+		for (size_t i = 0; i < spheres_ls.size(); ++i) {
+			vtkFile << 0.5f << std::endl;
+		}
+
+		vtkFile.close();
+
+
+		std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/triout_" + std::to_string(time_step) + ".vtk");
+
+		//// Write VTK header
+		//vtk2File << "# vtk DataFile Version 2.0" << std::endl;
+		//vtk2File << "VTK file for your point cloud data" << std::endl;
+		//vtk2File << "ASCII" << std::endl;
+		//vtk2File << "DATASET POLYDATA" << std::endl;
+
+		//vtk2File << "POINTS " << vertices_ls.size() << " float" << std::endl;
+
+		//for (size_t i = 0; i < vertices_ls.size(); ++i) {
+		//	vtk2File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
+		//}
+
+		//vtk2File << "TRIANGLE_STRIPS " << indicies_ls.size() << " " << indicies_ls.size() * 4 << std::endl;
+		//for (int i = 0; i < indicies_ls.size(); i++) {
+		//	vtk2File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		//}
+
+		//vtk2File.close();
+
+		//std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/polyout_" + std::to_string(time_step) + ".vtk");
+
+		// Write VTK header
+		vtk3File << "# vtk DataFile Version 2.0" << std::endl;
+		vtk3File << "VTK file for your point cloud data" << std::endl;
+		vtk3File << "ASCII" << std::endl;
+		vtk3File << "DATASET POLYDATA" << std::endl;
+
+		vtk3File << "POINTS " << vertices_ls.size() << " float" << std::endl;
+
+		for (size_t i = 0; i < vertices_ls.size(); ++i) {
+			vtk3File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
+		}
+
+		vtk3File << "TRIANGLE_STRIPS " << 4 << " " << 4 * 4 << std::endl;
+		/*for (int i = 0; i < indicies_ls.size(); i++) {
+			vtk3File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		}*/
+		vtk3File << "3 " << 0 << " " << 1 << " " << 3 << std::endl;
+		vtk3File << "3 " << 1 << " " << 2 << " " << 3 << std::endl;
+		vtk3File << "3 " << 0 << " " << 2 << " " << 3 << std::endl;
+		vtk3File << "3 " << 0 << " " << 2 << " " << 1 << std::endl;
+
+		vtk3File.close();
+
+		std::cout << "Write success!\n";
 	}
 
 }

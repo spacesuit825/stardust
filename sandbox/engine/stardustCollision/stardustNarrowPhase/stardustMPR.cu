@@ -565,7 +565,7 @@ namespace STARDUST {
 		unsigned int n_collisions,
 		unsigned int n_primitives,
 		CollisionManifold* d_collision_manifold_ptr,
-		const int4* __restrict__ d_potential_collision_ptr,
+		const int4* d_potential_collision_ptr,
 		const Hull* __restrict__ d_hull_ptr,
 		const float4* __restrict__ d_vertex_ptr,
 		int* d_n_pairs_ptr
@@ -583,14 +583,20 @@ namespace STARDUST {
 
 		int4 collision = d_potential_collision_ptr[tid];
 
+		//printf("\n MPR host: %d, phan: %d\n", collision.x, collision.y);
+
 		// Extract possibly colliding hulls
 		Hull host_hull = d_hull_ptr[collision.x];
 		Hull phantom_hull = d_hull_ptr[collision.y];
+
+		
 
 		float penetration = 0.0f;
 		float4 normal;
 		float4 pointA;
 		float4 pointB;
+
+		//printf("Collision1\n");
 
 		have_we_collided = zeroPhaseMPR(
 			host_hull,
@@ -613,10 +619,11 @@ namespace STARDUST {
 			collision_data.host_hull_idx = collision.x;
 			collision_data.phantom_hull_idx = collision.y;
 
-			atomicAdd(&d_n_pairs_ptr[0], 1);
-			int pair_idx = d_n_pairs_ptr[0];
+			int pair_idx = atomicAdd(&d_n_pairs_ptr[0], 1);
 
 			// Add something to stop writing over the end of the array!!!
+
+			printf("Penetration depth: %.3f\n", collision_data.penetration_depth);
 			
 			d_collision_manifold_ptr[pair_idx] = collision_data;
 			
@@ -662,6 +669,10 @@ namespace STARDUST {
 
 		d_collision_manifold_ptr = thrust::raw_pointer_cast(d_collision_manifold.data());
 		d_n_pairs_ptr = thrust::raw_pointer_cast(d_n_pairs.data());
+	}
+
+	void MPR::reset() {
+		d_n_pairs[0] = 0;
 	}
 
 	void MPR::execute(

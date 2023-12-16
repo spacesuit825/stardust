@@ -521,6 +521,7 @@ namespace STARDUST {
 				int* child_node_int = (int*)(&d_internal_child_nodes_ptr[parent_node_idx]);
 				child_node_int[is_right_child] = setInternalMarker(is_leaf, internal_node_idx);
 			}
+			else *d_root_node_idx_ptr = setInternalMarker(is_leaf, internal_node_idx);
 
 		}
 	}
@@ -844,26 +845,30 @@ namespace STARDUST {
 				if (is_leaf) {
 					int4 pair;
 
-					int query_node_idx = d_idx_ptr[query_node_idx];
+					//int query_node_idx = d_idx_ptr[query_node_idx];
 					int rigid_node_idx = d_idx_ptr[rigid_idx];
 
 					//int query_node_type = d_type_ptr[query_node_idx];
 					//int rigid_node_type = d_type_ptr[rigid_node_idx];
 
-					pair.x = query_node_idx;
-					pair.y = rigid_node_idx;
+					//printf("\n host: %d, phan: %d\n", query_idx, rigid_idx);
+
+					pair.x = query_idx;
+					pair.y = rigid_idx;
 					pair.z = -1;//query_node_type;
 					pair.w = -1;//rigid_node_type;
 
-					
-					atomicAdd(&d_n_pairs_ptr[0], 1);
-					int pair_idx = d_n_pairs_ptr[0];
+					printf("\n host: %d, phan: %d\n", pair.x, pair.y);
 
-					//printf("%d\n", pair_idx);
+					int pair_idx = atomicAdd(&d_n_pairs_ptr[0], 1); // Increment a counter such that we avoid a
+					
+
+					printf("pair idx %d\n", pair_idx);
 
 					if (pair_idx < max_collisions) {
 						
 						d_overlapping_pairs_ptr[pair_idx] = pair;
+						
 					}
 
 				}
@@ -1012,6 +1017,11 @@ namespace STARDUST {
 		std::cout << "Allocation complete!\n";
 	}
 
+	void LBVH::reset() 
+	{
+		d_n_pairs[0] = 0;
+	}
+
 	void LBVH::execute(
 		int n_primitives,
 		int max_collisions,
@@ -1097,7 +1107,7 @@ namespace STARDUST {
 		max_distance_to_root = d_max_distance_to_root;
 		int max_tree_depth = max_distance_to_root[0];
 
-		//printf("max_tree_depth %d\n", max_tree_depth);
+		printf("max_tree_depth %d\n", max_tree_depth);
 
 		buildBinaryRadixAABBs(
 			n_internal_nodes,
@@ -1154,6 +1164,11 @@ namespace STARDUST {
 
 		n_pairs = d_n_pairs;
 		n_collisions = n_pairs[0];
+
+		overlapping_pairs = d_overlapping_pairs;
+		//for (int i = 0; i < 3; i++) {
+		//	printf("\n collision: %d, %d\n", overlapping_pairs[i].x, overlapping_pairs[i].y);
+		//}
 
 		printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
 

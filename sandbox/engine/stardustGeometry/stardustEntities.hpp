@@ -27,6 +27,8 @@ namespace STARDUST {
 		float mass;
 
 		// Simulation data
+		float4 init_position;
+
 		float4 position; // COM of the entity
 
 		float4 velocity;

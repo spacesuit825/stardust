@@ -14,6 +14,8 @@
 #include "../stardustUtility/helper_math.hpp"
 #include "../stardustUtility/util.hpp"
 
+
+
 // The entity handler is responsible for coordinating, storing, allocating and destroying entities on the host and device
 
 namespace STARDUST {
@@ -21,6 +23,7 @@ namespace STARDUST {
 	struct DeviceGeometryData {
 		Hull* d_hull_ptr;
 		Entity* d_entity_ptr;
+		float4* d_init_vertex_ptr;
 		float4* d_vertex_ptr;
 		AABB* d_aabb_ptr;
 	};
@@ -39,6 +42,7 @@ namespace STARDUST {
 		AABB computeBoundingBox(Polyhedron& polyhedron);
 
 		void allocate();
+		void writeToVTK(int time_step);
 		
 		DeviceGeometryData& getDeviceData() { return device_geometry_data; };
 		
@@ -48,7 +52,8 @@ namespace STARDUST {
 
 	private:
 
-		float padding = 0.01f;
+
+		float padding = 0.05f;
 
 		int n_primitives;
 		int n_entities;
@@ -58,16 +63,19 @@ namespace STARDUST {
 
 		thrust::host_vector<Hull> hulls;
 		thrust::host_vector<Entity> entities;
+		thrust::host_vector<float4> init_vertex;
 		thrust::host_vector<float4> vertex;
 		thrust::host_vector<AABB> aabb;
 
 		thrust::device_vector<Hull> d_hull;
 		thrust::device_vector<Entity> d_entity;
+		thrust::device_vector<float4> d_init_vertex;
 		thrust::device_vector<float4> d_vertex;
 		thrust::device_vector<AABB> d_aabb;
 
 		Hull* d_hull_ptr;
 		Entity* d_entity_ptr;
+		float4* d_init_vertex_ptr;
 		float4* d_vertex_ptr;
 		AABB* d_aabb_ptr;
 

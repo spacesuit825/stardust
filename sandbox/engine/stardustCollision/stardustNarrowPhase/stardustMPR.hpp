@@ -45,11 +45,12 @@ namespace STARDUST {
 
 		void allocate(unsigned int, unsigned int, unsigned int);
 		void execute(unsigned int, unsigned int, int, const int4*, const Hull*, const float4*);
+		void reset();
 		//void resetMPR();
 		//void destroyMPR();
 
 		CollisionManifold* getCollisionPtr() { return d_collision_manifold_ptr; };
-		int getCollisionNumber() { return n_collisions; };
+		int getCollisionNumber() { return n_collided; };
 
 	private:
 		void minkowskiPortalRefinement(unsigned int, unsigned int, const int4*, const Hull*, const float4*, int*);
