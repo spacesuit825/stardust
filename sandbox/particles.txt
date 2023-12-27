@@ -1,0 +1,52 @@
+DESCRIPTOR RAW
+
+N_ENTITIES 2
+N_PRIMITIVES 3
+
+GEOM_FILES 1
+
+\GEOM_FILES
+
+# Entity flag / primitive type / n. prims in entity / name of entity
+ENTITY SPHERE 2 clump1
+	PRIMITIVE
+		POSITION 0.5 0.6 0.8
+		MASS 0.5
+		RADIUS 0.5
+		NORMAL_STIFFNESS 1000.0
+		DAMPING 20.0
+		TANGENTIAL_STIFFNESS 200.0
+	\PRIMITIVE
+
+	PRIMITIVE
+		POSITION 0.5 0.6 0.8
+		MASS 0.5
+		RADIUS 0.5
+		NORMAL_STIFFNESS 1000.0
+		DAMPING 20.0
+		TANGENTIAL_STIFFNESS 200.0
+	\PRIMITIVE
+\ENTITY
+
+# Entity flag / primitive type / n. prims in entity / name of entity
+ENTITY TRIANGLE 1 mesh1
+	PRIMITIVE
+		POSITION
+		MASS
+		NORMAL_STIFFNESS
+		DAMPING
+		TANGENTIAL_STIFFNESS
+		VERTICES 0 0
+	/PRIMITIVE
+
+
+# spawn flag / patch or position / corner or centred / entity name to spawn
+SPAWN PATCH CENTRED clump1
+	BOUNDS 3.0 3.0 3.0 -3.0 -3.0 -3.0
+	SUBDIVIDE 1.0 1.0 1.0
+\SPAWN_PATCH
+
+SPAWN POSITION mesh1
+	POSITION 0.0 0.0 0.0
+\SPAWN
+

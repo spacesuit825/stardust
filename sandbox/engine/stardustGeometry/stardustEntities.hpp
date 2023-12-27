@@ -41,8 +41,8 @@ namespace STARDUST {
 
 		float9 inertia_tensor;
 
-		float4 force;
-		float4 torque;
+		// float4 force;
+		// float4 torque;
 
 	};
 }

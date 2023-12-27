@@ -100,6 +100,7 @@ namespace STARDUST {
 		float4 velocity;
 
 		float4 force;
+		float4 torque;
 
 		float4 force_application_position;
 

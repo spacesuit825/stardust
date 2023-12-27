@@ -1,0 +1,8 @@
+C:/Users/lachl/Documents/stardust/CMakeFiles/test.dir
+C:/Users/lachl/Documents/stardust/CMakeFiles/edit_cache.dir
+C:/Users/lachl/Documents/stardust/CMakeFiles/rebuild_cache.dir
+C:/Users/lachl/Documents/stardust/sandbox/CMakeFiles/engine.dir
+C:/Users/lachl/Documents/stardust/sandbox/CMakeFiles/test_scale.dir
+C:/Users/lachl/Documents/stardust/sandbox/CMakeFiles/test.dir
+C:/Users/lachl/Documents/stardust/sandbox/CMakeFiles/edit_cache.dir
+C:/Users/lachl/Documents/stardust/sandbox/CMakeFiles/rebuild_cache.dir

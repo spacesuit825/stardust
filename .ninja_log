@@ -1,0 +1,4 @@
+# ninja log v5
+12	793	7252671800907727	sandbox/CMakeFiles/engine.dir/engine/stardustCore/application.cpp.obj	7c34bf83f3fae391
+24	3470	7252671827641575	sandbox/CMakeFiles/test_scale.dir/testEngine.cpp.obj	26209befa71ccc72
+20	3472	7252671827658917	sandbox/CMakeFiles/engine.dir/engine/stardustGeometry/stardustEntityHandler.cpp.obj	7248a80a6d586087

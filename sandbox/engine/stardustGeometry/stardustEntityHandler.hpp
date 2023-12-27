@@ -26,6 +26,8 @@ namespace STARDUST {
 		float4* d_init_vertex_ptr;
 		float4* d_vertex_ptr;
 		AABB* d_aabb_ptr;
+		float4* d_entity_force_ptr;
+		float4* d_entity_torque_ptr;
 	};
 
 	class EntityHandler {
@@ -53,7 +55,7 @@ namespace STARDUST {
 	private:
 
 
-		float padding = 0.05f;
+		float padding = 0.1f;
 
 		int n_primitives;
 		int n_entities;
@@ -66,18 +68,24 @@ namespace STARDUST {
 		thrust::host_vector<float4> init_vertex;
 		thrust::host_vector<float4> vertex;
 		thrust::host_vector<AABB> aabb;
+		thrust::host_vector<float4> entity_force;
+		thrust::host_vector<float4> entity_torque;
 
 		thrust::device_vector<Hull> d_hull;
 		thrust::device_vector<Entity> d_entity;
 		thrust::device_vector<float4> d_init_vertex;
 		thrust::device_vector<float4> d_vertex;
 		thrust::device_vector<AABB> d_aabb;
+		thrust::device_vector<float4> d_entity_force;
+		thrust::device_vector<float4> d_entity_torque;
 
 		Hull* d_hull_ptr;
 		Entity* d_entity_ptr;
 		float4* d_init_vertex_ptr;
 		float4* d_vertex_ptr;
 		AABB* d_aabb_ptr;
+		float4* d_entity_force_ptr;
+		float4* d_entity_torque_ptr;
 
 	};
 

@@ -1,0 +1,1156 @@
+16:22:04.6712441 [Info, Thread 11]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.ConfigurationService: ConfigSwitched Initial config switch to x64-Debug
+16:22:04.6956148 [Info, Thread 9]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Rehydrating projects for 0 VBP Waiting:x64-Debug, HasData:, HasError:
+16:22:04.7036159 [Info, Thread 47]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:22:04.7544013 [Debug, Thread 46]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.TaskSchedulerAwaitTaskContinuation.<>c.<Run>b__2_0(Object state)
+   at System.Threading.Tasks.Task.Execute()
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.Tasks.TaskScheduler.TryRunInline(Task task, Boolean taskWasPreviouslyQueued)
+   at System.Threading.Tasks.TaskContinuation.InlineIfPossibleOrElseQueue(Task task, Boolean needsProtection)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.TaskSchedulerAwaitTaskContinuation.<>c.<Run>b__2_0(Object state)
+   at System.Threading.Tasks.Task.Execute()
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at Microsoft.VisualStudio.Workspace.QueuedTaskScheduler.ProcessPrioritizedAndBatchedTasks()
+   at System.Threading.Tasks.Task.Execute()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:22:04.7544013 [Debug, Thread 46]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 1
+16:22:04.7624017 [Info, Thread 46]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:22:04.7954451 [Debug, Thread 13]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'60738', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:22:04.8288801 [Debug, Thread 43]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'60738', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:22:04.9717106 [Info, Thread 11]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:22:05.2028610 [Debug, Thread 47]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:22:05.2109628 [Debug, Thread 11]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:22:05.3026981 [Info, Thread 11]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:22:05.3026981 [Info, Thread 11]	libcmake.CMakeListsParser: Parsing without cache
+16:22:05.3303154 [Info, Thread 10]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:22:05.3303154 [Info, Thread 9]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:22:05.4143537 [Info, Thread 44]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:22:08.0777225 [Info, Thread 9]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:22:08.1305663 [Debug, Thread 9]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 17ms
+16:22:08.1379536 [Debug, Thread 28]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 9ms
+16:22:08.2452278 [Debug, Thread 49]	libcmake.Utils: Profile: Function 'Sources' lasted 33ms
+16:22:08.2554467 [Debug, Thread 28]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:22:08.2554467 [Debug, Thread 28]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 88ms
+16:22:08.2554467 [Debug, Thread 9]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 116ms
+16:22:08.2726465 [Debug, Thread 52]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 13ms
+16:22:08.3267833 [Debug, Thread 49]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 2ms
+16:22:08.3267833 [Debug, Thread 49]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 2ms
+16:22:08.3349442 [Info, Thread 49]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:22:08.3349442 [Debug, Thread 43]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'60738', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:22:08.3513781 [Info, Thread 44]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 3587ms.
+16:22:08.3620277 [Info, Thread 9]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:22:08.3754833 [Info, Thread 39]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:22:08.5101484 [Info, Thread 44]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:22:08.5101484 [Info, Thread 9]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:22:08.6651877 [Info, Thread 44]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerTypeCompleted
+16:22:08.6812705 [Info, Thread 44]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to Completed from FileScanning
+16:22:27.1208086 [Info, Thread 60]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to FileScanning from Completed
+16:22:27.2326429 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to Completed from FileScanning
+16:22:27.3068114 [Info, Thread 40]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake
+16:22:27.5074362 [Info, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to FileScanning from Completed
+16:22:27.6512892 [Info, Thread 48]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake
+16:22:27.6593318 [Info, Thread 46]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to Completed from FileScanning
+16:22:27.7829516 [Info, Thread 64]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to FileScanning from Completed
+16:22:27.8918904 [Info, Thread 46]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCCompiler.cmake
+16:22:27.8918904 [Info, Thread 65]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to Completed from FileScanning
+16:23:42.3616805 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\CMakeCache.txt in workspace: C:\Users\lachl\Documents\stardust
+16:23:43.5645786 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorFactory: Entering EditorFactory CreateEditorInstance()
+16:23:43.7016375 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables()<<<
+16:23:43.7016375 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables>>>
+16:23:43.7016375 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: NoConfigurations
+16:23:43.7016375 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreConfigurationsInvalid
+16:23:43.7016375 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationWsl
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationRemote
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationCacheRoot
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationRemoteOrWsl
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: ToolsetsEnum
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: GeneratorsEnum
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: NoConfigurations
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IntelliSenseModesEnum
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreDefinedVariablesAvailable
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreAdvancedLinkAndSectionVisible
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedWslInstance
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedRemoteMachineConnection
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: BuildDirectoryEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: InstallDirectoryEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteBuildDirectoryEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteCMakeListsDirectoryEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteInstallDirectoryEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RsyncArgumentsEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: MakeArgumentsEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: ASANArgumentsEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CMakeExecutablePathEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CTestArgumentsEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CMakeArgumentsEvaluated
+16:23:43.8268501 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CacheRootEvaluated
+16:23:44.1638292 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedRemoteMachineConnection
+16:23:44.1638292 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedWslInstance
+16:23:44.1754415 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables:
+16:23:44.1769649 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: AreCMakeCacheVariablesEqual=true: both empty
+16:23:44.1769649 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables: skipped as identical!
+16:23:44.1817294 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.Editors.CMakeCacheFileWatcher: Watching: C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:23:44.1822621 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.Editors.CMakeCacheFileWatcher: Started watching: C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:23:44.2111991 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables:
+16:23:44.2111991 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: AreCMakeCacheVariablesEqual=false: count differs (0!=135)
+16:23:44.2111991 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables()<<<
+16:23:44.2111991 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables>>>
+16:23:44.2111991 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables: completed, notifying!
+16:23:44.2111991 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:24:02.1975005 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\CMakeSettings.json in workspace: C:\Users\lachl\Documents\stardust
+16:24:02.3190589 [Info, Thread 10]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.ConfigurationService+ConfigurationCache: Firing updated event for x64-Debug
+16:24:02.3190589 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Config update for x64-Debug
+16:24:02.3578345 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:24:02.3578345 [Info, Thread 67]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearAllAsync: Clearing all cache entries.
+16:24:02.3664820 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'60738', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:24:02.3764161 [Info, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:24:02.3814212 [Info, Thread 11]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelOldTasksAsync: Canceling old tasks for rootFile='CMakeLists.txt' and config='x64-Debug'.
+16:24:02.3864469 [Debug, Thread 67]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<UpdateParseCacheForDependentFileAsync>d__79.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:24:02.3864469 [Debug, Thread 67]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 2
+16:24:02.3864469 [Info, Thread 67]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:24:02.3884911 [Debug, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'159108', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:24:02.3903736 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'159108', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:24:02.4148453 [Info, Thread 19]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:24:02.4475514 [Debug, Thread 10]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:24:02.4475514 [Debug, Thread 67]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:24:02.4963457 [Info, Thread 67]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:24:02.4963457 [Info, Thread 67]	libcmake.CMakeListsParser: Parsing without cache
+16:24:02.5066915 [Info, Thread 11]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:24:02.5066915 [Info, Thread 19]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:24:02.5262053 [Info, Thread 67]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:24:04.4539309 [Info, Thread 71]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:24:04.4622507 [Debug, Thread 63]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 1ms
+16:24:04.4622507 [Debug, Thread 77]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 0ms
+16:24:04.4622507 [Debug, Thread 72]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:24:04.4702511 [Debug, Thread 72]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:24:04.4702511 [Debug, Thread 72]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 3ms
+16:24:04.4702511 [Debug, Thread 17]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 5ms
+16:24:04.4702511 [Debug, Thread 63]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:24:04.5157614 [Debug, Thread 17]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:24:04.5237884 [Debug, Thread 17]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:24:04.5376233 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:24:04.5436268 [Debug, Thread 55]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'159108', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:24:04.6638559 [Info, Thread 55]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 2280ms.
+16:24:04.6638559 [Info, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:24:04.6638559 [Info, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:24:04.7550219 [Info, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:24:04.7713250 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:24:46.5357108 [Info, Thread 55]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:24:46.5422318 [Debug, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'214025', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:24:46.5422318 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Installing new entry CMakeLists.txt:x64-Debug:[ParseResult Project:'', Status:'Error', Root:'CMakeLists.txt']:WCFalse:AGCFalse
+16:24:46.5625443 [Info, Thread 55]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:24:46.5625443 [Debug, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:24:46.5625443 [Debug, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 3
+16:24:46.5625443 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:24:46.5625443 [Debug, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'214086', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:24:46.5625443 [Debug, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'214086', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:24:46.5625443 [Info, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Using previous result for task:CacheTask= Id:'214025', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'', rootFile:CMakeLists.txt
+16:24:46.5625443 [Debug, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'214086', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:24:46.5625443 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 5ms.
+16:24:46.5726677 [Info, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:24:46.5730223 [Error, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: FDV Error for CMakeLists.txt Config x64-Debug Canceled False AutoGenerateCanceled False
+16:24:46.5847693 [Info, Thread 22]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:24:46.6122175 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:24:46.6526186 [Info, Thread 75]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.WaitableIndexService: WaitableIndexService changed to FileScanning from Completed
+16:24:47.0525581 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearSingleConfigurationAsync: Clearing cache entry for CMakeLists.txt.
+16:24:47.0525581 [Debug, Thread 18]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'214086', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:24:47.0625392 [Info, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:24:47.0625392 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:24:47.0625392 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 4
+16:24:47.0625392 [Info, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:24:47.0670432 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'218210', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:24:47.0670432 [Debug, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'218210', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:24:47.1825649 [Info, Thread 22]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:24:47.2339896 [Debug, Thread 22]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:24:47.2355690 [Debug, Thread 18]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:24:47.2819140 [Info, Thread 27]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:24:47.2819140 [Info, Thread 27]	libcmake.CMakeListsParser: Parsing without cache
+16:24:47.2819140 [Info, Thread 42]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:24:47.2819140 [Info, Thread 74]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:24:47.3238220 [Info, Thread 55]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:25:05.9156629 [Info, Thread 27]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:25:05.9156629 [Debug, Thread 51]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:25:05.9249765 [Debug, Thread 51]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 1ms
+16:25:05.9277934 [Debug, Thread 75]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:25:05.9277934 [Debug, Thread 75]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:25:05.9277934 [Debug, Thread 75]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 3ms
+16:25:05.9301887 [Debug, Thread 54]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 4ms
+16:25:05.9301887 [Debug, Thread 26]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:25:05.9772900 [Debug, Thread 74]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:25:05.9772900 [Debug, Thread 74]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:25:05.9849238 [Info, Thread 91]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:25:05.9849238 [Debug, Thread 31]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'218210', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:25:05.9879296 [Info, Thread 31]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 18924ms.
+16:25:05.9904792 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:25:05.9904792 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:25:06.0504548 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:25:06.0504548 [Info, Thread 74]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:25:15.7403305 [Info, Thread 92]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake
+16:25:15.9911836 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake
+16:25:16.2929828 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCCompiler.cmake
+16:25:28.6131140 [Info, Thread 90]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelOldTasksAsync: Canceling old tasks for rootFile='CMakeLists.txt' and config='x64-Debug'.
+16:25:28.6131140 [Debug, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'218210', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:25:28.6131140 [Debug, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<UpdateParseCacheForDependentFileAsync>d__79.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache.<CancelOldTasksAsync>d__20.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache.CacheTask.<CancelAsync>d__19.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.Logger.<LogNamedAsync>d__21.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.Task.WhenAllPromise.Invoke(Task completedTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.PrefixFilterLoggerListener.<LogAsync>d__6.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.FileLoggerListener.<LogAsync>d__11.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<WriteAsyncInternal>d__55.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<FlushAsyncInternal>d__68.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:25:28.6131140 [Debug, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 5
+16:25:28.6131140 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:25:28.6131140 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:25:28.6211157 [Debug, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'320462', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:25:28.6211157 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling previous task because of time diff 26/12/2023 6:25:28 AM > 26/12/2023 6:24:47 AM
+16:25:28.6211157 [Debug, Thread 84]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'218210', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:25:28.6211157 [Debug, Thread 91]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'320462', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'CacheTask= Id:'218210', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''' exiting...
+16:25:28.6566372 [Info, Thread 17]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:25:28.7073497 [Debug, Thread 91]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:25:28.7073497 [Debug, Thread 93]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:25:28.7571900 [Info, Thread 17]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:25:28.7571900 [Info, Thread 17]	libcmake.CMakeListsParser: Parsing without cache
+16:25:28.7651918 [Info, Thread 93]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:25:28.7697325 [Info, Thread 93]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:25:28.7893314 [Info, Thread 17]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:25:37.7600899 [Info, Thread 53]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeRCCompiler.cmake
+16:25:37.7600899 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCUDACompiler.cmake
+16:25:37.8207252 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\CMakeScratch\TryCompile-1nfxin\cmake_install.cmake
+16:25:37.8207252 [Info, Thread 53]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\CMakeScratch\TryCompile-1nfxin\CMakeLists.txt
+16:25:37.8207252 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\CMakeScratch\TryCompile-1nfxin\CMakeLists.txt
+16:25:37.8207252 [Info, Thread 54]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\CMakeScratch\TryCompile-1nfxin\cmake_install.cmake
+16:25:37.8835911 [Info, Thread 92]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\CMakeScratch\TryCompile-1nfxin\cmake_install.cmake
+16:25:43.6207140 [Info, Thread 83]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:25:43.6207140 [Debug, Thread 89]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:25:43.6287143 [Debug, Thread 88]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 1ms
+16:25:43.6287143 [Debug, Thread 88]	libcmake.Utils: Profile: Function 'Sources' lasted 2ms
+16:25:43.6367498 [Debug, Thread 88]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:25:43.6367498 [Debug, Thread 88]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 5ms
+16:25:43.6367498 [Debug, Thread 54]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 7ms
+16:25:43.6367498 [Debug, Thread 88]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:25:43.6576914 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for cmake_install.cmake
+16:25:43.7086713 [Debug, Thread 42]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:25:43.7086713 [Debug, Thread 42]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:25:43.7086713 [Info, Thread 54]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:25:43.7086713 [Debug, Thread 84]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'320462', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'CacheTask= Id:'218210', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'''
+16:25:43.7242921 [Info, Thread 84]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 15105ms.
+16:25:43.7242921 [Info, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:25:43.7242921 [Info, Thread 27]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:25:43.8899495 [Info, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:25:43.8899495 [Info, Thread 71]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:25:43.9083761 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CTestTestfile.cmake
+16:25:44.0294650 [Info, Thread 84]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for sandbox\CTestTestfile.cmake
+16:28:36.5371748 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\CMakeCache.txt in workspace: C:\Users\lachl\Documents\stardust
+16:28:41.9890044 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\cmake_install.cmake in workspace: C:\Users\lachl\Documents\stardust
+16:28:41.9890044 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\CTestTestfile.cmake in workspace: C:\Users\lachl\Documents\stardust
+16:28:50.6943483 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\sandbox\cmake_install.cmake in workspace: C:\Users\lachl\Documents\stardust
+16:28:50.6943483 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.ProjectEditor.ProjectEditorFolderViewProvider: RemoveFiles Not attempting cmake script modification for file: C:\Users\lachl\Documents\stardust\sandbox\CTestTestfile.cmake in workspace: C:\Users\lachl\Documents\stardust
+16:29:29.9723569 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:29:29.9753491 [Debug, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'434993', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:29:29.9753491 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Installing new entry CMakeLists.txt:x64-Debug:[ParseResult Project:'', Status:'Error', Root:'CMakeLists.txt']:WCFalse:AGCFalse
+16:29:30.0317873 [Info, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:29:30.0317873 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:29:30.0317873 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 6
+16:29:30.0317873 [Info, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:29:30.0317873 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'435075', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:29:30.0401172 [Debug, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'435075', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:29:30.0401172 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Using previous result for task:CacheTask= Id:'434993', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'', rootFile:CMakeLists.txt
+16:29:30.0401172 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'435075', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:29:30.0401172 [Info, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 6ms.
+16:29:30.0401172 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:29:30.0401172 [Error, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: FDV Error for CMakeLists.txt Config x64-Debug Canceled False AutoGenerateCanceled False
+16:29:30.0601072 [Info, Thread 105]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:29:30.0846766 [Info, Thread 109]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:29:30.3198502 [Info, Thread 54]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearSingleConfigurationAsync: Clearing cache entry for CMakeLists.txt.
+16:29:30.3198502 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'435075', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:29:30.3248553 [Info, Thread 111]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:29:30.3248553 [Debug, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:29:30.3248553 [Debug, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 7
+16:29:30.3248553 [Info, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:29:30.3248553 [Debug, Thread 105]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'436074', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:29:30.3302810 [Debug, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'436074', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:29:30.3998026 [Info, Thread 85]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:29:30.4571477 [Debug, Thread 98]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:29:30.4571477 [Debug, Thread 105]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:29:30.5020673 [Info, Thread 106]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:29:30.5020673 [Info, Thread 106]	libcmake.CMakeListsParser: Parsing without cache
+16:29:30.5020673 [Info, Thread 95]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:29:30.5020673 [Info, Thread 111]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:29:30.5397471 [Info, Thread 94]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:29:47.3211788 [Info, Thread 98]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:29:47.3265203 [Debug, Thread 118]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:29:47.3265203 [Debug, Thread 118]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 1ms
+16:29:47.3265203 [Debug, Thread 79]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:29:47.3265203 [Debug, Thread 79]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:29:47.3265203 [Debug, Thread 79]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 4ms
+16:29:47.3618680 [Debug, Thread 78]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 29ms
+16:29:47.3672173 [Debug, Thread 121]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:29:47.4067713 [Debug, Thread 95]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:29:47.4067713 [Debug, Thread 95]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:29:47.4460434 [Info, Thread 69]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:29:47.4460434 [Debug, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'436074', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:29:47.4460434 [Info, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 17121ms.
+16:29:47.4460434 [Info, Thread 95]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:29:47.4460434 [Info, Thread 54]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:29:47.5228184 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:29:47.5228184 [Info, Thread 42]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:30:26.9460767 [Info, Thread 87]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake
+16:30:27.2335733 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake
+16:30:27.4375575 [Info, Thread 111]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCCompiler.cmake
+16:31:58.9653636 [Info, Thread 133]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake
+16:31:59.2290615 [Info, Thread 125]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake
+16:31:59.5025366 [Info, Thread 94]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCCompiler.cmake
+16:32:25.6794469 [Info, Thread 127]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:32:25.6824383 [Debug, Thread 106]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'525567', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:32:25.6824383 [Info, Thread 106]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Installing new entry CMakeLists.txt:x64-Debug:[ParseResult Project:'', Status:'Error', Root:'CMakeLists.txt']:WCFalse:AGCFalse
+16:32:25.6834349 [Info, Thread 1]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:32:25.7686547 [Debug, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:32:25.7686547 [Debug, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 8
+16:32:25.7686547 [Info, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:32:25.7686547 [Debug, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'525668', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:32:25.7686547 [Debug, Thread 127]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'525668', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:32:25.7686547 [Info, Thread 127]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Using previous result for task:CacheTask= Id:'525567', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'', rootFile:CMakeLists.txt
+16:32:25.7686547 [Debug, Thread 100]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'525668', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:32:25.7786694 [Info, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 8ms.
+16:32:25.7786694 [Info, Thread 110]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:32:25.7786694 [Error, Thread 110]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: FDV Error for CMakeLists.txt Config x64-Debug Canceled False AutoGenerateCanceled False
+16:32:25.7953802 [Info, Thread 126]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:32:25.8255385 [Info, Thread 100]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:32:25.9888527 [Info, Thread 134]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearSingleConfigurationAsync: Clearing cache entry for CMakeLists.txt.
+16:32:25.9938591 [Debug, Thread 134]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'525668', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:32:25.9938591 [Info, Thread 128]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:32:25.9938591 [Debug, Thread 95]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:32:25.9938591 [Debug, Thread 95]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 9
+16:32:25.9938591 [Info, Thread 95]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:32:25.9983881 [Debug, Thread 24]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'526415', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:32:26.0000800 [Debug, Thread 126]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'526415', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:32:26.0987514 [Info, Thread 106]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:32:26.1486705 [Debug, Thread 126]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:32:26.1486705 [Debug, Thread 68]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:32:26.2185244 [Info, Thread 16]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:32:26.2185244 [Info, Thread 16]	libcmake.CMakeListsParser: Parsing without cache
+16:32:26.2185244 [Info, Thread 134]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:32:26.2185244 [Info, Thread 130]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:32:26.2654902 [Info, Thread 95]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:32:47.9622237 [Info, Thread 128]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:32:47.9702167 [Debug, Thread 72]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 5ms
+16:32:47.9702167 [Debug, Thread 14]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 3ms
+16:32:47.9782148 [Debug, Thread 138]	libcmake.Utils: Profile: Function 'Sources' lasted 3ms
+16:32:47.9864673 [Debug, Thread 138]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:32:47.9864673 [Debug, Thread 138]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 9ms
+16:32:47.9864673 [Debug, Thread 24]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 12ms
+16:32:47.9931582 [Debug, Thread 138]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:32:48.1866622 [Debug, Thread 122]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:32:48.1866622 [Debug, Thread 122]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 1ms
+16:32:48.2119692 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:32:48.2139367 [Debug, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'526415', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:32:48.2198307 [Info, Thread 129]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 22224ms.
+16:32:48.2226416 [Info, Thread 122]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:32:48.2247407 [Info, Thread 124]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:32:48.3363369 [Info, Thread 16]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:32:48.3363369 [Info, Thread 112]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:35:35.2972930 [Info, Thread 101]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake
+16:35:35.5667925 [Info, Thread 99]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake
+16:35:35.7952542 [Info, Thread 101]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeFiles\3.27.2-msvc1\CMakeCCompiler.cmake
+16:40:06.3492613 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorFactory: Entering EditorFactory CreateEditorInstance()
+16:40:06.4073895 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables()<<<
+16:40:06.4073895 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables>>>
+16:40:06.4073895 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: NoConfigurations
+16:40:06.4073895 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreConfigurationsInvalid
+16:40:06.4073895 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationWsl
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationRemote
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationCacheRoot
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCurrentConfigurationRemoteOrWsl
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: ToolsetsEnum
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: GeneratorsEnum
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: NoConfigurations
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IntelliSenseModesEnum
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreDefinedVariablesAvailable
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: AreAdvancedLinkAndSectionVisible
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedWslInstance
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedRemoteMachineConnection
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: BuildDirectoryEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: InstallDirectoryEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteBuildDirectoryEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteCMakeListsDirectoryEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RemoteInstallDirectoryEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: RsyncArgumentsEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: MakeArgumentsEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: ASANArgumentsEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CMakeExecutablePathEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CTestArgumentsEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CMakeArgumentsEvaluated
+16:40:06.4597219 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: CacheRootEvaluated
+16:40:06.4758079 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.ConfigurationService+ConfigurationCache: Firing updated event for x64-Debug
+16:40:06.4758079 [Info, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Config update for x64-Debug
+16:40:06.4838088 [Info, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:40:06.4856995 [Info, Thread 93]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearAllAsync: Clearing all cache entries.
+16:40:06.4856995 [Debug, Thread 90]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'526415', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:40:06.7300953 [Info, Thread 52]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:40:06.7300953 [Info, Thread 64]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelOldTasksAsync: Canceling old tasks for rootFile='CMakeLists.txt' and config='x64-Debug'.
+16:40:06.7300953 [Debug, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<UpdateParseCacheForDependentFileAsync>d__79.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache.<CancelOldTasksAsync>d__20.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.Logger.<LogNamedAsync>d__21.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.Task.WhenAllPromise.Invoke(Task completedTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.PrefixFilterLoggerListener.<LogAsync>d__6.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.FileLoggerListener.<LogAsync>d__11.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<WriteAsyncInternal>d__55.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<FlushAsyncInternal>d__68.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:40:06.7300953 [Debug, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 10
+16:40:06.7300953 [Info, Thread 77]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:40:06.7300953 [Debug, Thread 102]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'620905', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:40:06.7457197 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedWslInstance
+16:40:06.7457197 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: SelectedRemoteMachineConnection
+16:40:06.7481692 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables:
+16:40:06.7481692 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: AreCMakeCacheVariablesEqual=true: both empty
+16:40:06.7481692 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables: skipped as identical!
+16:40:06.7481692 [Debug, Thread 88]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'620905', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:40:06.7481692 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.Editors.CMakeCacheFileWatcher: Watching: C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:40:06.7481692 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Package.Editors.CMakeCacheFileWatcher: Started watching: C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:40:06.7645008 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables:
+16:40:06.7645008 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: AreCMakeCacheVariablesEqual=false: count differs (0!=135)
+16:40:06.7651316 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables()<<<
+16:40:06.7651316 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: SyncDefinedAndCacheVariables>>>
+16:40:06.7651316 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables: completed, notifying!
+16:40:06.7651316 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Not handled in ViewModel_PropertyChanged: IsCMakeCacheAvailable
+16:40:06.8265324 [Info, Thread 88]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:40:06.8524188 [Debug, Thread 88]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:40:06.8524188 [Debug, Thread 119]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:40:06.9217301 [Info, Thread 102]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:40:06.9217301 [Info, Thread 102]	libcmake.CMakeListsParser: Parsing without cache
+16:40:06.9238286 [Info, Thread 90]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:40:06.9318321 [Info, Thread 64]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:40:06.9558562 [Info, Thread 136]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:40:08.8679784 [Info, Thread 89]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:40:08.8751601 [Debug, Thread 75]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:40:08.8751601 [Debug, Thread 140]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 0ms
+16:40:08.8857017 [Debug, Thread 24]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:40:08.8857017 [Debug, Thread 120]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:40:08.8857017 [Debug, Thread 120]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 4ms
+16:40:08.8857017 [Debug, Thread 68]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 6ms
+16:40:08.8857017 [Debug, Thread 123]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:40:08.9718658 [Debug, Thread 93]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:40:08.9718658 [Debug, Thread 93]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:40:08.9874880 [Info, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:40:08.9874880 [Debug, Thread 135]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'620905', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:40:08.9874880 [Info, Thread 135]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 2252ms.
+16:40:08.9874880 [Info, Thread 64]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:40:08.9874880 [Info, Thread 135]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:40:09.0421704 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables:
+16:40:09.0421704 [Debug, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: AreCMakeCacheVariablesEqual-true
+16:40:09.0421704 [Info, Thread 1]	Microsoft.VisualStudio.CMake.Client.CMakeSettings.EditorViewModel: Set  CMakeCacheVariables: skipped as identical!
+16:40:09.1455430 [Info, Thread 135]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:40:09.1669937 [Info, Thread 102]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:47:55.6297258 [Info, Thread 137]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelOldTasksAsync: Canceling old tasks for rootFile='CMakeLists.txt' and config='x64-Debug'.
+16:47:55.6327302 [Debug, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'620905', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:47:55.6327302 [Debug, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<UpdateParseCacheForDependentFileAsync>d__79.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache.<CancelOldTasksAsync>d__20.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache.CacheTask.<CancelAsync>d__19.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.Logger.<LogNamedAsync>d__21.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.Task.WhenAllPromise.Invoke(Task completedTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.PrefixFilterLoggerListener.<LogAsync>d__6.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.VisualC.Logging.FileLoggerListener.<LogAsync>d__11.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<WriteAsyncInternal>d__55.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at System.IO.StreamWriter.<FlushAsyncInternal>d__68.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:47:55.6327302 [Debug, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 11
+16:47:55.6327302 [Info, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:47:55.6327302 [Info, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:47:55.6327302 [Debug, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'679472', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:47:55.6409697 [Info, Thread 137]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling previous task because of time diff 26/12/2023 6:47:55 AM > 26/12/2023 6:40:06 AM
+16:47:55.6409697 [Debug, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'620905', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:47:55.6409697 [Debug, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'679472', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'CacheTask= Id:'620905', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''' exiting...
+16:47:55.6769835 [Info, Thread 137]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:47:55.7194786 [Debug, Thread 90]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:47:55.7200791 [Debug, Thread 102]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:47:55.7690267 [Info, Thread 102]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:47:55.7690267 [Info, Thread 102]	libcmake.CMakeListsParser: Parsing without cache
+16:47:55.7737983 [Info, Thread 135]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:47:55.7737983 [Info, Thread 62]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:47:55.8054428 [Info, Thread 90]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:47:57.7334309 [Info, Thread 137]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:47:57.7419960 [Debug, Thread 195]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:47:57.7419960 [Debug, Thread 195]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 0ms
+16:47:57.7419960 [Debug, Thread 198]	libcmake.Utils: Profile: Function 'Sources' lasted 1ms
+16:47:57.7490018 [Debug, Thread 198]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:47:57.7490018 [Debug, Thread 198]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 4ms
+16:47:57.7490018 [Debug, Thread 68]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 5ms
+16:47:57.7490018 [Debug, Thread 198]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:47:57.7817629 [Debug, Thread 151]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:47:57.7817629 [Debug, Thread 151]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:47:57.7817629 [Info, Thread 137]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:47:57.7975833 [Debug, Thread 202]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'679472', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'CacheTask= Id:'620905', Conf:'x64-Debug', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'''
+16:47:57.7975833 [Info, Thread 202]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 2162ms.
+16:47:57.7975833 [Info, Thread 201]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:47:57.7975833 [Info, Thread 137]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:47:57.8988563 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:47:57.9011477 [Info, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:57:34.1399356 [Info, Thread 68]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Canceling all ongoing generations for workspaceDirectory='C:\Users\lachl\Documents\stardust'
+16:57:34.1419303 [Debug, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'748122', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:57:34.1419303 [Info, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Installing new entry CMakeLists.txt:x64-Debug:[ParseResult Project:'', Status:'Error', Root:'CMakeLists.txt']:WCFalse:AGCFalse
+16:57:34.2075435 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:57:34.2103348 [Debug, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:57:34.2103348 [Debug, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 12
+16:57:34.2103348 [Info, Thread 151]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:57:34.2103348 [Debug, Thread 102]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'748195', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:57:34.2150534 [Debug, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'748195', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:57:34.2150534 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Using previous result for task:CacheTask= Id:'748122', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'', rootFile:CMakeLists.txt
+16:57:34.2170830 [Debug, Thread 202]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'748195', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:57:34.2170830 [Info, Thread 68]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 8ms.
+16:57:34.2170830 [Info, Thread 102]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:57:34.2220887 [Error, Thread 202]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: FDV Error for CMakeLists.txt Config x64-Debug Canceled False AutoGenerateCanceled False
+16:57:34.2368780 [Info, Thread 68]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:57:34.2717106 [Info, Thread 264]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.
+16:57:34.4768012 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: ClearSingleConfigurationAsync: Clearing cache entry for CMakeLists.txt.
+16:57:34.4768012 [Debug, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CancelAsync: canceling task=CacheTask= Id:'748195', Conf:'unknown', Complete:'True', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:57:34.4818113 [Info, Thread 136]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Starting scan ...
+16:57:34.4818113 [Debug, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: GetScanToken:    at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.GetScanToken(String root, Guid providerGuid)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService.<ScanContentAsync_Impl>d__50`1.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(Task`1 completedTask)
+   at Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.OperationManager.<WaitOnBuild>d__27.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetResult(TResult result)
+   at Microsoft.VisualStudio.Threading.ThreadingTools.<WithCancellationSlow>d__9.MoveNext()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.MoveNextRunner.Run()
+   at System.Threading.Tasks.AwaitTaskContinuation.RunOrScheduleAction(Action action, Boolean allowInlining, Task& currentTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.TaskFactory.CompleteOnInvokePromise.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task`1.TrySetResult(TResult result)
+   at System.Threading.Tasks.UnwrapPromise`1.TrySetFromTask(Task task, Boolean lookForOce)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessInnerTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.ProcessCompletedOuterTask(Task task)
+   at System.Threading.Tasks.UnwrapPromise`1.Invoke(Task completingTask)
+   at System.Threading.Tasks.Task.FinishContinuations()
+   at System.Threading.Tasks.Task.Finish(Boolean bUserDelegateExecuted)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+   at System.Threading.Tasks.Task.ExecuteEntry(Boolean bPreventDoubleExecution)
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+
+16:57:34.4818113 [Debug, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Getting Scan Token - scancount 13
+16:57:34.4818113 [Info, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing starting: projectfilepath CMakeLists.txt Config Name:x64-Debug
+16:57:34.4818113 [Debug, Thread 203]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'749081', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' entering...
+16:57:34.4883727 [Debug, Thread 264]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: Task:CacheTask= Id:'749081', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:'' exiting...
+16:57:34.6279717 [Info, Thread 68]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationStarted root: CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:57:34.7131702 [Debug, Thread 62]	Microsoft.VisualStudio.CMake.Project.ExternalBuildProject.ProjectProvider: ResettingOutputHandlers Resetting parser's output handlers.
+16:57:34.7160613 [Debug, Thread 151]	libcmake.CMakeListsParser: ParseAsync(ICMakeParameters, CancellationToken)
+16:57:34.7689481 [Info, Thread 249]	libcmake.CMakeDaemonDriver: CMake version parsed: True, input string: cmake version 3.27.2-msvc1, matched version: 3.27.2.0
+16:57:34.7689481 [Info, Thread 249]	libcmake.CMakeListsParser: Parsing without cache
+16:57:34.7705670 [Info, Thread 275]	libcmake.CMakeDaemonDriver: CacheNotDeletedAutomatically Cache retained at $C:\Users\lachl\Documents\stardust\out\build\x64-Debug
+16:57:34.7726442 [Info, Thread 202]	libcmake.CMakeDaemonDriver: CMake version '3.27.2.0' identified
+16:57:34.8045168 [Info, Thread 251]	libcmake.CMakeDaemonDriver: Starting generator CMake
+16:57:51.8022223 [Info, Thread 251]	libcmake.CMakeDaemonDriver: Generator CMake finished
+16:57:51.8022223 [Debug, Thread 263]	libcmake.Utils: Profile: Function 'ExtractCacheAsync' lasted 2ms
+16:57:51.8108063 [Debug, Thread 257]	libcmake.Utils: Profile: Function 'ExtractCMakeFilesAsync' lasted 1ms
+16:57:51.8108063 [Debug, Thread 263]	libcmake.Utils: Profile: Function 'Sources' lasted 2ms
+16:57:51.8195088 [Debug, Thread 263]	libcmake.Utils: Profile: Function 'Sources' lasted 0ms
+16:57:51.8195088 [Debug, Thread 263]	libcmake.Utils: Profile: Function 'foreach(Debug)' lasted 5ms
+16:57:51.8195088 [Debug, Thread 265]	libcmake.Utils: Profile: Function 'ExtractCodeModelAsync' lasted 7ms
+16:57:51.8195088 [Debug, Thread 257]	libcmake.Utils: Profile: Function 'ExtractToolchainsAsync' lasted 0ms
+16:57:51.8685411 [Debug, Thread 245]	libcmake.Utils: Profile: Function 'ConsolidateSources' lasted 0ms
+16:57:51.8685411 [Debug, Thread 245]	libcmake.Utils: Profile: Function 'PopulateCommands' lasted 0ms
+16:57:51.8685411 [Info, Thread 275]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: CacheGenerationFinished Cache gen & parsing done: root:CMAKELISTS.TXTx64-Debug CMakeLists.txt x64-Debug
+16:57:51.8765402 [Debug, Thread 249]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.ParseCache: SetCacheResult Completing task id=CacheTask= Id:'749081', Conf:'unknown', Complete:'False', Canc:'False', Root:'C:\Users\lachl\Documents\stardust, 
+	PrevTask:''
+16:57:51.8765402 [Info, Thread 249]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Scanner Parsing done: projectfilepath CMakeLists.txt Config Name:x64-Debug, took 17396ms.
+16:57:51.8765402 [Info, Thread 202]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Compute file data values for CMakeLists.txt Config x64-Debug
+16:57:51.8845405 [Info, Thread 135]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: 0 for ConfigName x64-Debug, Write to DB CMakeLists.txt
+16:57:51.9299738 [Info, Thread 62]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: OnFileScannerCompleted for CMakeLists.txt
+16:57:51.9299738 [Info, Thread 245]	Microsoft.VisualStudio.Workspace.ExternalBuildFramework.Impl.Services.BuildProjectScannerService: Finishing scan.

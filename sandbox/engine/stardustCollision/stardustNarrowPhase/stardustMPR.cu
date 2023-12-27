@@ -623,7 +623,7 @@ namespace STARDUST {
 
 			// Add something to stop writing over the end of the array!!!
 
-			printf("Penetration depth: %.3f\n", collision_data.penetration_depth);
+			//printf("Penetration depth: %.3f\n", collision_data.penetration_depth);
 			
 			d_collision_manifold_ptr[pair_idx] = collision_data;
 			

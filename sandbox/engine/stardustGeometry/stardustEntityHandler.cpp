@@ -38,6 +38,67 @@ namespace STARDUST {
 		return COM / (float)polyhedron.size();
 	}
 
+	float9 computeInertiaTensor(Sphere sphere) {
+		float9 I;
+
+		I[0] = 2 / 5 * sphere.mass * SQR(sphere.radius);
+		I[4] = 2 / 5 * sphere.mass * SQR(sphere.radius);
+		I[8] = 2 / 5 * sphere.mass * SQR(sphere.radius);
+
+		I[1] = I[2] = I[3] = I[5] = I[6] = I[7] = 0.0f;
+
+		return I;
+	}
+
+	float9 computeInertiaTensor(Polyhedron polyhedron) {
+		float9 I_c = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
+		float4 poly_center;
+
+		for (int simplex = 0; simplex < polyhedron.indices.size() / 3; simplex++) {
+
+			float4 a = polyhedron.vertices[polyhedron.indices[3 * simplex + 0]] - polyhedron.position;
+			float4 b = polyhedron.vertices[polyhedron.indices[3 * simplex + 1]] - polyhedron.position;
+			float4 c = polyhedron.vertices[polyhedron.indices[3 * simplex + 2]] - polyhedron.position;
+
+			float4 d = a + b + c;
+
+			float det = abs(dot(a, make_float4(cross(make_float3(b), make_float3(c)))));
+
+			float4 center = det * d;
+			float4 relative_position = center - polyhedron.position;
+
+			I_c[0] += det * (SQR(a.x) + SQR(b.x) + SQR(c.x) + SQR(d.x)) + (SQR(relative_position.y) + SQR(relative_position.z));
+			I_c[4] += det * (SQR(a.y) + SQR(b.y) + SQR(c.y) + SQR(d.y)) + (SQR(relative_position.x) + SQR(relative_position.z));
+			I_c[8] += det * (SQR(a.z) + SQR(b.z) + SQR(c.z) + SQR(d.z)) + (SQR(relative_position.x) + SQR(relative_position.y));
+
+			I_c[1] += det * (a.x * a.y + b.x * b.y + c.x * c.y + d.x * d.y) + relative_position.x * relative_position.y;
+			I_c[2] += det * (a.x * a.z + b.x * b.z + c.x * c.z + d.x * d.z) + relative_position.x * relative_position.z;
+			I_c[5] += det * (a.z * a.y + b.z * b.y + c.z * c.y + d.z * d.y) + relative_position.y * relative_position.z;
+
+			I_c[3] += I_c[1];
+			I_c[6] += I_c[2];
+			I_c[7] += I_c[5];
+
+		}
+
+		float9 I;
+
+		
+
+		I[0] = I_c[4] + I_c[8];
+		I[4] = I_c[0] + I_c[8];
+		I[8] = I_c[0] + I_c[4];
+
+		I[1] = I[3] = -I_c[1];
+		I[2] = I[6] = -I_c[2];
+		I[5] = I[7] = -I_c[5];
+
+		std::cout << I[0];
+
+		return I;
+	}
+
 	AABB EntityHandler::computeBoundingBox(Sphere& sphere) {
 		AABB aabb;
 
@@ -132,8 +193,8 @@ namespace STARDUST {
 		entity.linear_momentum = make_float4(0.0f);
 		entity.angular_momentum = make_float4(0.0f);
 
-		entity.force = make_float4(0.0f);
-		entity.torque = make_float4(0.0f);
+		//entity.force = make_float4(0.0f);
+		//entity.torque = make_float4(0.0f);
 
 		entity.quaternion = make_float4(1.0f, 0.0f, 0.0f, 0.0f); // Unit Quaternion
 
@@ -165,12 +226,14 @@ namespace STARDUST {
 			hull.initial_relative_position = relative_position;
 			hull.relative_position = relative_position;
 
-			Ixx += sphere.mass * (SQR(relative_position.y) + SQR(relative_position.z));
-			Iyy += sphere.mass * (SQR(relative_position.x) + SQR(relative_position.z));
-			Izz += sphere.mass * (SQR(relative_position.x) + SQR(relative_position.y));
-			Ixy += -sphere.mass * relative_position.x * relative_position.y;
-			Ixz += -sphere.mass * relative_position.x * relative_position.z;
-			Iyz += -sphere.mass * relative_position.y * relative_position.z;
+			float9 I = computeInertiaTensor(sphere);
+
+			Ixx += I[0] + sphere.mass * (SQR(relative_position.y) + SQR(relative_position.z));
+			Iyy += I[4] + sphere.mass * (SQR(relative_position.x) + SQR(relative_position.z));
+			Izz += I[8] + sphere.mass * (SQR(relative_position.x) + SQR(relative_position.y));
+			Ixy += I[1] + -sphere.mass * relative_position.x * relative_position.y;
+			Ixz += I[2] + -sphere.mass * relative_position.x * relative_position.z;
+			Iyz += I[5] + -sphere.mass * relative_position.y * relative_position.z;
 
 			entity_mass += hull.mass;
 
@@ -191,6 +254,10 @@ namespace STARDUST {
 		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 
 		entities.push_back(entity);
+
+		entity_force.push_back(make_float4(0.0f));
+		entity_torque.push_back(make_float4(0.0f));
+
 		n_entities = entity_idx;
 	}
 
@@ -224,8 +291,8 @@ namespace STARDUST {
 		entity.linear_momentum = make_float4(0.0f);
 		entity.angular_momentum = make_float4(0.0f);
 
-		entity.force = make_float4(0.0f);
-		entity.torque = make_float4(0.0f);
+		//entity.force = make_float4(0.0f);
+		//entity.torque = make_float4(0.0f);
 
 		entity.quaternion = make_float4(1.0f, 0.0f, 0.0f, 0.0f); // Unit Quaternion
 
@@ -242,7 +309,7 @@ namespace STARDUST {
 
 			hull.position = triangle.position;
 			hull.mass = 1;
-			hull.radius = -1;
+			hull.radius = 0.001f; // DONT KNOW ABOUT THIS
 
 			int vertex_idx = vertex.size();
 
@@ -285,6 +352,10 @@ namespace STARDUST {
 		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 
 		entities.push_back(entity);
+
+		entity_force.push_back(make_float4(0.0f));
+		entity_torque.push_back(make_float4(0.0f));
+
 		n_entities = entity_idx;
 
 	}
@@ -319,8 +390,8 @@ namespace STARDUST {
 		entity.linear_momentum = make_float4(0.0f);
 		entity.angular_momentum = make_float4(0.0f);
 
-		entity.force = make_float4(0.0f);
-		entity.torque = make_float4(0.0f);
+		//entity.force = make_float4(0.0f);
+		//entity.torque = make_float4(0.0f);
 
 		entity.quaternion = make_float4(1.0f, 0.0f, 0.0f, 0.0f); // Unit Quaternion
 
@@ -353,17 +424,19 @@ namespace STARDUST {
 
 			hull.force = make_float4(0.0f);
 
-			float4 relative_position = polyhedron.position - entity.position + 0.1; // CAREFUL THIS IS FOR TESTING
+			float4 relative_position = polyhedron.position - entity.position; // CAREFUL THIS IS FOR TESTING
 
 			hull.initial_relative_position = relative_position;
 			hull.relative_position = relative_position;
 
-			Ixx += polyhedron.mass * (SQR(relative_position.y) + SQR(relative_position.z));
-			Iyy += polyhedron.mass * (SQR(relative_position.x) + SQR(relative_position.z));
-			Izz += polyhedron.mass * (SQR(relative_position.x) + SQR(relative_position.y));
-			Ixy += -polyhedron.mass * relative_position.x * relative_position.y;
-			Ixz += -polyhedron.mass * relative_position.x * relative_position.z;
-			Iyz += -polyhedron.mass * relative_position.y * relative_position.z;
+			float9 I = computeInertiaTensor(polyhedron);
+
+			Ixx += polyhedron.mass * (I[0] + (SQR(relative_position.y) + SQR(relative_position.z)));
+			Iyy += polyhedron.mass * (I[4] + (SQR(relative_position.x) + SQR(relative_position.z)));
+			Izz += polyhedron.mass * (I[8] + (SQR(relative_position.x) + SQR(relative_position.y)));
+			Ixy += polyhedron.mass * (I[1] + -relative_position.x * relative_position.y);
+			Ixz += polyhedron.mass * (I[2] + -relative_position.x * relative_position.z);
+			Iyz += polyhedron.mass * (I[5] + -relative_position.y * relative_position.z);
 
 			entity_mass += hull.mass;
 
@@ -380,6 +453,9 @@ namespace STARDUST {
 		entity.inertia_tensor = { Ixx, Ixy, Ixz, Ixy, Iyy, Iyz, Ixz, Iyz, Izz };
 
 		entities.push_back(entity);
+
+		entity_force.push_back(make_float4(0.0f));
+		entity_torque.push_back(make_float4(0.0f));
 		n_entities = entity_idx;
 	}
 
@@ -390,18 +466,24 @@ namespace STARDUST {
 		d_init_vertex = vertex;
 		d_vertex = vertex;
 		d_aabb = aabb;
+		d_entity_force = entity_force;
+		d_entity_torque = entity_torque;
 
 		d_hull_ptr = thrust::raw_pointer_cast(d_hull.data());
 		d_entity_ptr = thrust::raw_pointer_cast(d_entity.data());
 		d_init_vertex_ptr = thrust::raw_pointer_cast(d_init_vertex.data());
 		d_vertex_ptr = thrust::raw_pointer_cast(d_vertex.data());
 		d_aabb_ptr = thrust::raw_pointer_cast(d_aabb.data());
+		d_entity_force_ptr = thrust::raw_pointer_cast(d_entity_force.data());
+		d_entity_torque_ptr = thrust::raw_pointer_cast(d_entity_torque.data());
 
 		device_geometry_data.d_hull_ptr = d_hull_ptr;
 		device_geometry_data.d_entity_ptr = d_entity_ptr;
 		device_geometry_data.d_init_vertex_ptr = d_init_vertex_ptr;
 		device_geometry_data.d_vertex_ptr = d_vertex_ptr;
 		device_geometry_data.d_aabb_ptr = d_aabb_ptr;
+		device_geometry_data.d_entity_force_ptr = d_entity_force_ptr;
+		device_geometry_data.d_entity_torque_ptr = d_entity_torque_ptr;
 
 	}
 
@@ -418,10 +500,10 @@ namespace STARDUST {
 				spheres_ls.push_back(hulls[i].position);
 			}
 			else if (hulls[i].type == TRIANGLE) {
-				printf("huh1 %d\n", hulls[i].n_vertices);
+				//printf("huh1 %d\n", hulls[i].n_vertices);
 				for (int j = 0; j < hulls[i].n_vertices; j++) {
 
-					printf("huh\n");
+					//printf("huh\n");
 					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
 
 				}
@@ -431,7 +513,7 @@ namespace STARDUST {
 			else if (hulls[i].type == POLYHEDRA) {
 				for (int j = 0; j < hulls[i].n_vertices; j++) {
 
-					printf("huh\n");
+					//printf("huh\n");
 					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
 
 				}
@@ -465,53 +547,53 @@ namespace STARDUST {
 		vtkFile.close();
 
 
-		std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/triout_" + std::to_string(time_step) + ".vtk");
+		std::ofstream vtk2File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/triout_" + std::to_string(time_step) + ".vtk");
 
 		//// Write VTK header
-		//vtk2File << "# vtk DataFile Version 2.0" << std::endl;
-		//vtk2File << "VTK file for your point cloud data" << std::endl;
-		//vtk2File << "ASCII" << std::endl;
-		//vtk2File << "DATASET POLYDATA" << std::endl;
+		vtk2File << "# vtk DataFile Version 2.0" << std::endl;
+		vtk2File << "VTK file for your point cloud data" << std::endl;
+		vtk2File << "ASCII" << std::endl;
+		vtk2File << "DATASET POLYDATA" << std::endl;
 
-		//vtk2File << "POINTS " << vertices_ls.size() << " float" << std::endl;
+		vtk2File << "POINTS " << vertices_ls.size() << " float" << std::endl;
 
-		//for (size_t i = 0; i < vertices_ls.size(); ++i) {
-		//	vtk2File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
-		//}
+		for (size_t i = 0; i < vertices_ls.size(); ++i) {
+			vtk2File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
+		}
 
-		//vtk2File << "TRIANGLE_STRIPS " << indicies_ls.size() << " " << indicies_ls.size() * 4 << std::endl;
-		//for (int i = 0; i < indicies_ls.size(); i++) {
-		//	vtk2File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
-		//}
+		vtk2File << "TRIANGLE_STRIPS " << indicies_ls.size() << " " << indicies_ls.size() * 4 << std::endl;
+		for (int i = 0; i < indicies_ls.size(); i++) {
+			vtk2File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		}
 
-		//vtk2File.close();
+		vtk2File.close();
 
 		//std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/polyout_" + std::to_string(time_step) + ".vtk");
 
-		// Write VTK header
-		vtk3File << "# vtk DataFile Version 2.0" << std::endl;
-		vtk3File << "VTK file for your point cloud data" << std::endl;
-		vtk3File << "ASCII" << std::endl;
-		vtk3File << "DATASET POLYDATA" << std::endl;
+		//// Write VTK header
+		//vtk3File << "# vtk DataFile Version 2.0" << std::endl;
+		//vtk3File << "VTK file for your point cloud data" << std::endl;
+		//vtk3File << "ASCII" << std::endl;
+		//vtk3File << "DATASET POLYDATA" << std::endl;
 
-		vtk3File << "POINTS " << vertices_ls.size() << " float" << std::endl;
+		//vtk3File << "POINTS " << vertices_ls.size() << " float" << std::endl;
 
-		for (size_t i = 0; i < vertices_ls.size(); ++i) {
-			vtk3File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
-		}
+		//for (size_t i = 0; i < vertices_ls.size(); ++i) {
+		//	vtk3File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
+		//}
 
-		vtk3File << "TRIANGLE_STRIPS " << 4 << " " << 4 * 4 << std::endl;
-		/*for (int i = 0; i < indicies_ls.size(); i++) {
-			vtk3File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
-		}*/
-		vtk3File << "3 " << 0 << " " << 1 << " " << 3 << std::endl;
-		vtk3File << "3 " << 1 << " " << 2 << " " << 3 << std::endl;
-		vtk3File << "3 " << 0 << " " << 2 << " " << 3 << std::endl;
-		vtk3File << "3 " << 0 << " " << 2 << " " << 1 << std::endl;
+		//vtk3File << "TRIANGLE_STRIPS " << 4 << " " << 4 * 4 << std::endl;
+		///*for (int i = 0; i < indicies_ls.size(); i++) {
+		//	vtk3File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		//}*/
+		//vtk3File << "3 " << 0 << " " << 1 << " " << 3 << std::endl;
+		//vtk3File << "3 " << 1 << " " << 2 << " " << 3 << std::endl;
+		//vtk3File << "3 " << 0 << " " << 2 << " " << 3 << std::endl;
+		//vtk3File << "3 " << 0 << " " << 2 << " " << 1 << std::endl;
 
-		vtk3File.close();
+		//vtk3File.close();
 
-		std::cout << "Write success!\n";
+		//std::cout << "Write success!\n";
 	}
 
 }

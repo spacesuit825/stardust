@@ -30,6 +30,8 @@
 #include "../../stardustUtility/helper_math.hpp"
 #include "../../stardustGeometry/stardustPrimitives.hpp"
 
+#define BINARY_SEARCH_CONSTRUCTION 0
+
 
 #define INVALID_COMMON_PREFIX 128
 #define ROOT_NODE_MARKER -1
@@ -832,13 +834,13 @@ namespace STARDUST {
 
 			// TODO: Add some logic here to prevent collisions inside Groups
 
-			/*if (rigid_idx >= 0) {
-				Hull phantom_hull = d_hull_ptr[rigid_idx];
+			// if (rigid_idx >= 0) {
+			// 	Hull phantom_hull = d_hull_ptr[rigid_idx];
 
-				if (host_hull.entity_owner == phantom_hull.entity_owner) {
-					return;
-				}
-			}*/
+			// 	if (host_hull.entity_owner == phantom_hull.entity_owner) {
+			// 		continue;
+			// 	}
+			// }
 
 			if (testAABBCollision(&query_aabb, &node_aabb)) {
 				//printf("Collided!\n");
@@ -851,19 +853,19 @@ namespace STARDUST {
 					//int query_node_type = d_type_ptr[query_node_idx];
 					//int rigid_node_type = d_type_ptr[rigid_node_idx];
 
-					//printf("\n host: %d, phan: %d\n", query_idx, rigid_idx);
+					// printf("\n host: %d, phan: %d\n", query_idx, rigid_idx);
 
 					pair.x = query_idx;
 					pair.y = rigid_idx;
 					pair.z = -1;//query_node_type;
 					pair.w = -1;//rigid_node_type;
 
-					printf("\n host: %d, phan: %d\n", pair.x, pair.y);
+					//printf("\n host: %d, phan: %d\n", pair.x, pair.y);
 
 					int pair_idx = atomicAdd(&d_n_pairs_ptr[0], 1); // Increment a counter such that we avoid a
 					
 
-					printf("pair idx %d\n", pair_idx);
+					//printf("pair idx %d\n", pair_idx);
 
 					if (pair_idx < max_collisions) {
 						
@@ -1107,7 +1109,7 @@ namespace STARDUST {
 		max_distance_to_root = d_max_distance_to_root;
 		int max_tree_depth = max_distance_to_root[0];
 
-		printf("max_tree_depth %d\n", max_tree_depth);
+		//printf("max_tree_depth %d\n", max_tree_depth);
 
 		buildBinaryRadixAABBs(
 			n_internal_nodes,
@@ -1170,7 +1172,7 @@ namespace STARDUST {
 		//	printf("\n collision: %d, %d\n", overlapping_pairs[i].x, overlapping_pairs[i].y);
 		//}
 
-		printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
+		//printf("Tree construction and traversal completed in %.5f seconds.\n", milliseconds / 1000.0f);
 
 	}
 }

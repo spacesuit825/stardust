@@ -19,12 +19,14 @@ if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
     set(CMAKE_CUDA_ARCHITECTURES "35;50;52;60;61;70;75;80;86")
 endif()
 
+set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+
 set(CMAKE_CUDA_FLAGS	"--expt-relaxed-constexpr; --generate-line-info")
 find_package(OpenGL REQUIRED)
-find_package(OpenMP)
+#find_package(OpenMP)
 find_package(CUDAToolkit REQUIRED)
 find_package(Thrust REQUIRED)
-find_package(cub REQUIRED)
+#find_package(cub REQUIRED)
 
 #process external libraries
 #add_subdirectory(external)
@@ -36,3 +38,5 @@ message("External Libraries Added")
 #process test scenes
 #add_subdirectory(scenes)
 add_subdirectory(sandbox)
+
+#hello
