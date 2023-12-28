@@ -834,13 +834,13 @@ namespace STARDUST {
 
 			// TODO: Add some logic here to prevent collisions inside Groups
 
-			// if (rigid_idx >= 0) {
-			// 	Hull phantom_hull = d_hull_ptr[rigid_idx];
+			if (rigid_idx >= 0) {
+				Hull phantom_hull = d_hull_ptr[rigid_idx];
 
-			// 	if (host_hull.entity_owner == phantom_hull.entity_owner) {
-			// 		continue;
-			// 	}
-			// }
+				if (host_hull.entity_owner == phantom_hull.entity_owner) {
+					continue;
+				}
+			}
 
 			if (testAABBCollision(&query_aabb, &node_aabb)) {
 				//printf("Collided!\n");

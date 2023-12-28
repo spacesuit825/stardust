@@ -191,7 +191,7 @@ namespace STARDUST {
 		float eff_youngs = (host_hull.normal_stiffness * phantom_hull.normal_stiffness) / (host_hull.normal_stiffness + phantom_hull.normal_stiffness);
 
 		float k = (16 / 15) * powf(eff_radius, 0.5f) * eff_youngs * powf(((15 * eff_mass * SQR(max_velocity)) / (16 * powf(eff_radius, 0.5f) * eff_youngs)), 1.0f / 5.0f);
-		float c = sqrtf((4 * eff_mass * k) / (1 + SQR(3.1415 / logf(0.9f))));
+		float c = sqrtf((4 * eff_mass * k) / (1 + SQR(3.1415 / logf(0.5f))));
 
 		normal_force = k * (collision_manifold.collision_normal * collision_manifold.penetration_depth) - c * relative_velocity;
 

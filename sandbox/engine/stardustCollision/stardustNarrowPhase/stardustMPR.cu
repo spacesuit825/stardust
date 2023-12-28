@@ -358,6 +358,8 @@ namespace STARDUST {
 	)
 	{
 
+		int collision_flag = -1;
+
 		float4 v, a, a1, a2, b, b1, b2, c, c1, c2, d, d1, d2; // define the simplex vertices
 
 		float4 search_direction;
@@ -377,12 +379,14 @@ namespace STARDUST {
 
 		if (dot(a, search_direction) <= MPR_TOL) {
 			// COLLISION FAILURE
-			return false;
+
+			collision_flag = 0;
+			//return false;
 		}
 
 
 		search_direction = make_float4(cross(make_float3(a), make_float3(v)));
-		if (length(search_direction) == 0.0f) {
+		if ((length(search_direction) == 0.0f) && (collision_flag == -1)) {
 			//COLLISION SUCCESS
 
 			normal = normalize(a - v);
@@ -393,7 +397,9 @@ namespace STARDUST {
 			float4 position = 0.5 * (a1 + a2);
 
 			penetration = abs(dot((a1 - position), -normal)) + abs(dot((a2 - position), normal));
-			return true;
+
+			collision_flag = 1;
+			//return true;
 		}
 
 		b1 = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
@@ -401,9 +407,11 @@ namespace STARDUST {
 
 		b = b2 - b1;
 
-		if (dot(b, search_direction) == 0.0f) {
+		if ((dot(b, search_direction) == 0.0f) && (collision_flag == -1)) {
 			// COLLISION FAILURE
-			return false;
+
+			collision_flag = 0;
+			// return false;
 		}
 
 
@@ -427,9 +435,11 @@ namespace STARDUST {
 
 			c = c2 - c1;
 
-			if (dot(c, search_direction) == 0.0f) {
+			if ((dot(c, search_direction) == 0.0f) && (collision_flag == -1)) {
 				// COLLISION FAILURE
-				return false;
+
+				collision_flag = 0;
+				//return false;
 			}
 
 			triple_product = dot(make_float4(cross(make_float3(a), make_float3(c))), v);
@@ -461,16 +471,18 @@ namespace STARDUST {
 
 				search_direction = make_float4(cross(make_float3(b - a), make_float3(c - a)));
 
-				if (length(search_direction) == 0.0f) {
-					// COLLISION SUCCESS
-					return false;
+				if ((length(search_direction) == 0.0f) && (collision_flag == -1)) {
+					// COLLISION SUCCESS <-- is this a failure??
+
+					collision_flag = 0;
+					//return false;
 				}
 
 				search_direction = normalize(search_direction);
 
 				float distance = dot(search_direction, a);
 
-				if (distance >= 0.0f && !hit) {
+				if ((distance >= 0.0f && !hit) && (collision_flag == -1)) {
 					// COLLISION SUCCESS, HIT DETECTED
 
 					normal = search_direction;
@@ -510,6 +522,8 @@ namespace STARDUST {
 
 					penetration = abs(dot((pointA - position), -normal)) + abs(dot((pointB - position), -normal));
 					hit = true;
+
+					//collision_flag = 1;
 				}
 
 
@@ -521,10 +535,12 @@ namespace STARDUST {
 				float delta = dot((d - c), search_direction);
 				float separation = -dot(d, search_direction);
 
-				if (delta <= MPR_TOL || separation >= 0.0f) {
+				if ((delta <= MPR_TOL || separation >= 0.0f) && (collision_flag == -1)) {
 					// COLLISION SUCCESS
 					normal = search_direction;
-					return hit; //hit;
+
+					collision_flag = 1;
+					//return hit; //hit;
 				}
 
 
@@ -558,6 +574,12 @@ namespace STARDUST {
 				}
 			}
 		}
+
+		if (collision_flag == -1) {
+			collision_flag = 0;
+		}
+
+		return collision_flag;
 
 	}
 
@@ -623,7 +645,7 @@ namespace STARDUST {
 
 			// Add something to stop writing over the end of the array!!!
 
-			//printf("Penetration depth: %.3f\n", collision_data.penetration_depth);
+			printf("Penetration depth: %.3f\n", collision_data.penetration_depth);
 			
 			d_collision_manifold_ptr[pair_idx] = collision_data;
 			

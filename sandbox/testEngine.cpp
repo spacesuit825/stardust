@@ -26,7 +26,7 @@ int main() {
 
 	STARDUST::Engine engine(engine_parameters);
 
-	float4 vertex1 = make_float4(-1.0f, -1.0f, 1.0f, 0.0f);
+	float4 vertex1 = make_float4(-1.0f, -1.0f, 0.0f, 0.0f);
 	float4 vertex2 = make_float4(1.0f, 0.0f, 0.0f, 0.0f);
 	float4 vertex3 = make_float4(0.0f, 1.0f, 0.0f, 0.0f);
 	float4 vertex4 = make_float4(-1.0f, -1.0f, 0.0f, 0.0f);
@@ -74,19 +74,19 @@ int main() {
 	STARDUST::Sphere sphere3_5;
 	sphere3_5.position = make_float4(0.0f, 0.27f, 5.3f, 0.0f);
 	sphere3_5.radius = 0.5f;
-	sphere3_5.mass = 3.7f;
+	sphere3_5.mass = 5.0f;
 	sphere3_5.normal_stiffness = 1e+07;
 	sphere3_5.damping = 20.0f;
 	sphere3_5.tangential_stiffness = 0.05f;
 
 
 	STARDUST::Sphere sphere4;
-	sphere4.position = make_float4(0.0f, 0.28f, 0.8f, 0.0f);
+	sphere4.position = make_float4(0.0f, 0.28f, 2.8f, 0.0f);
 	sphere4.radius = 0.5f;
 	sphere4.mass = 3.7f;
 	sphere4.normal_stiffness = 1e+07;
 	sphere4.damping = 20.0f;
-	sphere4.tangential_stiffness = 0.05f;
+	sphere4.tangential_stiffness = 10.0f;
 
 	STARDUST::Sphere sphere5;
 	sphere5.position = make_float4(0.0f, 0.3f, 2.5f, 0.0f);
@@ -147,7 +147,11 @@ int main() {
 	for (int i = 0; i < 3000; i++) {
 		//std::cout << "-------------------------------------------\n";
 		engine.run();
-		engine.writeToVTK(i);
+
+		if (i % 30 == 0) {
+			engine.writeToVTK(i);
+		}
+
 		engine.reset();
 	}
 
