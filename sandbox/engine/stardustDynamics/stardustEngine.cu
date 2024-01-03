@@ -172,6 +172,8 @@ namespace STARDUST {
 		Hull host_hull = d_hull_ptr[collision_manifold.host_hull_idx];
 		Hull phantom_hull = d_hull_ptr[collision_manifold.phantom_hull_idx];
 
+		// printf("\n phantom idx: %d", collision_manifold.phantom_hull_idx);
+
 		// if (host_hull.entity_owner == phantom_hull.entity_owner) {
 		// 	return;
 		// }
@@ -193,7 +195,14 @@ namespace STARDUST {
 		float k = (16 / 15) * powf(eff_radius, 0.5f) * eff_youngs * powf(((15 * eff_mass * SQR(max_velocity)) / (16 * powf(eff_radius, 0.5f) * eff_youngs)), 1.0f / 5.0f);
 		float c = sqrtf((4 * eff_mass * k) / (1 + SQR(3.1415 / logf(0.5f))));
 
+		float4 collision_normal = normalize(collision_manifold.pointB - collision_manifold.pointA);
+
+		// printf("\n Collision location %d %.3f, %d %.3f\n", phantom_hull.type, collision_manifold.pointA, host_hull.type, collision_manifold.pointB);
+
 		normal_force = k * (collision_manifold.collision_normal * collision_manifold.penetration_depth) - c * relative_velocity;
+
+		// printf("\n manifold %.3f, %.3f, %.3f \n", collision_manifold.collision_normal.x, collision_manifold.collision_normal.y, collision_manifold.collision_normal.z);
+		// printf("\n %d Normal force %.3f, %.3f, %.3f \n", host_hull.type, normal_force.x, normal_force.y, normal_force.z);
 
 		//normal_force = host_hull.normal_stiffness * (1.5f - collision_manifold.penetration_depth) * collision_manifold.collision_normal;
 		//damping = host_hull.damping * dot(collision_manifold.collision_normal, relative_velocity) * collision_manifold.collision_normal;

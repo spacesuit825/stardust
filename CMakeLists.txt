@@ -21,7 +21,7 @@ endif()
 
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
 
-set(CMAKE_CUDA_FLAGS	"--expt-relaxed-constexpr; --generate-line-info")
+set(CMAKE_CUDA_FLAGS	"--expt-relaxed-constexpr")
 find_package(OpenGL REQUIRED)
 #find_package(OpenMP)
 find_package(CUDAToolkit REQUIRED)

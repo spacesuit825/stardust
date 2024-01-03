@@ -56,7 +56,7 @@ namespace STARDUST {
 		float4 poly_center;
 
 		for (int simplex = 0; simplex < polyhedron.indices.size() / 3; simplex++) {
-
+			//std::cout << simplex << std::endl;
 			float4 a = polyhedron.vertices[polyhedron.indices[3 * simplex + 0]] - polyhedron.position;
 			float4 b = polyhedron.vertices[polyhedron.indices[3 * simplex + 1]] - polyhedron.position;
 			float4 c = polyhedron.vertices[polyhedron.indices[3 * simplex + 2]] - polyhedron.position;
@@ -130,8 +130,6 @@ namespace STARDUST {
 
 		aabb.init_upper_extent = upper_extent + padding;
 		aabb.init_lower_extent = lower_extent - padding;
-
-		printf("tri upper: %.3f, %.3f, %.3f\n", aabb.init_upper_extent.x, aabb.init_upper_extent.y, aabb.init_upper_extent.z);
 
 		return aabb;
 	}
@@ -317,6 +315,11 @@ namespace STARDUST {
 				vertex.push_back(triangle.vertices[vert]);
 			}
 
+			for (int index = 0; index < triangle.indices.size(); index++) {
+				indicies.push_back(current_idx_length + triangle.indices[index]);
+			}
+			current_idx_length += triangle.vertices.size();
+
 			hull.vertex_idx = vertex_idx;
 			hull.n_vertices = triangle.vertices.size();
 
@@ -343,8 +346,13 @@ namespace STARDUST {
 			hull.damping = triangle.damping;
 			hull.tangential_stiffness = triangle.tangential_stiffness;
 
+			AABB test = computeBoundingBox(triangle);
+
 			hulls.push_back(hull);
 			aabb.push_back(computeBoundingBox(triangle));
+
+			printf("\n Bounding extent L: %.3f, %.3f, %.3f\n", test.init_lower_extent.x, test.init_lower_extent.y, test.init_lower_extent.z);
+			printf("\n Bounding extent U: %.3f, %.3f, %.3f\n", test.init_upper_extent.x, test.init_upper_extent.y, test.init_upper_extent.z);
 		}
 
 		entity.mass = entity_mass;
@@ -415,6 +423,13 @@ namespace STARDUST {
 			for (int vert = 0; vert < polyhedron.vertices.size(); vert++) {
 				vertex.push_back(polyhedron.vertices[vert]);
 			}
+			
+			for (int index = 0; index < polyhedron.indices.size(); index++) {
+				indicies.push_back(current_idx_length + polyhedron.indices[index]);
+			}
+			current_idx_length += polyhedron.vertices.size();
+
+			
 
 			hull.vertex_idx = vertex_idx;
 			hull.n_vertices = polyhedron.vertices.size();
@@ -430,6 +445,7 @@ namespace STARDUST {
 			hull.relative_position = relative_position;
 
 			float9 I = computeInertiaTensor(polyhedron);
+			
 
 			Ixx += polyhedron.mass * (I[0] + (SQR(relative_position.y) + SQR(relative_position.z)));
 			Iyy += polyhedron.mass * (I[4] + (SQR(relative_position.x) + SQR(relative_position.z)));
@@ -444,8 +460,12 @@ namespace STARDUST {
 			hull.damping = polyhedron.damping;
 			hull.tangential_stiffness = polyhedron.tangential_stiffness;
 
+			AABB test = computeBoundingBox(polyhedron);
+
 			hulls.push_back(hull);
 			aabb.push_back(computeBoundingBox(polyhedron));
+			printf("\n Bounding extent L: %.3f, %.3f, %.3f\n", test.init_lower_extent.x, test.init_lower_extent.y, test.init_lower_extent.z);
+			printf("\n Bounding extent U: %.3f, %.3f, %.3f\n", test.init_upper_extent.x, test.init_upper_extent.y, test.init_upper_extent.z);
 		}
 
 		entity.mass = entity_mass;
@@ -457,6 +477,8 @@ namespace STARDUST {
 		entity_force.push_back(make_float4(0.0f));
 		entity_torque.push_back(make_float4(0.0f));
 		n_entities = entity_idx;
+
+		
 	}
 
 	void EntityHandler::allocate() {
@@ -495,6 +517,8 @@ namespace STARDUST {
 		std::vector<int> indicies_ls;
 		std::vector<float4> vertices_ls;
 
+		// std::cout << indicies.size() << std::endl;
+
 		for (int i = 0; i < hulls.size(); i++) {
 			if (hulls[i].type == SPHERE) {
 				spheres_ls.push_back(hulls[i].position);
@@ -503,22 +527,18 @@ namespace STARDUST {
 				//printf("huh1 %d\n", hulls[i].n_vertices);
 				for (int j = 0; j < hulls[i].n_vertices; j++) {
 
-					//printf("huh\n");
 					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
 
 				}
 
-				indicies_ls.push_back(i);
 			}
 			else if (hulls[i].type == POLYHEDRA) {
 				for (int j = 0; j < hulls[i].n_vertices; j++) {
 
-					//printf("huh\n");
 					vertices_ls.push_back(vertex[hulls[i].vertex_idx + j]);
 
 				}
 
-				indicies_ls.push_back(i);
 			}
 		}
 
@@ -561,39 +581,39 @@ namespace STARDUST {
 			vtk2File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
 		}
 
-		vtk2File << "TRIANGLE_STRIPS " << indicies_ls.size() << " " << indicies_ls.size() * 4 << std::endl;
-		for (int i = 0; i < indicies_ls.size(); i++) {
-			vtk2File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		vtk2File << "TRIANGLE_STRIPS " << indicies.size() / 3 << " " << indicies.size() / 3 * 4 << std::endl;
+		for (int i = 0; i < indicies.size() / 3; i++) {
+			vtk2File << "3 " << indicies[3 * i + 0] << " " << indicies[3 * i + 1]  << " " << indicies[3 * i + 2]  << std::endl;
 		}
 
 		vtk2File.close();
 
-		//std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/polyout_" + std::to_string(time_step) + ".vtk");
+		// std::ofstream vtk3File("C:/Users/lachl/Documents/stardust/sandbox/vtkFiles/polyout_" + std::to_string(time_step) + ".vtk");
 
-		//// Write VTK header
-		//vtk3File << "# vtk DataFile Version 2.0" << std::endl;
-		//vtk3File << "VTK file for your point cloud data" << std::endl;
-		//vtk3File << "ASCII" << std::endl;
-		//vtk3File << "DATASET POLYDATA" << std::endl;
+		// // Write VTK header
+		// vtk3File << "# vtk DataFile Version 2.0" << std::endl;
+		// vtk3File << "VTK file for your point cloud data" << std::endl;
+		// vtk3File << "ASCII" << std::endl;
+		// vtk3File << "DATASET POLYDATA" << std::endl;
 
-		//vtk3File << "POINTS " << vertices_ls.size() << " float" << std::endl;
+		// vtk3File << "POINTS " << vertices_ls.size() << " float" << std::endl;
 
-		//for (size_t i = 0; i < vertices_ls.size(); ++i) {
-		//	vtk3File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
-		//}
+		// for (size_t i = 0; i < vertices_ls.size(); ++i) {
+		// 	vtk3File << vertices_ls[i].x << " " << vertices_ls[i].y << " " << vertices_ls[i].z << std::endl;
+		// }
 
-		//vtk3File << "TRIANGLE_STRIPS " << 4 << " " << 4 * 4 << std::endl;
-		///*for (int i = 0; i < indicies_ls.size(); i++) {
-		//	vtk3File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
-		//}*/
-		//vtk3File << "3 " << 0 << " " << 1 << " " << 3 << std::endl;
-		//vtk3File << "3 " << 1 << " " << 2 << " " << 3 << std::endl;
-		//vtk3File << "3 " << 0 << " " << 2 << " " << 3 << std::endl;
-		//vtk3File << "3 " << 0 << " " << 2 << " " << 1 << std::endl;
+		// vtk3File << "TRIANGLE_STRIPS " << 4 << " " << 4 * 4 << std::endl;
+		// /*for (int i = 0; i < indicies_ls.size(); i++) {
+		// 	vtk3File << "3 " << 3 * i + 0 << " " << 3 * i + 1 << " " << 3 * i + 2 << std::endl;
+		// }*/
+		// vtk3File << "3 " << 0 << " " << 1 << " " << 3 << std::endl;
+		// vtk3File << "3 " << 1 << " " << 2 << " " << 3 << std::endl;
+		// vtk3File << "3 " << 0 << " " << 2 << " " << 3 << std::endl;
+		// vtk3File << "3 " << 0 << " " << 2 << " " << 1 << std::endl;
 
-		//vtk3File.close();
+		// vtk3File.close();
 
-		//std::cout << "Write success!\n";
+		// std::cout << "Write success!\n";
 	}
 
 }

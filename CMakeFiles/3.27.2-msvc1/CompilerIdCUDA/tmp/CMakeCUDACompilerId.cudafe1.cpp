@@ -30,10 +30,12 @@ extern "C" {
 #pragma warning(disable: 4514 4820 )
 #line 51
 extern "C" {
-#line 63 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
-typedef unsigned uintptr_t; 
+#line 61 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+typedef unsigned __int64 uintptr_t; 
 #line 72 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 typedef char *va_list; 
+#line 155 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+void __cdecl __va_start(va_list *, ...); 
 #line 167 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 }
 #line 171 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
@@ -80,30 +82,30 @@ static_assert((!__vcrt_va_list_is_reference< _Ty> ::__the_value), "va_start argu
 #pragma warning(disable: 4514 4820 )
 #line 96 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 __pragma( pack ( push, 8 )) extern "C" {
-#line 197 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
-typedef unsigned size_t; 
+#line 193 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
+typedef unsigned __int64 size_t; 
 #if !defined(__CUDA_INCLUDE_COMPILER_INTERNAL_HEADERS__)
 #define __CUDA_INCLUDE_COMPILER_INTERNAL_HEADERS__
 #endif
 #include "crt/host_runtime.h"
-#line 198
-typedef int ptrdiff_t; 
-#line 199
-typedef int intptr_t; 
+#line 194
+typedef __int64 ptrdiff_t; 
+#line 195
+typedef __int64 intptr_t; 
 #line 203 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 typedef bool __vcrt_bool; 
 #line 250 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 extern "C++" {
 #line 252
-template< class _CountofType, size_t _SizeOfArray> char (*__countof_helper(_CountofType (& _Array)[_SizeOfArray]))[_SizeOfArray]; 
+template< class _CountofType, size_t _SizeOfArray> char (*__countof_helper(__unaligned _CountofType (& _Array)[_SizeOfArray]))[_SizeOfArray]; 
 #line 256
 }
 #line 377 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 void __cdecl __security_init_cookie(); 
-#line 380
-void __fastcall __security_check_cookie(uintptr_t _StackCookie); 
-#line 381
-__declspec(noreturn) void __cdecl __report_gsfailure(); 
+#line 386 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
+void __cdecl __security_check_cookie(uintptr_t _StackCookie); 
+#line 387
+__declspec(noreturn) void __cdecl __report_gsfailure(uintptr_t _StackCookie); 
 #line 391 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 extern uintptr_t __security_cookie; 
 #line 399 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
@@ -1774,7 +1776,7 @@ cudaPitchedPtr dstPtr;
 #line 1276
 cudaExtent extent; 
 #line 1277
-cudaMemcpyKind kind; 
+cudaMemcpyKind kind; __pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)
 #line 1278
 }; 
 #endif
@@ -1880,7 +1882,7 @@ float hitRatio;
 #line 1355
 cudaAccessProperty hitProp; 
 #line 1356
-cudaAccessProperty missProp; 
+cudaAccessProperty missProp; __pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)
 #line 1357
 }; 
 #endif
@@ -2833,7 +2835,7 @@ void *win32SecurityAttributes;
 #line 2155
 size_t maxSize; 
 #line 2156
-unsigned char reserved[56]; __pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)__pad__(volatile char:8;)
+unsigned char reserved[56]; 
 #line 2157
 }; 
 #endif
@@ -5026,85 +5028,7 @@ _onexit_t __cdecl onexit(_onexit_t _Func);
 extern "C" {
 #line 187
 extern cudaError_t __stdcall __cudaDeviceSynchronizeDeprecationAvoidance(); 
-#line 191
-extern cudaError_t __stdcall cudaDeviceGetAttribute(int * value, cudaDeviceAttr attr, int device); 
-#line 192
-extern cudaError_t __stdcall cudaDeviceGetLimit(size_t * pValue, cudaLimit limit); 
-#line 193
-extern cudaError_t __stdcall cudaDeviceGetCacheConfig(cudaFuncCache * pCacheConfig); 
-#line 194
-extern cudaError_t __stdcall cudaDeviceGetSharedMemConfig(cudaSharedMemConfig * pConfig); 
-#line 197
-extern cudaError_t __stdcall cudaDeviceSynchronize(); 
-#line 199 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
-extern cudaError_t __stdcall cudaGetLastError(); 
-#line 200
-extern cudaError_t __stdcall cudaPeekAtLastError(); 
-#line 201
-extern const char *__stdcall cudaGetErrorString(cudaError_t error); 
-#line 202
-extern const char *__stdcall cudaGetErrorName(cudaError_t error); 
-#line 203
-extern cudaError_t __stdcall cudaGetDeviceCount(int * count); 
-#line 204
-extern cudaError_t __stdcall cudaGetDevice(int * device); 
-#line 205
-extern cudaError_t __stdcall cudaStreamCreateWithFlags(cudaStream_t * pStream, unsigned flags); 
-#line 206
-extern cudaError_t __stdcall cudaStreamDestroy(cudaStream_t stream); 
-#line 207
-extern cudaError_t __stdcall cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned flags); 
-#line 208
-extern cudaError_t __stdcall cudaStreamWaitEvent_ptsz(cudaStream_t stream, cudaEvent_t event, unsigned flags); 
-#line 209
-extern cudaError_t __stdcall cudaEventCreateWithFlags(cudaEvent_t * event, unsigned flags); 
-#line 210
-extern cudaError_t __stdcall cudaEventRecord(cudaEvent_t event, cudaStream_t stream); 
-#line 211
-extern cudaError_t __stdcall cudaEventRecord_ptsz(cudaEvent_t event, cudaStream_t stream); 
-#line 212
-extern cudaError_t __stdcall cudaEventRecordWithFlags(cudaEvent_t event, cudaStream_t stream, unsigned flags); 
-#line 213
-extern cudaError_t __stdcall cudaEventRecordWithFlags_ptsz(cudaEvent_t event, cudaStream_t stream, unsigned flags); 
-#line 214
-extern cudaError_t __stdcall cudaEventDestroy(cudaEvent_t event); 
-#line 215
-extern cudaError_t __stdcall cudaFuncGetAttributes(cudaFuncAttributes * attr, const void * func); 
-#line 216
-extern cudaError_t __stdcall cudaFree(void * devPtr); 
-#line 217
-extern cudaError_t __stdcall cudaMalloc(void ** devPtr, size_t size); 
-#line 218
-extern cudaError_t __stdcall cudaMemcpyAsync(void * dst, const void * src, size_t count, cudaMemcpyKind kind, cudaStream_t stream); 
-#line 219
-extern cudaError_t __stdcall cudaMemcpyAsync_ptsz(void * dst, const void * src, size_t count, cudaMemcpyKind kind, cudaStream_t stream); 
-#line 220
-extern cudaError_t __stdcall cudaMemcpy2DAsync(void * dst, size_t dpitch, const void * src, size_t spitch, size_t width, size_t height, cudaMemcpyKind kind, cudaStream_t stream); 
-#line 221
-extern cudaError_t __stdcall cudaMemcpy2DAsync_ptsz(void * dst, size_t dpitch, const void * src, size_t spitch, size_t width, size_t height, cudaMemcpyKind kind, cudaStream_t stream); 
-#line 222
-extern cudaError_t __stdcall cudaMemcpy3DAsync(const cudaMemcpy3DParms * p, cudaStream_t stream); 
-#line 223
-extern cudaError_t __stdcall cudaMemcpy3DAsync_ptsz(const cudaMemcpy3DParms * p, cudaStream_t stream); 
-#line 224
-extern cudaError_t __stdcall cudaMemsetAsync(void * devPtr, int value, size_t count, cudaStream_t stream); 
-#line 225
-extern cudaError_t __stdcall cudaMemsetAsync_ptsz(void * devPtr, int value, size_t count, cudaStream_t stream); 
-#line 226
-extern cudaError_t __stdcall cudaMemset2DAsync(void * devPtr, size_t pitch, int value, size_t width, size_t height, cudaStream_t stream); 
-#line 227
-extern cudaError_t __stdcall cudaMemset2DAsync_ptsz(void * devPtr, size_t pitch, int value, size_t width, size_t height, cudaStream_t stream); 
-#line 228
-extern cudaError_t __stdcall cudaMemset3DAsync(cudaPitchedPtr pitchedDevPtr, int value, cudaExtent extent, cudaStream_t stream); 
-#line 229
-extern cudaError_t __stdcall cudaMemset3DAsync_ptsz(cudaPitchedPtr pitchedDevPtr, int value, cudaExtent extent, cudaStream_t stream); 
-#line 230
-extern cudaError_t __stdcall cudaRuntimeGetVersion(int * runtimeVersion); 
-#line 231
-extern cudaError_t __stdcall cudaOccupancyMaxActiveBlocksPerMultiprocessor(int * numBlocks, const void * func, int blockSize, size_t dynamicSmemSize); 
-#line 232
-extern cudaError_t __stdcall cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int * numBlocks, const void * func, int blockSize, size_t dynamicSmemSize, unsigned flags); 
-#line 236 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+#line 236
 extern cudaError_t __stdcall __cudaCDP2DeviceGetAttribute(int * value, cudaDeviceAttr attr, int device); 
 #line 237
 extern cudaError_t __stdcall __cudaCDP2DeviceGetLimit(size_t * pValue, cudaLimit limit); 
@@ -5254,18 +5178,101 @@ extern cudaError_t __stdcall cudaCGSynchronizeGrid(unsigned __int64 handle, unsi
 extern cudaError_t __stdcall cudaCGGetSize(unsigned * numThreads, unsigned * numGrids, unsigned __int64 handle); 
 #line 359
 extern cudaError_t __stdcall cudaCGGetRank(unsigned * threadRank, unsigned * gridRank, unsigned __int64 handle); 
-#line 586
-extern void *__stdcall cudaGetParameterBuffer(size_t alignment, size_t size); 
-#line 596 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
-extern void *__stdcall cudaGetParameterBufferV2(void * func, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize); 
-#line 611 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
-extern cudaError_t __stdcall cudaLaunchDevice_ptsz(void * func, void * parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize, cudaStream_t stream); 
-#line 612
-extern cudaError_t __stdcall cudaLaunchDeviceV2_ptsz(void * parameterBuffer, cudaStream_t stream); 
-#line 677 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
-extern cudaError_t __stdcall cudaLaunchDevice(void * func, void * parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize, cudaStream_t stream); 
-#line 678
-extern cudaError_t __stdcall cudaLaunchDeviceV2(void * parameterBuffer, cudaStream_t stream); 
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 581
+static __inline void *__stdcall cudaGetParameterBuffer(size_t alignment, size_t size) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)alignment;(void)size;::exit(___);}
+#if 0
+#line 582
+{ 
+#line 583
+return __cudaCDP2GetParameterBuffer(alignment, size); 
+#line 584
+} 
+#endif
+
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 591 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+static __inline void *__stdcall cudaGetParameterBufferV2(void *func, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)func;(void)gridDimension;(void)blockDimension;(void)sharedMemSize;::exit(___);}
+#if 0
+#line 592
+{ 
+#line 593
+return __cudaCDP2GetParameterBufferV2(func, gridDimension, blockDimension, sharedMemSize); 
+#line 594
+} 
+#endif
+
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 601 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+static __inline cudaError_t __stdcall cudaLaunchDevice_ptsz(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize, cudaStream_t stream) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)func;(void)parameterBuffer;(void)gridDimension;(void)blockDimension;(void)sharedMemSize;(void)stream;::exit(___);}
+#if 0
+#line 602
+{ 
+#line 603
+return __cudaCDP2LaunchDevice_ptsz(func, parameterBuffer, gridDimension, blockDimension, sharedMemSize, stream); 
+#line 604
+} 
+#endif
+
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 606 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+static __inline cudaError_t __stdcall cudaLaunchDeviceV2_ptsz(void *parameterBuffer, cudaStream_t stream) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)parameterBuffer;(void)stream;::exit(___);}
+#if 0
+#line 607
+{ 
+#line 608
+return __cudaCDP2LaunchDeviceV2_ptsz(parameterBuffer, stream); 
+#line 609
+} 
+#endif
+
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 667 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+static __inline cudaError_t __stdcall cudaLaunchDevice(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned sharedMemSize, cudaStream_t stream) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)func;(void)parameterBuffer;(void)gridDimension;(void)blockDimension;(void)sharedMemSize;(void)stream;::exit(___);}
+#if 0
+#line 668
+{ 
+#line 669
+return __cudaCDP2LaunchDevice(func, parameterBuffer, gridDimension, blockDimension, sharedMemSize, stream); 
+#line 670
+} 
+#endif
+
+__pragma(warning(push))
+__pragma(warning(disable : 4505)) /* "unreferenced local function has been removed" */
+
+#line 672 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+static __inline cudaError_t __stdcall cudaLaunchDeviceV2(void *parameterBuffer, cudaStream_t stream) 
+__pragma(warning(pop))
+{int volatile ___ = 1;(void)parameterBuffer;(void)stream;::exit(___);}
+#if 0
+#line 673
+{ 
+#line 674
+return __cudaCDP2LaunchDeviceV2(parameterBuffer, stream); 
+#line 675
+} 
+#endif
 #line 729 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 }
 #line 731
@@ -8335,44 +8342,44 @@ extern int __finitel(long double);
 extern int __isinfl(long double); 
 #line 8971
 extern int __isnanl(long double); 
-#line 9021 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
-extern __inline float acosf(float x); 
-#line 9080
-extern __inline float asinf(float x); 
-#line 9160
-extern __inline float atanf(float x); 
-#line 9457
-extern __inline float atan2f(float y, float x); 
-#line 9491
-extern __inline float cosf(float x); 
-#line 9533
-extern __inline float sinf(float x); 
-#line 9575
-extern __inline float tanf(float x); 
-#line 9616
-extern __inline float coshf(float x); 
-#line 9666
-extern __inline float sinhf(float x); 
-#line 9716
-extern __inline float tanhf(float x); 
-#line 9768
-extern __inline float logf(float x); 
-#line 9848
-extern __inline float expf(float x); 
-#line 9900
-extern __inline float log10f(float x); 
-#line 9955
-extern __inline float modff(float x, float * iptr); 
-#line 10285
-extern __inline float powf(float x, float y); 
-#line 10354
-extern __inline float sqrtf(float x); 
-#line 10413
-extern __inline float ceilf(float x); 
-#line 10474
-extern __inline float floorf(float x); 
-#line 10532
-extern __inline float fmodf(float x, float y); 
+#line 8975 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
+extern float __cdecl acosf(float); 
+#line 8976
+extern float __cdecl asinf(float); 
+#line 8977
+extern float __cdecl atanf(float); 
+#line 8978
+extern float __cdecl atan2f(float, float); 
+#line 8979
+extern float __cdecl cosf(float); 
+#line 8980
+extern float __cdecl sinf(float); 
+#line 8981
+extern float __cdecl tanf(float); 
+#line 8982
+extern float __cdecl coshf(float); 
+#line 8983
+extern float __cdecl sinhf(float); 
+#line 8984
+extern float __cdecl tanhf(float); 
+#line 8985
+extern float __cdecl expf(float); 
+#line 8986
+extern float __cdecl logf(float); 
+#line 8987
+extern float __cdecl log10f(float); 
+#line 8988
+extern float __cdecl modff(float, float *); 
+#line 8989
+extern float __cdecl powf(float, float); 
+#line 8990
+extern float __cdecl sqrtf(float); 
+#line 8991
+extern float __cdecl ceilf(float); 
+#line 8992
+extern float __cdecl floorf(float); 
+#line 8993
+extern float __cdecl fmodf(float, float); 
 #line 10547 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 }
 #line 14 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
@@ -8972,72 +8979,36 @@ float __cdecl scalbnf(float _X, int _Y);
 float __cdecl tgammaf(float _X); 
 #line 585
 float __cdecl truncf(float _X); 
-#line 589
-int __cdecl _set_SSE2_enable(int _Flag); 
-#line 626 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
-__inline float __cdecl acosf(float _X) 
-#line 627
-{ 
-#line 628
-return (float)acos(_X); 
-#line 629
-} 
-#line 631
-__inline float __cdecl asinf(float _X) 
-#line 632
-{ 
-#line 633
-return (float)asin(_X); 
-#line 634
-} 
-#line 636
-__inline float __cdecl atan2f(float _Y, float _X) 
-#line 637
-{ 
-#line 638
-return (float)atan2(_Y, _X); 
-#line 639
-} 
-#line 641
-__inline float __cdecl atanf(float _X) 
-#line 642
-{ 
-#line 643
-return (float)atan(_X); 
-#line 644
-} 
-#line 646
-__inline float __cdecl ceilf(float _X) 
-#line 647
-{ 
-#line 648
-return (float)ceil(_X); 
-#line 649
-} 
-#line 651
-__inline float __cdecl cosf(float _X) 
-#line 652
-{ 
-#line 653
-return (float)cos(_X); 
-#line 654
-} 
-#line 656
-__inline float __cdecl coshf(float _X) 
-#line 657
-{ 
-#line 658
-return (float)cosh(_X); 
-#line 659
-} 
-#line 661
-__inline float __cdecl expf(float _X) 
-#line 662
-{ 
-#line 663
-return (float)exp(_X); 
-#line 664
-} 
+#line 595 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+float __cdecl _logbf(float _X); 
+#line 596
+float __cdecl _nextafterf(float _X, float _Y); 
+#line 597
+int __cdecl _finitef(float _X); 
+#line 598
+int __cdecl _isnanf(float _X); 
+#line 599
+int __cdecl _fpclassf(float _X); 
+#line 601
+int __cdecl _set_FMA3_enable(int _Flag); 
+#line 602
+int __cdecl _get_FMA3_enable(); 
+#line 615 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+float __cdecl acosf(float _X); 
+#line 616
+float __cdecl asinf(float _X); 
+#line 617
+float __cdecl atan2f(float _Y, float _X); 
+#line 618
+float __cdecl atanf(float _X); 
+#line 619
+float __cdecl ceilf(float _X); 
+#line 620
+float __cdecl cosf(float _X); 
+#line 621
+float __cdecl coshf(float _X); 
+#line 622
+float __cdecl expf(float _X); 
 #line 678 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 __inline float __cdecl fabsf(float _X) 
 #line 679
@@ -9046,22 +9017,10 @@ __inline float __cdecl fabsf(float _X)
 return (float)fabs(_X); 
 #line 681
 } 
-#line 692 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
-__inline float __cdecl floorf(float _X) 
-#line 693
-{ 
-#line 694
-return (float)floor(_X); 
-#line 695
-} 
-#line 697
-__inline float __cdecl fmodf(float _X, float _Y) 
-#line 698
-{ 
-#line 699
-return (float)fmod(_X, _Y); 
-#line 700
-} 
+#line 687 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+float __cdecl floorf(float _X); 
+#line 688
+float __cdecl fmodf(float _X, float _Y); 
 #line 704 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 __inline float __cdecl frexpf(float _X, int *_Y) 
 #line 705
@@ -9086,84 +9045,24 @@ __inline float __cdecl ldexpf(float _X, int _Y)
 return (float)ldexp(_X, _Y); 
 #line 717
 } 
-#line 733 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
-__inline float __cdecl log10f(float _X) 
-#line 734
-{ 
-#line 735
-return (float)log10(_X); 
-#line 736
-} 
-#line 738
-__inline float __cdecl logf(float _X) 
-#line 739
-{ 
-#line 740
-return (float)log(_X); 
-#line 741
-} 
-#line 743
-__inline float __cdecl modff(float _X, float *_Y) 
-#line 744
-{ 
-#line 745
-double _F, _I; 
-#line 746
-_F = modf(_X, &_I); 
-#line 747
-(*_Y) = ((float)_I); 
-#line 748
-return (float)_F; 
-#line 749
-} 
-#line 751
-__inline float __cdecl powf(float _X, float _Y) 
-#line 752
-{ 
-#line 753
-return (float)pow(_X, _Y); 
-#line 754
-} 
-#line 756
-__inline float __cdecl sinf(float _X) 
-#line 757
-{ 
-#line 758
-return (float)sin(_X); 
-#line 759
-} 
-#line 761
-__inline float __cdecl sinhf(float _X) 
-#line 762
-{ 
-#line 763
-return (float)sinh(_X); 
-#line 764
-} 
-#line 766
-__inline float __cdecl sqrtf(float _X) 
-#line 767
-{ 
-#line 768
-return (float)sqrt(_X); 
-#line 769
-} 
-#line 771
-__inline float __cdecl tanf(float _X) 
-#line 772
-{ 
-#line 773
-return (float)tan(_X); 
-#line 774
-} 
-#line 776
-__inline float __cdecl tanhf(float _X) 
-#line 777
-{ 
-#line 778
-return (float)tanh(_X); 
-#line 779
-} 
+#line 721
+float __cdecl log10f(float _X); 
+#line 722
+float __cdecl logf(float _X); 
+#line 723
+float __cdecl modff(float _X, float * _Y); 
+#line 724
+float __cdecl powf(float _X, float _Y); 
+#line 725
+float __cdecl sinf(float _X); 
+#line 726
+float __cdecl sinhf(float _X); 
+#line 727
+float __cdecl sqrtf(float _X); 
+#line 728
+float __cdecl tanf(float _X); 
+#line 729
+float __cdecl tanhf(float _X); 
 #line 783 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 long double __cdecl acoshl(long double _X); 
 #line 785
@@ -9487,19 +9386,19 @@ extern const nothrow_t nothrow;
 #line 47 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime_new.h"
 [[nodiscard]] __declspec(allocator) void *__cdecl 
 #line 48
-<error>(size_t _Size); 
+operator new(size_t _Size); 
 #line 52
 [[nodiscard]] __declspec(allocator) void *__cdecl 
 #line 53
-<error>(size_t _Size, const std::nothrow_t &) noexcept; 
+operator new(size_t _Size, const std::nothrow_t &) noexcept; 
 #line 58
 [[nodiscard]] __declspec(allocator) void *__cdecl 
 #line 59
-<error>(size_t _Size); 
+operator new[](size_t _Size); 
 #line 63
 [[nodiscard]] __declspec(allocator) void *__cdecl 
 #line 64
-<error>(size_t _Size, const std::nothrow_t &) noexcept; 
+operator new[](size_t _Size, const std::nothrow_t &) noexcept; 
 #line 69
 void __cdecl operator delete(void * _Block) noexcept; 
 #line 73
@@ -9519,7 +9418,7 @@ void __cdecl operator delete[](void * _Block, size_t _Size) noexcept;
 #line 165
 [[nodiscard]] [[msvc::constexpr]] inline void *__cdecl 
 #line 166
-<error>(size_t _Size, void *
+operator new(size_t _Size, void *
 #line 167
 _Where) noexcept 
 #line 168
@@ -9539,7 +9438,7 @@ inline void __cdecl operator delete(void *, void *) noexcept
 #line 181 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime_new.h"
 [[nodiscard]] inline void *__cdecl 
 #line 182
-<error>(size_t _Size, void *
+operator new[](size_t _Size, void *
 #line 183
 _Where) noexcept 
 #line 184
@@ -9574,11 +9473,11 @@ extern "C++" {
 #line 25
 [[nodiscard]] 
 #line 26
-__declspec(allocator) void *__cdecl <error>(size_t _Size, int _BlockUse, const char * _FileName, int _LineNumber); 
+__declspec(allocator) void *__cdecl operator new(size_t _Size, int _BlockUse, const char * _FileName, int _LineNumber); 
 #line 33
 [[nodiscard]] 
 #line 34
-__declspec(allocator) void *__cdecl <error>(size_t _Size, int _BlockUse, const char * _FileName, int _LineNumber); 
+__declspec(allocator) void *__cdecl operator new[](size_t _Size, int _BlockUse, const char * _FileName, int _LineNumber); 
 #line 41
 void __cdecl operator delete(void * _Block, int _BlockUse, const char * _FileName, int _LineNumber) noexcept; 
 #line 48
@@ -22980,4 +22879,3772 @@ struct is_enum : public bool_constant< __is_enum(_Ty)>  { };
 template< class _Ty> constexpr bool 
 #line 360
 is_enum_v = __is_enum(_Ty); 
-#line 370 "C:\\Program Files\\Microsoft Visual Studio\\202
+#line 370 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 371
+struct is_compound : public bool_constant< !is_fundamental_v< _Ty> >  { }; 
+#line 373
+template< class _Ty> constexpr bool 
+#line 374
+is_compound_v = (!is_fundamental_v< _Ty> ); 
+#line 501 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class ..._Types> 
+#line 502
+struct _Arg_types { }; 
+#line 504
+template< class _Ty1> 
+#line 505
+struct _Arg_types< _Ty1>  { 
+#line 506
+using argument_type = _Ty1; 
+#line 507
+}; 
+#line 509
+template< class _Ty1, class _Ty2> 
+#line 510
+struct _Arg_types< _Ty1, _Ty2>  { 
+#line 511
+using first_argument_type = _Ty1; 
+#line 512
+using second_argument_type = _Ty2; 
+#line 513
+}; 
+#line 515
+template< class _Ty> 
+#line 516
+struct _Is_memfunptr { 
+#line 517
+using _Bool_type = false_type; 
+#line 518
+}; 
+#line 530
+template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...)>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...)>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) volatile>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) volatile>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const volatile>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const volatile>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) &>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) &>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const &>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const &>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) volatile &>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) volatile &>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const volatile &>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const volatile &>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< true, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) &&>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) &&>  : public _Arg_types< _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const &&>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const &&>  : public _Arg_types< const _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) volatile &&>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) volatile &&>  : public _Arg_types< volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__cdecl _Arg0::*)(_Types ...) const volatile &&>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (__vectorcall _Arg0::*)(_Types ...) const volatile &&>  : public _Arg_types< const volatile _Arg0 *, _Types...>  { using _Bool_type = std::true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false, _Ret (_Types ...)> ; }; 
+#line 543
+template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...)>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) volatile>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const volatile>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) &>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const &>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) volatile &>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const volatile &>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) &&>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const &&>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) volatile &&>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; template< class _Ret, class _Arg0, class ..._Types> struct _Is_memfunptr< _Ret (_Arg0::*)(_Types ..., ...) const volatile &&>  { using _Bool_type = true_type; using result_type = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if< false> ; }; 
+#line 566 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> constexpr bool 
+#line 567
+is_member_function_pointer_v = (_Is_memfunptr< remove_cv_t< _Ty> > ::_Bool_type::value); 
+#line 570 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 571
+struct is_member_function_pointer : public bool_constant< is_member_function_pointer_v< _Ty> >  { }; 
+#line 573
+template< class > constexpr bool 
+#line 574
+is_const_v = false; 
+#line 576
+template< class _Ty> constexpr bool 
+#line 577
+is_const_v< const _Ty>  = true; 
+#line 579
+template< class _Ty> 
+#line 580
+struct is_const : public bool_constant< is_const_v< _Ty> >  { }; 
+#line 582
+template< class > constexpr bool 
+#line 583
+is_volatile_v = false; 
+#line 585
+template< class _Ty> constexpr bool 
+#line 586
+is_volatile_v< volatile _Ty>  = true; 
+#line 588
+template< class _Ty> 
+#line 589
+struct is_volatile : public bool_constant< is_volatile_v< _Ty> >  { }; 
+#line 591
+template< class _Ty> constexpr bool 
+#line 592
+is_function_v = ((!is_const_v< const _Ty> ) && (!is_reference_v< _Ty> )); 
+#line 595
+template< class _Ty> 
+#line 596
+struct is_function : public bool_constant< is_function_v< _Ty> >  { }; 
+#line 598
+template< class _Ty> constexpr bool 
+#line 599
+is_object_v = is_const_v< const _Ty>  && (!is_void_v< _Ty> ); 
+#line 602
+template< class _Ty> 
+#line 603
+struct is_object : public bool_constant< is_object_v< _Ty> >  { }; 
+#line 605
+template< class > 
+#line 606
+struct _Is_member_object_pointer { 
+#line 607
+static constexpr bool value = false; 
+#line 608
+}; 
+#line 610
+template< class _Ty1, class _Ty2> 
+#line 611
+struct _Is_member_object_pointer< _Ty1 _Ty2::*>  { 
+#line 612
+static constexpr bool value = (!is_function_v< _Ty1> ); 
+#line 613
+using _Class_type = _Ty2; 
+#line 614
+}; 
+#line 620
+template< class _Ty> constexpr bool 
+#line 621
+is_member_object_pointer_v = (_Is_member_object_pointer< remove_cv_t< _Ty> > ::value); 
+#line 624 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 625
+struct is_member_object_pointer : public bool_constant< is_member_object_pointer_v< _Ty> >  { }; 
+#line 631
+template< class _Ty> constexpr bool 
+#line 632
+is_member_pointer_v = is_member_object_pointer_v< _Ty>  || is_member_function_pointer_v< _Ty> ; 
+#line 635 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 636
+struct is_member_pointer : public bool_constant< is_member_pointer_v< _Ty> >  { }; 
+#line 638
+template< class _Ty> constexpr bool 
+#line 639
+is_scalar_v = (((is_arithmetic_v< _Ty>  || is_enum_v< _Ty> ) || is_pointer_v< _Ty> ) || is_member_pointer_v< _Ty> ) || is_null_pointer_v< _Ty> ; 
+#line 642
+template< class _Ty> 
+#line 643
+struct is_scalar : public bool_constant< is_scalar_v< _Ty> >  { }; 
+#line 645
+template< class _Ty> 
+#line 646
+struct is_pod : public bool_constant< __is_pod(_Ty)>  { }; 
+#line 648
+template< class _Ty> constexpr bool 
+#line 649
+is_pod_v = __is_pod(_Ty); 
+#line 651
+template< class _Ty> 
+#line 652
+struct is_empty : public bool_constant< __is_empty(_Ty)>  { }; 
+#line 654
+template< class _Ty> constexpr bool 
+#line 655
+is_empty_v = __is_empty(_Ty); 
+#line 657
+template< class _Ty> 
+#line 658
+struct is_polymorphic : public bool_constant< __is_polymorphic(_Ty)>  { }; 
+#line 660
+template< class _Ty> constexpr bool 
+#line 661
+is_polymorphic_v = __is_polymorphic(_Ty); 
+#line 663
+template< class _Ty> 
+#line 664
+struct is_abstract : public bool_constant< __is_abstract(_Ty)>  { }; 
+#line 666
+template< class _Ty> constexpr bool 
+#line 667
+is_abstract_v = __is_abstract(_Ty); 
+#line 669
+template< class _Ty> 
+#line 670
+struct is_final : public bool_constant< __is_final(_Ty)>  { }; 
+#line 672
+template< class _Ty> constexpr bool 
+#line 673
+is_final_v = __is_final(_Ty); 
+#line 675
+template< class _Ty> 
+#line 676
+struct is_standard_layout : public bool_constant< __is_standard_layout(_Ty)>  { }; 
+#line 678
+template< class _Ty> constexpr bool 
+#line 679
+is_standard_layout_v = __is_standard_layout(_Ty); 
+#line 682
+template< class _Ty> 
+#line 683
+struct is_literal_type : public bool_constant< __is_literal_type(_Ty)>  { 
+#line 685
+}; 
+#line 687
+template< class _Ty> constexpr bool 
+#line 688
+is_literal_type_v = __is_literal_type(_Ty); 
+#line 692 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 693
+struct is_trivial : public bool_constant< __is_trivially_constructible(_Ty) && __is_trivially_copyable(_Ty)>  { 
+#line 695
+}; 
+#line 697
+template< class _Ty> constexpr bool 
+#line 698
+is_trivial_v = (__is_trivially_constructible(_Ty) && __is_trivially_copyable(_Ty)); 
+#line 707 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 708
+struct is_trivially_copyable : public bool_constant< __is_trivially_copyable(_Ty)>  { 
+#line 710
+}; 
+#line 712
+template< class _Ty> constexpr bool 
+#line 713
+is_trivially_copyable_v = __is_trivially_copyable(_Ty); 
+#line 715
+template< class _Ty> 
+#line 716
+struct has_virtual_destructor : public bool_constant< __has_virtual_destructor(_Ty)>  { 
+#line 718
+}; 
+#line 720
+template< class _Ty> constexpr bool 
+#line 721
+has_virtual_destructor_v = __has_virtual_destructor(_Ty); 
+#line 750 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty, class ..._Args> 
+#line 751
+struct is_constructible : public bool_constant< __is_constructible(_Ty, _Args...)>  { 
+#line 753
+}; 
+#line 755
+template< class _Ty, class ..._Args> constexpr bool 
+#line 756
+is_constructible_v = __is_constructible(_Ty, _Args...); 
+#line 758
+template< class _Ty> 
+#line 759
+struct is_copy_constructible : public bool_constant< __is_constructible(_Ty, add_lvalue_reference_t< const _Ty> )>  { 
+#line 761
+}; 
+#line 763
+template< class _Ty> constexpr bool 
+#line 764
+is_copy_constructible_v = __is_constructible(_Ty, add_lvalue_reference_t< const _Ty> ); 
+#line 766
+template< class _Ty> 
+#line 767
+struct is_default_constructible : public bool_constant< __is_constructible(_Ty)>  { 
+#line 769
+}; 
+#line 771
+template< class _Ty> constexpr bool 
+#line 772
+is_default_constructible_v = __is_constructible(_Ty); 
+#line 774
+template< class _Ty, class  = void> 
+#line 775
+struct _Is_implicitly_default_constructible : public false_type { 
+#line 777
+}; 
+#line 779
+template< class _Ty> void _Implicitly_default_construct(const _Ty &); 
+#line 782
+template< class _Ty> 
+#line 783
+struct _Is_implicitly_default_constructible< _Ty, void_t< decltype(_Implicitly_default_construct< _Ty> ({}))> >  : public true_type { 
+#line 784
+}; 
+#line 786
+template< class _Ty> 
+#line 787
+struct is_move_constructible : public bool_constant< __is_constructible(_Ty, _Ty)>  { 
+#line 789
+}; 
+#line 791
+template< class _Ty> constexpr bool 
+#line 792
+is_move_constructible_v = __is_constructible(_Ty, _Ty); 
+#line 794
+template< class _To, class _From> 
+#line 795
+struct is_assignable : public bool_constant< __is_assignable(_To, _From)>  { }; 
+#line 797
+template< class _To, class _From> constexpr bool 
+#line 798
+is_assignable_v = __is_assignable(_To, _From); 
+#line 804 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _To, class _From> using _Is_assignable_no_precondition_check = is_assignable< _To, _From> ; 
+#line 808 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 809
+struct is_copy_assignable : public bool_constant< __is_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> )>  { 
+#line 812
+}; 
+#line 814
+template< class _Ty> constexpr bool 
+#line 815
+is_copy_assignable_v = __is_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> ); 
+#line 828 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> using _Is_copy_assignable_no_precondition_check = is_copy_assignable< _Ty> ; 
+#line 831
+template< class _Ty> constexpr bool 
+#line 832
+_Is_copy_assignable_unchecked_v = is_copy_assignable_v< _Ty> ; 
+#line 835 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 836
+struct is_move_assignable : public bool_constant< __is_assignable(add_lvalue_reference_t< _Ty> , _Ty)>  { 
+#line 838
+}; 
+#line 840
+template< class _Ty> constexpr bool 
+#line 841
+is_move_assignable_v = __is_assignable(add_lvalue_reference_t< _Ty> , _Ty); 
+#line 852 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> using _Is_move_assignable_no_precondition_check = is_move_assignable< _Ty> ; 
+#line 855
+template< class _Ty> constexpr bool 
+#line 856
+_Is_move_assignable_unchecked_v = is_move_assignable_v< _Ty> ; 
+#line 859 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 860
+struct is_destructible : public bool_constant< __is_destructible(_Ty)>  { 
+#line 862
+}; 
+#line 864
+template< class _Ty> constexpr bool 
+#line 865
+is_destructible_v = __is_destructible(_Ty); 
+#line 867
+template< class _Ty, class ..._Args> 
+#line 868
+struct is_trivially_constructible : public bool_constant< __is_trivially_constructible(_Ty, _Args...)>  { 
+#line 870
+}; 
+#line 872
+template< class _Ty, class ..._Args> constexpr bool 
+#line 873
+is_trivially_constructible_v = __is_trivially_constructible(_Ty, _Args...); 
+#line 875
+template< class _Ty> 
+#line 876
+struct is_trivially_copy_constructible : public bool_constant< __is_trivially_constructible(_Ty, add_lvalue_reference_t< const _Ty> )>  { 
+#line 879
+}; 
+#line 881
+template< class _Ty> constexpr bool 
+#line 882
+is_trivially_copy_constructible_v = __is_trivially_constructible(_Ty, add_lvalue_reference_t< const _Ty> ); 
+#line 885
+template< class _Ty> 
+#line 886
+struct is_trivially_default_constructible : public bool_constant< __is_trivially_constructible(_Ty)>  { 
+#line 888
+}; 
+#line 890
+template< class _Ty> constexpr bool 
+#line 891
+is_trivially_default_constructible_v = __is_trivially_constructible(_Ty); 
+#line 893
+template< class _Ty> 
+#line 894
+struct is_trivially_move_constructible : public bool_constant< __is_trivially_constructible(_Ty, _Ty)>  { 
+#line 896
+}; 
+#line 898
+template< class _Ty> constexpr bool 
+#line 899
+is_trivially_move_constructible_v = __is_trivially_constructible(_Ty, _Ty); 
+#line 901
+template< class _To, class _From> 
+#line 902
+struct is_trivially_assignable : public bool_constant< __is_trivially_assignable(_To, _From)>  { 
+#line 904
+}; 
+#line 906
+template< class _To, class _From> constexpr bool 
+#line 907
+is_trivially_assignable_v = __is_trivially_assignable(_To, _From); 
+#line 909
+template< class _Ty> 
+#line 910
+struct is_trivially_copy_assignable : public bool_constant< __is_trivially_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> )>  { 
+#line 913
+}; 
+#line 915
+template< class _Ty> constexpr bool 
+#line 916
+is_trivially_copy_assignable_v = __is_trivially_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> ); 
+#line 919
+template< class _Ty> 
+#line 920
+struct is_trivially_move_assignable : public bool_constant< __is_trivially_assignable(add_lvalue_reference_t< _Ty> , _Ty)>  { 
+#line 922
+}; 
+#line 924
+template< class _Ty> constexpr bool 
+#line 925
+is_trivially_move_assignable_v = __is_trivially_assignable(add_lvalue_reference_t< _Ty> , _Ty); 
+#line 927
+template< class _Ty> 
+#line 928
+struct is_trivially_destructible : public bool_constant< __is_trivially_destructible(_Ty)>  { 
+#line 930
+}; 
+#line 932
+template< class _Ty> constexpr bool 
+#line 933
+is_trivially_destructible_v = __is_trivially_destructible(_Ty); 
+#line 935
+template< class _Ty, class ..._Args> 
+#line 936
+struct is_nothrow_constructible : public bool_constant< __is_nothrow_constructible(_Ty, _Args...)>  { 
+#line 938
+}; 
+#line 940
+template< class _Ty, class ..._Args> constexpr bool 
+#line 941
+is_nothrow_constructible_v = __is_nothrow_constructible(_Ty, _Args...); 
+#line 943
+template< class _Ty> 
+#line 944
+struct is_nothrow_copy_constructible : public bool_constant< __is_nothrow_constructible(_Ty, add_lvalue_reference_t< const _Ty> )>  { 
+#line 948
+}; 
+#line 950
+template< class _Ty> constexpr bool 
+#line 951
+is_nothrow_copy_constructible_v = __is_nothrow_constructible(_Ty, add_lvalue_reference_t< const _Ty> ); 
+#line 954
+template< class _Ty> 
+#line 955
+struct is_nothrow_default_constructible : public bool_constant< __is_nothrow_constructible(_Ty)>  { 
+#line 957
+}; 
+#line 959
+template< class _Ty> constexpr bool 
+#line 960
+is_nothrow_default_constructible_v = __is_nothrow_constructible(_Ty); 
+#line 962
+template< class _Ty> 
+#line 963
+struct is_nothrow_move_constructible : public bool_constant< __is_nothrow_constructible(_Ty, _Ty)>  { 
+#line 965
+}; 
+#line 967
+template< class _Ty> constexpr bool 
+#line 968
+is_nothrow_move_constructible_v = __is_nothrow_constructible(_Ty, _Ty); 
+#line 970
+template< class _To, class _From> 
+#line 971
+struct is_nothrow_assignable : public bool_constant< __is_nothrow_assignable(_To, _From)>  { 
+#line 973
+}; 
+#line 975
+template< class _To, class _From> constexpr bool 
+#line 976
+is_nothrow_assignable_v = __is_nothrow_assignable(_To, _From); 
+#line 978
+template< class _Ty> 
+#line 979
+struct is_nothrow_copy_assignable : public bool_constant< __is_nothrow_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> )>  { 
+#line 982
+}; 
+#line 984
+template< class _Ty> constexpr bool 
+#line 985
+is_nothrow_copy_assignable_v = __is_nothrow_assignable(add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< const _Ty> ); 
+#line 988
+template< class _Ty> 
+#line 989
+struct is_nothrow_move_assignable : public bool_constant< __is_nothrow_assignable(add_lvalue_reference_t< _Ty> , _Ty)>  { 
+#line 991
+}; 
+#line 993
+template< class _Ty> constexpr bool 
+#line 994
+is_nothrow_move_assignable_v = __is_nothrow_assignable(add_lvalue_reference_t< _Ty> , _Ty); 
+#line 996
+template< class _Ty> 
+#line 997
+struct is_nothrow_destructible : public bool_constant< __is_nothrow_destructible(_Ty)>  { 
+#line 1000
+}; 
+#line 1002
+template< class _Ty> constexpr bool 
+#line 1003
+is_nothrow_destructible_v = __is_nothrow_destructible(_Ty); 
+#line 1005
+template< class _Ty, bool  = is_integral_v< _Ty> > 
+#line 1006
+struct _Sign_base { 
+#line 1007
+using _Uty = remove_cv_t< _Ty> ; 
+#line 1009
+static constexpr bool _Signed = ((static_cast< _Uty>(-1)) < (static_cast< _Uty>(0))); 
+#line 1010
+static constexpr bool _Unsigned = (!_Signed); 
+#line 1011
+}; 
+#line 1013
+template< class _Ty> 
+#line 1014
+struct _Sign_base< _Ty, false>  { 
+#line 1016
+static constexpr bool _Signed = is_floating_point_v< _Ty> ; 
+#line 1017
+static constexpr bool _Unsigned = false; 
+#line 1018
+}; 
+#line 1020
+template< class _Ty> 
+#line 1021
+struct is_signed : public bool_constant< _Sign_base< _Ty> ::_Signed>  { }; 
+#line 1023
+template< class _Ty> constexpr bool 
+#line 1024
+is_signed_v = (_Sign_base< _Ty> ::_Signed); 
+#line 1026
+template< class _Ty> 
+#line 1027
+struct is_unsigned : public bool_constant< _Sign_base< _Ty> ::_Unsigned>  { }; 
+#line 1029
+template< class _Ty> constexpr bool 
+#line 1030
+is_unsigned_v = (_Sign_base< _Ty> ::_Unsigned); 
+#line 1032
+template< class _Ty> constexpr bool 
+#line 1033
+_Is_nonbool_integral = is_integral_v< _Ty>  && (!is_same_v< remove_cv_t< _Ty> , bool> ); 
+#line 1035
+template< bool > 
+#line 1036
+struct _Select { 
+#line 1037
+template< class _Ty1, class > using _Apply = _Ty1; 
+#line 1039
+}; 
+#line 1042
+template<> struct _Select< false>  { 
+#line 1043
+template< class , class _Ty2> using _Apply = _Ty2; 
+#line 1045
+}; 
+#line 1047
+template< size_t > struct _Make_signed2; 
+#line 1051
+template<> struct _Make_signed2< 1Ui64>  { 
+#line 1052
+template< class > using _Apply = signed char; 
+#line 1054
+}; 
+#line 1057
+template<> struct _Make_signed2< 2Ui64>  { 
+#line 1058
+template< class > using _Apply = short; 
+#line 1060
+}; 
+#line 1063
+template<> struct _Make_signed2< 4Ui64>  { 
+#line 1064
+template< class _Ty> using _Apply = typename _Select< is_same_v< _Ty, long>  || is_same_v< _Ty, unsigned long> > ::template _Apply< long, int> ; 
+#line 1067
+}; 
+#line 1070
+template<> struct _Make_signed2< 8Ui64>  { 
+#line 1071
+template< class > using _Apply = __int64; 
+#line 1073
+}; 
+#line 1075
+template< class _Ty> using _Make_signed1 = typename _Make_signed2< sizeof(_Ty)> ::template _Apply< _Ty> ; 
+#line 1079
+template< class _Ty> 
+#line 1080
+struct make_signed { 
+#line 1081
+static_assert((_Is_nonbool_integral< _Ty>  || is_enum_v< _Ty> ), "make_signed<T> requires that T shall be a (possibly cv-qualified) integral type or enumeration but not a bool type.");
+#line 1085
+using type = typename remove_cv< _Ty> ::template _Apply< _Make_signed1> ; 
+#line 1086
+}; 
+#line 1088
+template< class _Ty> using make_signed_t = typename make_signed< _Ty> ::type; 
+#line 1091
+template< size_t > struct _Make_unsigned2; 
+#line 1095
+template<> struct _Make_unsigned2< 1Ui64>  { 
+#line 1096
+template< class > using _Apply = unsigned char; 
+#line 1098
+}; 
+#line 1101
+template<> struct _Make_unsigned2< 2Ui64>  { 
+#line 1102
+template< class > using _Apply = unsigned short; 
+#line 1104
+}; 
+#line 1107
+template<> struct _Make_unsigned2< 4Ui64>  { 
+#line 1108
+template< class _Ty> using _Apply = typename _Select< is_same_v< _Ty, long>  || is_same_v< _Ty, unsigned long> > ::template _Apply< unsigned long, unsigned> ; 
+#line 1112
+}; 
+#line 1115
+template<> struct _Make_unsigned2< 8Ui64>  { 
+#line 1116
+template< class > using _Apply = unsigned __int64; 
+#line 1118
+}; 
+#line 1120
+template< class _Ty> using _Make_unsigned1 = typename _Make_unsigned2< sizeof(_Ty)> ::template _Apply< _Ty> ; 
+#line 1124
+template< class _Ty> 
+#line 1125
+struct make_unsigned { 
+#line 1126
+static_assert((_Is_nonbool_integral< _Ty>  || is_enum_v< _Ty> ), "make_unsigned<T> requires that T shall be a (possibly cv-qualified) integral type or enumeration but not a bool type.");
+#line 1130
+using type = typename remove_cv< _Ty> ::template _Apply< _Make_unsigned1> ; 
+#line 1131
+}; 
+#line 1133
+template< class _Ty> using make_unsigned_t = typename make_unsigned< _Ty> ::type; 
+#line 1136
+template < class _Rep >
+constexpr make_unsigned_t < _Rep > _Unsigned_value ( _Rep _Val ) {
+    return static_cast < make_unsigned_t < _Rep >> ( _Val );
+}
+#line 1141
+template< class _Ty> 
+#line 1142
+struct alignment_of : public integral_constant< unsigned __int64, __alignof(_Ty)>  { }; 
+#line 1144
+template< class _Ty> constexpr size_t 
+#line 1145
+alignment_of_v = __alignof(_Ty); 
+#line 1147
+template< class _Ty, size_t _Len> 
+#line 1148
+union _Align_type { 
+#line 1149
+_Ty _Val; 
+#line 1150
+char _Pad[_Len]; 
+#line 1151
+}; 
+#line 1153
+template< size_t _Len, size_t _Align, class _Ty, bool _Ok> struct _Aligned; 
+#line 1156
+template< size_t _Len, size_t _Align, class _Ty> 
+#line 1157
+struct _Aligned< _Len, _Align, _Ty, true>  { 
+#line 1158
+using type = _Align_type< _Ty, _Len> ; 
+#line 1159
+}; 
+#line 1161
+template< size_t _Len, size_t _Align> 
+#line 1162
+struct _Aligned< _Len, _Align, double, false>  { 
+#line 1169
+static_assert((_Always_false< _Aligned> ), "You\'ve instantiated std::aligned_storage<Len, Align> with an extended alignment (in other words, Align > alignof(max_align_t))." " Before VS 2017 15.8, the member \"type\" would non-conformingly have an alignment of only alignof(max_align_t). VS 2017 15.8 wa" "s fixed to handle this correctly, but the fix inherently changes layout and breaks binary compatibility (*only* for uses of alig" "ned_storage with extended alignments). To suppress this error, please define either (1) _ENABLE_EXTENDED_ALIGNED_STORAGE to conf" "irm that you want a type with an extended alignment, or (2) _DISABLE_EXTENDED_ALIGNED_STORAGE to get the old non-conforming beha" "vior.");
+#line 1179 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+using type = _Align_type< max_align_t, _Len> ; 
+#line 1181 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+}; 
+#line 1183
+template< size_t _Len, size_t _Align> 
+#line 1184
+struct _Aligned< _Len, _Align, int, false>  { 
+#line 1185
+using _Next = double; 
+#line 1186
+static constexpr bool _Fits = (_Align <= __alignof(_Next)); 
+#line 1187
+using type = typename std::_Aligned< _Len, _Align, double, _Fits> ::type; 
+#line 1188
+}; 
+#line 1190
+template< size_t _Len, size_t _Align> 
+#line 1191
+struct _Aligned< _Len, _Align, short, false>  { 
+#line 1192
+using _Next = int; 
+#line 1193
+static constexpr bool _Fits = (_Align <= __alignof(_Next)); 
+#line 1194
+using type = typename std::_Aligned< _Len, _Align, int, _Fits> ::type; 
+#line 1195
+}; 
+#line 1197
+template< size_t _Len, size_t _Align> 
+#line 1198
+struct _Aligned< _Len, _Align, char, false>  { 
+#line 1199
+using _Next = short; 
+#line 1200
+static constexpr bool _Fits = (_Align <= __alignof(_Next)); 
+#line 1201
+using type = typename std::_Aligned< _Len, _Align, short, _Fits> ::type; 
+#line 1202
+}; 
+#line 1205
+template< size_t _Len, size_t _Align = 8Ui64> 
+#line 1206
+struct _Aligned_storage { 
+#line 1207
+using _Next = char; 
+#line 1208
+static constexpr bool _Fits = (_Align <= __alignof(_Next)); 
+#line 1209
+using type = typename _Aligned< _Len, _Align, char, _Fits> ::type; 
+#line 1210
+}; 
+#line 1212
+template< size_t _Len, size_t _Align = 8Ui64> using _Aligned_storage_t = typename _Aligned_storage< _Len, _Align> ::type; 
+#line 1215
+template< size_t _Len, size_t _Align = 8Ui64> 
+#line 1216
+struct aligned_storage { 
+#line 1217
+using type = _Aligned_storage_t< _Len, _Align> ; 
+#line 1218
+}; 
+#line 1220
+template< size_t _Len, size_t _Align = 8Ui64> using aligned_storage_t = _Aligned_storage_t< _Len, _Align> ; 
+#line 1223
+template< size_t ..._Vals> struct _Maximum; 
+#line 1227
+template<> struct _Maximum< >  : public integral_constant< unsigned __int64, 0Ui64>  { }; 
+#line 1229
+template< size_t _Val> 
+#line 1230
+struct _Maximum< _Val>  : public integral_constant< unsigned __int64, _Val>  { }; 
+#line 1232
+template< size_t _First, size_t _Second, size_t ..._Rest> 
+#line 1233
+struct _Maximum< _First, _Second, _Rest...>  : public std::_Maximum< (((_First) < _Second) ? _Second : _First), _Rest...> ::type { 
+#line 1235
+}; 
+#line 1237
+template< size_t _Len, class ..._Types> 
+#line 1238
+struct aligned_union { 
+#line 1240
+static constexpr size_t _Max_len = (_Maximum< _Len, sizeof(_Types)...> ::value); 
+#line 1241
+static constexpr size_t alignment_value = (_Maximum< __alignof(_Types)...> ::value); 
+#line 1243
+using type = _Aligned_storage_t< _Max_len, alignment_value> ; 
+#line 1244
+}; 
+#line 1246
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 1247
+template< size_t _Len, class ..._Types> using aligned_union_t = typename aligned_union< _Len, _Types...> ::type; 
+#line 1249
+__pragma( warning(pop)) 
+#line 1251
+template< class _Ty, bool  = is_enum_v< _Ty> > 
+#line 1252
+struct _Underlying_type { 
+#line 1253
+using type = __underlying_type(_Ty); 
+#line 1254
+}; 
+#line 1256
+template< class _Ty> 
+#line 1257
+struct _Underlying_type< _Ty, false>  { }; 
+#line 1259
+template< class _Ty> 
+#line 1260
+struct underlying_type : public _Underlying_type< _Ty>  { }; 
+#line 1262
+template< class _Ty> using underlying_type_t = typename _Underlying_type< _Ty> ::type; 
+#line 1265
+template< class _Ty> constexpr size_t 
+#line 1266
+rank_v = (0); 
+#line 1268
+template< class _Ty, size_t _Nx> constexpr size_t 
+#line 1269
+rank_v< _Ty [_Nx]>  = rank_v< _Ty>  + 1; 
+#line 1271
+template< class _Ty> constexpr size_t 
+#line 1272
+rank_v< _Ty []>  = rank_v< _Ty>  + 1; 
+#line 1274
+template< class _Ty> 
+#line 1275
+struct rank : public integral_constant< unsigned __int64, rank_v< _Ty> >  { }; 
+#line 1277
+template< class _Ty, unsigned _Ix = 0U> constexpr size_t 
+#line 1278
+extent_v = (0); 
+#line 1280
+template< class _Ty, size_t _Nx> constexpr size_t 
+#line 1281
+extent_v< _Ty [_Nx], 0>  = _Nx; 
+#line 1283
+template< class _Ty, unsigned _Ix, size_t _Nx> constexpr size_t 
+#line 1284
+extent_v< _Ty [_Nx], _Ix>  = extent_v< _Ty, _Ix - (1)> ; 
+#line 1286
+template< class _Ty, unsigned _Ix> constexpr size_t 
+#line 1287
+extent_v< _Ty [], _Ix>  = extent_v< _Ty, _Ix - (1)> ; 
+#line 1289
+template< class _Ty, unsigned _Ix = 0U> 
+#line 1290
+struct extent : public integral_constant< unsigned __int64, extent_v< _Ty, _Ix> >  { }; 
+#line 1292
+template< class _Base, class _Derived> 
+#line 1293
+struct is_base_of : public bool_constant< __is_base_of(_Base, _Derived)>  { 
+#line 1295
+}; 
+#line 1297
+template< class _Base, class _Derived> constexpr bool 
+#line 1298
+is_base_of_v = __is_base_of(_Base, _Derived); 
+#line 1300
+template< class _Ty> 
+#line 1301
+struct decay { 
+#line 1302
+using _Ty1 = remove_reference_t< _Ty> ; 
+#line 1303
+using _Ty2 = typename _Select< is_function_v< _Ty1> > ::template _Apply< add_pointer< _Ty1> , remove_cv< _Ty1> > ; 
+#line 1304
+using type = typename _Select< is_array_v< _Ty1> > ::template _Apply< add_pointer< remove_extent_t< _Ty1> > , _Ty2> ::type; 
+#line 1305
+}; 
+#line 1307
+template< class _Ty> using decay_t = typename decay< _Ty> ::type; 
+#line 1310
+template< class _Ty1, class _Ty2> using _Conditional_type = decltype(false ? std::declval< _Ty1> () : std::declval< _Ty2> ()); 
+#line 1327 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty1, class _Ty2, class  = void> 
+#line 1328
+struct _Decayed_cond_oper { }; 
+#line 1331 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty1, class _Ty2> 
+#line 1332
+struct _Decayed_cond_oper< _Ty1, _Ty2, void_t< _Conditional_type< _Ty1, _Ty2> > >  { 
+#line 1333
+using type = decay_t< _Conditional_type< _Ty1, _Ty2> > ; 
+#line 1334
+}; 
+#line 1336
+template< class ..._Ty> struct common_type; 
+#line 1339
+template< class ..._Ty> using common_type_t = typename common_type< _Ty...> ::type; 
+#line 1343
+template<> struct common_type< >  { }; 
+#line 1345
+template< class _Ty1> 
+#line 1346
+struct common_type< _Ty1>  : public std::common_type< _Ty1, _Ty1>  { }; 
+#line 1348
+template< class _Ty1, class _Ty2, class _Decayed1 = decay_t< _Ty1> , class _Decayed2 = decay_t< _Ty2> > 
+#line 1349
+struct _Common_type2 : public common_type< _Decayed1, _Decayed2>  { }; 
+#line 1351
+template< class _Ty1, class _Ty2> 
+#line 1352
+struct _Common_type2< _Ty1, _Ty2, _Ty1, _Ty2>  : public _Decayed_cond_oper< _Ty1, _Ty2>  { }; 
+#line 1354
+template< class _Ty1, class _Ty2> 
+#line 1355
+struct common_type< _Ty1, _Ty2>  : public _Common_type2< _Ty1, _Ty2>  { }; 
+#line 1357
+template< class _Void, class _Ty1, class _Ty2, class ..._Rest> 
+#line 1358
+struct _Common_type3 { }; 
+#line 1360
+template< class _Ty1, class _Ty2, class ..._Rest> 
+#line 1361
+struct _Common_type3< void_t< common_type_t< _Ty1, _Ty2> > , _Ty1, _Ty2, _Rest...>  : public common_type< common_type_t< _Ty1, _Ty2> , _Rest...>  { 
+#line 1362
+}; 
+#line 1364
+template< class _Ty1, class _Ty2, class ..._Rest> 
+#line 1365
+struct common_type< _Ty1, _Ty2, _Rest...>  : public _Common_type3< void, _Ty1, _Ty2, _Rest...>  { }; 
+#line 1367
+template< class _Ty> _Ty _Returns_exactly() noexcept; 
+#line 1553 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Type, template< class ...>  class _Template> constexpr bool 
+#line 1554
+_Is_specialization_v = false; 
+#line 1555
+template< template< class ...>  class _Template, class ..._Types> constexpr bool 
+#line 1556
+_Is_specialization_v< _Template< _Types...> , _Template>  = true; 
+#line 1558
+template< class _Type, template< class ...>  class _Template> 
+#line 1559
+struct _Is_specialization : public bool_constant< _Is_specialization_v< _Type, _Template> >  { }; 
+#line 1561
+template< class _Ty> 
+#line 1562
+[[nodiscard]] constexpr _Ty &&forward(remove_reference_t< _Ty>  &_Arg) noexcept { 
+#line 1563
+return static_cast< _Ty &&>(_Arg); 
+#line 1564
+} 
+#line 1566
+template< class _Ty> 
+#line 1567
+[[nodiscard]] constexpr _Ty &&forward(remove_reference_t< _Ty>  &&_Arg) noexcept { 
+#line 1568
+static_assert((!is_lvalue_reference_v< _Ty> ), "bad forward call");
+#line 1569
+return static_cast< _Ty &&>(_Arg); 
+#line 1570
+} 
+#line 1572
+template< class _Ty> 
+#line 1573
+[[nodiscard]] constexpr remove_reference_t< _Ty>  &&move(_Ty &&_Arg) noexcept { 
+#line 1574
+return static_cast< remove_reference_t< _Ty>  &&>(_Arg); 
+#line 1575
+} 
+#line 1577
+template < class _Ty >
+[ [ nodiscard ] ] constexpr
+    conditional_t < ! is_nothrow_move_constructible_v < _Ty > && is_copy_constructible_v < _Ty >, const _Ty &, _Ty && >
+    move_if_noexcept ( _Ty & _Arg ) noexcept {
+    return :: std :: move ( _Arg );
+}
+#line 1584
+template < class _Ty >
+[ [ nodiscard ] ] constexpr _Ty * addressof ( _Ty & _Val ) noexcept {
+    return __builtin_addressof ( _Val );
+}
+#line 1589
+template < class _Ty >
+const _Ty * addressof ( const _Ty && ) = delete;
+#line 1592
+#pragma warning(push)
+#pragma warning(disable : 5215)
+#pragma warning(disable : 5216)
+#line 1601
+template< class _Ty> 
+#line 1602
+[[nodiscard]] _Ty 
+#line 1601
+_Fake_copy_init(_Ty) noexcept; 
+#line 1612
+#pragma warning(pop)
+#line 1614
+template < class _Ty >
+class reference_wrapper;
+#line 1621
+enum class _Invoker_strategy { 
+#line 1622
+_Functor, 
+#line 1623
+_Pmf_object, 
+#line 1624
+_Pmf_refwrap, 
+#line 1625
+_Pmf_pointer, 
+#line 1626
+_Pmd_object, 
+#line 1627
+_Pmd_refwrap, 
+#line 1628
+_Pmd_pointer
+#line 1629
+}; 
+#line 1631
+struct _Invoker_functor { 
+#line 1632
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Functor; 
+#line 1634
+template < class _Callable, class ... _Types >
+    static constexpr auto _Call ( _Callable && _Obj, _Types && ... _Args ) noexcept (
+        noexcept ( static_cast < _Callable && > ( _Obj ) ( static_cast < _Types && > ( _Args ) ... ) ) )
+        -> decltype ( static_cast < _Callable && > ( _Obj ) ( static_cast < _Types && > ( _Args ) ... ) ) {
+        return static_cast < _Callable && > ( _Obj ) ( static_cast < _Types && > ( _Args ) ... );
+    }
+#line 1640
+}; 
+#line 1642
+struct _Invoker_pmf_object { 
+#line 1643
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmf_object; 
+#line 1645
+template < class _Decayed, class _Ty1, class ... _Types2 >
+    static constexpr auto _Call ( _Decayed _Pmf, _Ty1 && _Arg1, _Types2 && ... _Args2 ) noexcept (
+        noexcept ( ( static_cast < _Ty1 && > ( _Arg1 ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) )
+        -> decltype ( ( static_cast < _Ty1 && > ( _Arg1 ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) {
+        return ( static_cast < _Ty1 && > ( _Arg1 ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    }
+#line 1651
+}; 
+#line 1653
+struct _Invoker_pmf_refwrap { 
+#line 1654
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmf_refwrap; 
+#line 1656
+template < class _Decayed, class _Refwrap, class ... _Types2 >
+    static constexpr auto _Call ( _Decayed _Pmf, _Refwrap _Rw, _Types2 && ... _Args2 ) noexcept (
+        noexcept ( ( _Rw . get ( ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) )
+        -> decltype ( ( _Rw . get ( ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) {
+        return ( _Rw . get ( ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    }
+#line 1662
+}; 
+#line 1664
+struct _Invoker_pmf_pointer { 
+#line 1665
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmf_pointer; 
+#line 1667
+template < class _Decayed, class _Ty1, class ... _Types2 >
+    static constexpr auto _Call ( _Decayed _Pmf, _Ty1 && _Arg1, _Types2 && ... _Args2 ) noexcept (
+        noexcept ( ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) )
+        -> decltype ( ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... ) ) {
+        return ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmf ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    }
+#line 1673
+}; 
+#line 1675
+struct _Invoker_pmd_object { 
+#line 1676
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmd_object; 
+#line 1678
+template < class _Decayed, class _Ty1 >
+    static constexpr auto _Call ( _Decayed _Pmd, _Ty1 && _Arg1 ) noexcept -> decltype ( static_cast < _Ty1 && > ( _Arg1 ) .* _Pmd ) {
+        return static_cast < _Ty1 && > ( _Arg1 ) .* _Pmd;
+    }
+#line 1682
+}; 
+#line 1684
+struct _Invoker_pmd_refwrap { 
+#line 1685
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmd_refwrap; 
+#line 1687
+template < class _Decayed, class _Refwrap >
+    static constexpr auto _Call ( _Decayed _Pmd, _Refwrap _Rw ) noexcept -> decltype ( _Rw . get ( ) .* _Pmd ) {
+        return _Rw . get ( ) .* _Pmd;
+    }
+#line 1691
+}; 
+#line 1693
+struct _Invoker_pmd_pointer { 
+#line 1694
+static constexpr _Invoker_strategy _Strategy = _Invoker_strategy::_Pmd_pointer; 
+#line 1696
+template < class _Decayed, class _Ty1 >
+    static constexpr auto _Call ( _Decayed _Pmd, _Ty1 && _Arg1 ) noexcept ( noexcept ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmd ) )
+        -> decltype ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmd ) {
+        return ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Pmd;
+    }
+#line 1701
+}; 
+#line 1703
+template< class _Callable, class _Ty1, class _Removed_cvref = _Remove_cvref_t< _Callable> , bool 
+#line 1704
+_Is_pmf = is_member_function_pointer_v< _Removed_cvref> , bool 
+#line 1705
+_Is_pmd = is_member_object_pointer_v< _Removed_cvref> > struct _Invoker1; 
+#line 1708
+template< class _Callable, class _Ty1, class _Removed_cvref> 
+#line 1709
+struct _Invoker1< _Callable, _Ty1, _Removed_cvref, true, false>  : public conditional_t< is_same_v< typename _Is_memfunptr< _Removed_cvref> ::_Class_type, _Remove_cvref_t< _Ty1> >  || is_base_of_v< typename _Is_memfunptr< _Removed_cvref> ::_Class_type, _Remove_cvref_t< _Ty1> > , _Invoker_pmf_object, conditional_t< _Is_specialization_v< _Remove_cvref_t< _Ty1> , reference_wrapper> , _Invoker_pmf_refwrap, _Invoker_pmf_pointer> >  { 
+#line 1714
+}; 
+#line 1716
+template< class _Callable, class _Ty1, class _Removed_cvref> 
+#line 1717
+struct _Invoker1< _Callable, _Ty1, _Removed_cvref, false, true>  : public conditional_t< is_same_v< typename _Is_member_object_pointer< _Removed_cvref> ::_Class_type, _Remove_cvref_t< _Ty1> >  || is_base_of_v< typename _Is_member_object_pointer< _Removed_cvref> ::_Class_type, _Remove_cvref_t< _Ty1> > , _Invoker_pmd_object, conditional_t< _Is_specialization_v< _Remove_cvref_t< _Ty1> , reference_wrapper> , _Invoker_pmd_refwrap, _Invoker_pmd_pointer> >  { 
+#line 1723
+}; 
+#line 1725
+template< class _Callable, class _Ty1, class _Removed_cvref> 
+#line 1726
+struct _Invoker1< _Callable, _Ty1, _Removed_cvref, false, false>  : public _Invoker_functor { }; 
+#line 1728
+template < class _Callable >
+inline auto invoke ( _Callable && _Obj ) noexcept ( noexcept ( static_cast < _Callable && > ( _Obj ) ( ) ) )
+    -> decltype ( static_cast < _Callable && > ( _Obj ) ( ) ) {
+    return static_cast < _Callable && > ( _Obj ) ( );
+}
+#line 1734
+template < class _Callable, class _Ty1, class ... _Types2 >
+inline auto invoke ( _Callable && _Obj, _Ty1 && _Arg1, _Types2 && ... _Args2 ) noexcept (
+    noexcept ( _Invoker1 < _Callable, _Ty1 > :: _Call (
+        static_cast < _Callable && > ( _Obj ), static_cast < _Ty1 && > ( _Arg1 ), static_cast < _Types2 && > ( _Args2 ) ... ) ) )
+    -> decltype ( _Invoker1 < _Callable, _Ty1 > :: _Call (
+        static_cast < _Callable && > ( _Obj ), static_cast < _Ty1 && > ( _Arg1 ), static_cast < _Types2 && > ( _Args2 ) ... ) ) {
+    if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Functor ) {
+        return static_cast < _Callable && > ( _Obj ) ( static_cast < _Ty1 && > ( _Arg1 ), static_cast < _Types2 && > ( _Args2 ) ... );
+    } else if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Pmf_object ) {
+        return ( static_cast < _Ty1 && > ( _Arg1 ) .* _Obj ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    } else if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Pmf_refwrap ) {
+        return ( _Arg1 . get ( ) .* _Obj ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    } else if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Pmf_pointer ) {
+        return ( ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Obj ) ( static_cast < _Types2 && > ( _Args2 ) ... );
+    } else if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Pmd_object ) {
+        return static_cast < _Ty1 && > ( _Arg1 ) .* _Obj;
+    } else if constexpr ( _Invoker1 < _Callable, _Ty1 > :: _Strategy == _Invoker_strategy :: _Pmd_refwrap ) {
+        return _Arg1 . get ( ) .* _Obj;
+    } else {
+        ;
+        return ( * static_cast < _Ty1 && > ( _Arg1 ) ) .* _Obj;
+    }
+}
+#line 1758
+#pragma warning(push)
+#pragma warning(disable : 4242)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4365)
+#line 1763
+template< class _From, class _To, bool  = is_convertible_v< _From, _To> , bool  = is_void_v< _To> > constexpr bool 
+#line 1764
+_Is_nothrow_convertible_v = noexcept(_Fake_copy_init< _To> (std::declval< _From> ())); 
+#line 1766
+#pragma warning(pop)
+#line 1768
+template< class _From, class _To, bool _IsVoid> constexpr bool 
+#line 1769
+_Is_nothrow_convertible_v< _From, _To, false, _IsVoid>  = false; 
+#line 1771
+template< class _From, class _To> constexpr bool 
+#line 1772
+_Is_nothrow_convertible_v< _From, _To, true, true>  = true; 
+#line 1774
+template< class _From, class _To> 
+#line 1775
+struct _Is_nothrow_convertible : public bool_constant< _Is_nothrow_convertible_v< _From, _To, is_convertible_v< _From, _To> , is_void_v< _To> > >  { 
+#line 1777
+}; 
+#line 1787 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _From, class _To, class  = void> 
+#line 1788
+struct _Invoke_convertible : public false_type { }; 
+#line 1790
+template< class _From, class _To> 
+#line 1791
+struct _Invoke_convertible< _From, _To, void_t< decltype(std::_Fake_copy_init< _To> (std::_Returns_exactly< _From> ()))> >  : public true_type { 
+#line 1792
+}; 
+#line 1794
+template< class _From, class _To> 
+#line 1795
+struct _Invoke_nothrow_convertible : public bool_constant< noexcept(std::_Fake_copy_init< _To> (std::_Returns_exactly< _From> ()))>  { 
+#line 1796
+}; 
+#line 1798
+template< class _Result, bool _Nothrow> 
+#line 1799
+struct _Invoke_traits_common { 
+#line 1800
+using type = _Result; 
+#line 1801
+using _Is_invocable = true_type; 
+#line 1802
+using _Is_nothrow_invocable = bool_constant< _Nothrow> ; 
+#line 1803
+template< class _Rx> using _Is_invocable_r = bool_constant< disjunction_v< is_void< _Rx> , _Invoke_convertible< type, _Rx> > > ; 
+#line 1805
+template< class _Rx> using _Is_nothrow_invocable_r = bool_constant< conjunction_v< _Is_nothrow_invocable, disjunction< is_void< _Rx> , conjunction< _Invoke_convertible< type, _Rx> , _Invoke_nothrow_convertible< type, _Rx> > > > > ; 
+#line 1809
+}; 
+#line 1811
+template< class _Void, class _Callable> 
+#line 1812
+struct _Invoke_traits_zero { 
+#line 1814
+using _Is_invocable = false_type; 
+#line 1815
+using _Is_nothrow_invocable = false_type; 
+#line 1816
+template< class _Rx> using _Is_invocable_r = false_type; 
+#line 1818
+template< class _Rx> using _Is_nothrow_invocable_r = false_type; 
+#line 1820
+}; 
+#line 1822
+template< class _Callable> using _Decltype_invoke_zero = decltype(std::declval< _Callable> ()()); 
+#line 1825
+template< class _Callable> 
+#line 1826
+struct _Invoke_traits_zero< void_t< _Decltype_invoke_zero< _Callable> > , _Callable>  : public _Invoke_traits_common< _Decltype_invoke_zero< _Callable> , noexcept(std::declval< _Callable> ()())>  { 
+#line 1827
+}; 
+#line 1829
+template< class _Void, class ..._Types> 
+#line 1830
+struct _Invoke_traits_nonzero { 
+#line 1832
+using _Is_invocable = false_type; 
+#line 1833
+using _Is_nothrow_invocable = false_type; 
+#line 1834
+template< class _Rx> using _Is_invocable_r = false_type; 
+#line 1836
+template< class _Rx> using _Is_nothrow_invocable_r = false_type; 
+#line 1838
+}; 
+#line 1840
+template< class _Callable, class _Ty1, class ..._Types2> using _Decltype_invoke_nonzero = decltype(_Invoker1< _Callable, _Ty1> ::_Call(std::declval< _Callable> (), std::declval< _Ty1> (), std::declval< _Types2> ()...)); 
+#line 1844
+template< class _Callable, class _Ty1, class ..._Types2> 
+#line 1845
+struct _Invoke_traits_nonzero< void_t< _Decltype_invoke_nonzero< _Callable, _Ty1, _Types2...> > , _Callable, _Ty1, _Types2...>  : public _Invoke_traits_common< _Decltype_invoke_nonzero< _Callable, _Ty1, _Types2...> , noexcept(_Invoker1< _Callable, _Ty1> ::_Call(std::declval< _Callable> (), std::declval< _Ty1> (), std::declval< _Types2> ()...))>  { 
+#line 1848
+}; 
+#line 1850
+template< class _Callable, class ..._Args> using _Select_invoke_traits = conditional_t< sizeof...(_Args) == (0), _Invoke_traits_zero< void, _Callable> , _Invoke_traits_nonzero< void, _Callable, _Args...> > ; 
+#line 1855
+template< class _Fty> 
+#line 1856
+struct result_of { 
+#line 1857
+static_assert((_Always_false< _Fty> ), "result_of<CallableType> is invalid; use result_of<CallableType(zero or more argument types)> instead.");
+#line 1859
+}; 
+#line 1867
+template< class _Callable, class ..._Args> struct result_of< _Callable __cdecl (_Args ...)>  : public _Select_invoke_traits< _Callable, _Args...>  { }; template< class _Callable, class ..._Args> struct result_of< _Callable __vectorcall (_Args ...)>  : public _Select_invoke_traits< _Callable, _Args...>  { }; 
+#line 1870
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 1871
+template< class _Ty> using result_of_t = typename result_of< _Ty> ::type; 
+#line 1873
+__pragma( warning(pop)) 
+#line 1876 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Callable, class ..._Args> using _Invoke_result_t = typename _Select_invoke_traits< _Callable, _Args...> ::type; 
+#line 1879
+template< class _Rx, class _Callable, class ..._Args> using _Is_invocable_r_ = typename conditional< sizeof...(_Args) == (0), _Invoke_traits_zero< void, _Callable> , _Invoke_traits_nonzero< void, _Callable, _Args...> > ::type::template _Is_invocable_r< _Rx> ; 
+#line 1882
+template< class _Rx, class _Callable, class ..._Args> 
+#line 1883
+struct _Is_invocable_r : public _Is_invocable_r_< _Rx, _Callable, _Args...>  { 
+#line 1885
+}; 
+#line 1956 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> 
+#line 1957
+struct _Function_args { }; 
+#line 1965
+template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...)>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...)>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) volatile>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) volatile>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const volatile>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const volatile>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) volatile &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) volatile &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const volatile &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const volatile &>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) volatile &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) volatile &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __cdecl (_Types ...) const volatile &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret __vectorcall (_Types ...) const volatile &&>  : public _Arg_types< _Types...>  { using result_type = _Ret; }; 
+#line 1974
+template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...)>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) volatile>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const volatile>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) &>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const &>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) volatile &>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const volatile &>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) &&>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const &&>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) volatile &&>  { using result_type = _Ret; }; template< class _Ret, class ..._Types> struct _Function_args< _Ret (_Types ..., ...) const volatile &&>  { using result_type = _Ret; }; 
+#line 1977
+template< class _Ty, class  = void> 
+#line 1978
+struct _Weak_result_type { }; 
+#line 1980
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 1981
+template< class _Ty> 
+#line 1982
+struct _Weak_result_type< _Ty, void_t< typename _Ty::result_type> >  { 
+#line 1983
+using result_type = typename _Ty::result_type; 
+#line 1984
+}; 
+#line 1985
+__pragma( warning(pop)) 
+#line 1987
+template< class _Ty, class  = void> 
+#line 1988
+struct _Weak_argument_type : public _Weak_result_type< _Ty>  { }; 
+#line 1990
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 1991
+template< class _Ty> 
+#line 1992
+struct _Weak_argument_type< _Ty, void_t< typename _Ty::argument_type> >  : public _Weak_result_type< _Ty>  { 
+#line 1994
+using argument_type = typename _Ty::argument_type; 
+#line 1995
+}; 
+#line 1996
+__pragma( warning(pop)) 
+#line 1998
+template< class _Ty, class  = void> 
+#line 1999
+struct _Weak_binary_args : public _Weak_argument_type< _Ty>  { }; 
+#line 2001
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 2002
+template< class _Ty> 
+#line 2003
+struct _Weak_binary_args< _Ty, void_t< typename _Ty::first_argument_type, typename _Ty::second_argument_type> >  : public _Weak_argument_type< _Ty>  { 
+#line 2006
+using first_argument_type = typename _Ty::first_argument_type; 
+#line 2007
+using second_argument_type = typename _Ty::second_argument_type; 
+#line 2008
+}; 
+#line 2009
+__pragma( warning(pop)) 
+#line 2011
+template< class _Ty> using _Weak_types = conditional_t< is_function_v< remove_pointer_t< _Ty> > , _Function_args< remove_pointer_t< _Ty> > , conditional_t< is_member_function_pointer_v< _Ty> , _Is_memfunptr< remove_cv_t< _Ty> > , _Weak_binary_args< _Ty> > > ; 
+#line 2015
+template< class _Ty> void _Refwrap_ctor_fun(_Identity_t< _Ty &> ) noexcept; 
+#line 2017
+template < class _Ty >
+void _Refwrap_ctor_fun ( _Identity_t < _Ty && > ) = delete;
+#line 2020
+template< class _Ty, class _Uty, class  = void> 
+#line 2021
+struct _Refwrap_has_ctor_from : public false_type { }; 
+#line 2023
+template< class _Ty, class _Uty> 
+#line 2024
+struct _Refwrap_has_ctor_from< _Ty, _Uty, void_t< decltype(std::_Refwrap_ctor_fun< _Ty> (std::declval< _Uty> ()))> >  : public true_type { 
+#line 2025
+}; 
+#line 2027
+template < class _Ty >
+class reference_wrapper
+
+    : public _Weak_types < _Ty >
+
+{
+public :
+    static_assert ( is_object_v < _Ty > || is_function_v < _Ty >,
+        "reference_wrapper<T> requires T to be an object type or a function type." );
+
+    using type = _Ty;
+
+    template < class _Uty, enable_if_t < conjunction_v < negation < is_same < _Remove_cvref_t < _Uty >, reference_wrapper >>,
+                                          _Refwrap_has_ctor_from < _Ty, _Uty >>,
+                              int > = 0 >
+    inline reference_wrapper ( _Uty && _Val ) noexcept (
+        noexcept ( :: std :: _Refwrap_ctor_fun < _Ty > ( :: std :: declval < _Uty > ( ) ) ) ) {
+        _Ty & _Ref = static_cast < _Uty && > ( _Val );
+        _Ptr = :: std :: addressof ( _Ref );
+    }
+
+    inline operator _Ty & ( ) const noexcept {
+        return * _Ptr;
+    }
+
+    [ [ nodiscard ] ] inline _Ty & get ( ) const noexcept {
+        return * _Ptr;
+    }
+
+private :
+    _Ty * _Ptr { };
+
+public :
+    template < class ... _Types >
+    inline auto operator ( ) ( _Types && ... _Args ) const
+        noexcept ( noexcept ( :: std :: invoke ( * _Ptr, static_cast < _Types && > ( _Args ) ... ) ) )
+            -> decltype ( :: std :: invoke ( * _Ptr, static_cast < _Types && > ( _Args ) ... ) ) {
+        return :: std :: invoke ( * _Ptr, static_cast < _Types && > ( _Args ) ... );
+    }
+};
+#line 2073 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template < class _Ty >
+[ [ nodiscard ] ] inline reference_wrapper < _Ty > ref ( _Ty & _Val ) noexcept {
+    return reference_wrapper < _Ty > ( _Val );
+}
+#line 2078
+template < class _Ty >
+void ref ( const _Ty && ) = delete;
+#line 2081
+template < class _Ty >
+[ [ nodiscard ] ] inline reference_wrapper < _Ty > ref ( reference_wrapper < _Ty > _Val ) noexcept {
+    return _Val;
+}
+#line 2086
+template < class _Ty >
+[ [ nodiscard ] ] inline reference_wrapper < const _Ty > cref ( const _Ty & _Val ) noexcept {
+    return reference_wrapper < const _Ty > ( _Val );
+}
+#line 2091
+template < class _Ty >
+void cref ( const _Ty && ) = delete;
+#line 2094
+template < class _Ty >
+[ [ nodiscard ] ] inline reference_wrapper < const _Ty > cref ( reference_wrapper < _Ty > _Val ) noexcept {
+    return _Val;
+}
+#line 2119 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class _Ty> struct _Is_swappable; 
+#line 2122
+template< class _Ty> struct _Is_nothrow_swappable; 
+#line 2128 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template < class _Ty, int _Enabled = 0 >
+
+inline void swap ( _Ty &, _Ty & ) noexcept ( is_nothrow_move_constructible_v < _Ty > && is_nothrow_move_assignable_v < _Ty > );
+#line 2132 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template < class _Ty, size_t _Size, enable_if_t < _Is_swappable < _Ty > :: value, int > = 0 >
+inline void swap ( _Ty ( & ) [ _Size ], _Ty ( & ) [ _Size ] ) noexcept ( _Is_nothrow_swappable < _Ty > :: value );
+#line 2135
+template< class _Ty1, class _Ty2, class  = void> 
+#line 2136
+struct _Swappable_with_helper : public false_type { }; 
+#line 2138
+template< class _Ty1, class _Ty2> 
+#line 2139
+struct _Swappable_with_helper< _Ty1, _Ty2, void_t< decltype(swap(std::declval< _Ty1> (), std::declval< _Ty2> ()))> >  : public true_type { 
+#line 2140
+}; 
+#line 2142
+template< class _Ty1, class _Ty2> 
+#line 2143
+struct _Is_swappable_with : public bool_constant< conjunction_v< _Swappable_with_helper< _Ty1, _Ty2> , _Swappable_with_helper< _Ty2, _Ty1> > >  { 
+#line 2146
+}; 
+#line 2148
+template< class _Ty> 
+#line 2149
+struct _Is_swappable : public _Is_swappable_with< add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< _Ty> > ::type { 
+#line 2151
+}; 
+#line 2153
+template< class _Ty1, class _Ty2> 
+#line 2154
+struct _Swap_cannot_throw : public bool_constant< noexcept(swap(std::declval< _Ty1> (), std::declval< _Ty2> ())) && noexcept(swap(std::declval< _Ty2> (), std::declval< _Ty1> ()))>  { 
+#line 2158
+}; 
+#line 2160
+template< class _Ty1, class _Ty2> 
+#line 2161
+struct _Is_nothrow_swappable_with : public bool_constant< conjunction_v< _Is_swappable_with< _Ty1, _Ty2> , _Swap_cannot_throw< _Ty1, _Ty2> > >  { 
+#line 2165
+}; 
+#line 2167
+template< class _Ty> 
+#line 2168
+struct _Is_nothrow_swappable : public _Is_nothrow_swappable_with< add_lvalue_reference_t< _Ty> , add_lvalue_reference_t< _Ty> > ::type { 
+#line 2171
+}; 
+#line 2208 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+namespace _Has_ADL_swap_detail { 
+#line 2212 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+void swap(); 
+#line 2215 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+template< class , class  = void> 
+#line 2216
+struct _Has_ADL_swap : public false_type { }; 
+#line 2217
+template< class _Ty> 
+#line 2218
+struct _Has_ADL_swap< _Ty, void_t< decltype(swap(std::declval< _Ty &> (), std::declval< _Ty &> ()))> >  : public true_type { }; 
+#line 2219
+}
+#line 2220
+using _Has_ADL_swap_detail::_Has_ADL_swap;
+#line 2222
+template< class _Ty> constexpr bool 
+#line 2223
+_Is_trivially_swappable_v = conjunction_v< is_trivially_destructible< _Ty> , is_trivially_move_constructible< _Ty> , is_trivially_move_assignable< _Ty> , negation< _Has_ADL_swap_detail::_Has_ADL_swap< _Ty> > > ; 
+#line 2231
+template< class _Ty> 
+#line 2232
+struct _Is_trivially_swappable : public bool_constant< _Is_trivially_swappable_v< _Ty> >  { 
+#line 2234
+}; 
+#line 2299
+template < class _Bitmask >
+[ [ nodiscard ] ] constexpr bool _Bitmask_includes_any ( _Bitmask _Left, _Bitmask _Elements ) noexcept {
+    return ( _Left & _Elements ) != _Bitmask { };
+}
+#line 2304
+template < class _Bitmask >
+[ [ nodiscard ] ] constexpr bool _Bitmask_includes_all ( _Bitmask _Left, _Bitmask _Elements ) noexcept {
+    return ( _Left & _Elements ) == _Elements;
+}
+#line 2312
+constexpr size_t _FNV_offset_basis = 14695981039346656037Ui64; 
+#line 2313
+constexpr size_t _FNV_prime = 1099511628211Ui64; 
+#line 2319 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+[[nodiscard]] inline size_t _Fnv1a_append_bytes(size_t _Val, const unsigned char *const _First, const size_t 
+#line 2320
+_Count) noexcept { 
+#line 2321
+for (size_t _Idx = (0); _Idx < _Count; ++_Idx) { 
+#line 2322
+_Val ^= (static_cast< size_t>(_First[_Idx])); 
+#line 2323
+_Val *= _FNV_prime; 
+#line 2324
+}  
+#line 2326
+return _Val; 
+#line 2327
+} 
+#line 2329
+template < class _Ty >
+[ [ nodiscard ] ] size_t _Fnv1a_append_range ( const size_t _Val, const _Ty * const _First,
+    const _Ty * const _Last ) noexcept {
+    static_assert ( is_trivial_v < _Ty >, "Only trivial types can be directly hashed." );
+    const auto _Firstb = reinterpret_cast < const unsigned char * > ( _First );
+    const auto _Lastb = reinterpret_cast < const unsigned char * > ( _Last );
+    return _Fnv1a_append_bytes ( _Val, _Firstb, static_cast < size_t > ( _Lastb - _Firstb ) );
+}
+#line 2338
+template < class _Kty >
+[ [ nodiscard ] ] size_t _Fnv1a_append_value (
+    const size_t _Val, const _Kty & _Keyval ) noexcept {
+    static_assert ( is_trivial_v < _Kty >, "Only trivial types can be directly hashed." );
+    return _Fnv1a_append_bytes ( _Val, & reinterpret_cast < const unsigned char & > ( _Keyval ), sizeof ( _Kty ) );
+}
+#line 2345
+template < class _Kty >
+[ [ nodiscard ] ] size_t _Hash_representation ( const _Kty & _Keyval ) noexcept {
+    return _Fnv1a_append_value ( _FNV_offset_basis, _Keyval );
+}
+#line 2350
+template < class _Kty >
+[ [ nodiscard ] ] size_t _Hash_array_representation (
+    const _Kty * const _First, const size_t _Count ) noexcept {
+    static_assert ( is_trivial_v < _Kty >, "Only trivial types can be directly hashed." );
+    return _Fnv1a_append_bytes (
+        _FNV_offset_basis, reinterpret_cast < const unsigned char * > ( _First ), _Count * sizeof ( _Kty ) );
+}
+#line 2358
+template < class _Kty >
+struct hash;
+#line 2361
+template < class _Kty, bool _Enabled >
+struct _Conditionally_enabled_hash {
+    using argument_type = _Kty;
+    using result_type = size_t;
+
+    [ [ nodiscard ] ] size_t operator ( ) ( const _Kty & _Keyval ) const
+        noexcept ( noexcept ( hash < _Kty > :: _Do_hash ( _Keyval ) ) ) {
+        return hash < _Kty > :: _Do_hash ( _Keyval );
+    }
+};
+#line 2372
+template< class _Kty> 
+#line 2373
+struct _Conditionally_enabled_hash< _Kty, false>  { 
+#line 2374
+_Conditionally_enabled_hash() = delete;
+#line 2375
+_Conditionally_enabled_hash(const _Conditionally_enabled_hash &) = delete;
+#line 2376
+_Conditionally_enabled_hash(_Conditionally_enabled_hash &&) = delete;
+#line 2377
+_Conditionally_enabled_hash &operator=(const _Conditionally_enabled_hash &) = delete;
+#line 2378
+_Conditionally_enabled_hash &operator=(_Conditionally_enabled_hash &&) = delete;
+#line 2379
+}; 
+#line 2381
+template < class _Kty >
+struct hash : _Conditionally_enabled_hash < _Kty, ! is_const_v < _Kty > && ! is_volatile_v < _Kty >
+                                                    && ( is_enum_v < _Kty > || is_integral_v < _Kty > || is_pointer_v < _Kty > ) > {
+
+    static size_t _Do_hash ( const _Kty & _Keyval ) noexcept {
+        return _Hash_representation ( _Keyval );
+    }
+};
+#line 2391
+#pragma pack(8)
+template<> 
+#line 2391
+struct hash< float>  { 
+#line 2392
+using argument_type = float; 
+#line 2393
+using result_type = size_t; 
+#line 2394
+[[nodiscard]] size_t operator()(const float _Keyval) const noexcept { 
+#line 2395
+return _Hash_representation((_Keyval == (0.0F)) ? (0.0F) : _Keyval); 
+#line 2396
+} 
+#line 2397
+}; 
+#pragma pack()
+#line 2400
+#pragma pack(8)
+template<> 
+#line 2400
+struct hash< double>  { 
+#line 2401
+using argument_type = double; 
+#line 2402
+using result_type = size_t; 
+#line 2403
+[[nodiscard]] size_t operator()(const double _Keyval) const noexcept { 
+#line 2404
+return _Hash_representation((_Keyval == (0.0)) ? (0.0) : _Keyval); 
+#line 2405
+} 
+#line 2406
+}; 
+#pragma pack()
+#line 2409
+#pragma pack(8)
+template<> 
+#line 2409
+struct hash< long double>  { 
+#line 2410
+using argument_type = long double; 
+#line 2411
+using result_type = size_t; 
+#line 2412
+[[nodiscard]] size_t operator()(const long double _Keyval) const noexcept { 
+#line 2413
+return _Hash_representation((_Keyval == (0.0L)) ? (0.0L) : _Keyval); 
+#line 2414
+} 
+#line 2415
+}; 
+#pragma pack()
+#line 2418
+#pragma pack(8)
+template<> 
+#line 2418
+struct hash< std::nullptr_t>  { 
+#line 2419
+using argument_type = nullptr_t; 
+#line 2420
+using result_type = size_t; 
+#line 2421
+[[nodiscard]] size_t operator()(nullptr_t) const noexcept { 
+#line 2422
+void *_Null{((void *)0i64)}; 
+#line 2423
+return _Hash_representation(_Null); 
+#line 2424
+} 
+#line 2425
+}; 
+#pragma pack()
+template< class _Kty, class  = void> 
+#pragma pack(8)
+#line 2428
+struct _Is_nothrow_hashable : public false_type { }; 
+#pragma pack()
+template< class _Kty> 
+#pragma pack(8)
+#line 2431
+struct _Is_nothrow_hashable< _Kty, void_t< decltype(hash< _Kty> {}(std::declval< const _Kty &> ()))> >  : public bool_constant< noexcept(hash< _Kty> {}(std::declval< const _Kty &> ()))>  { 
+#line 2432
+}; 
+#pragma pack()
+template < class _Ty = void >
+struct less {
+    using first_argument_type = _Ty;
+    using second_argument_type = _Ty;
+    using result_type = bool;
+
+    [ [ nodiscard ] ] constexpr bool operator ( ) ( const _Ty & _Left, const _Ty & _Right ) const
+        noexcept ( noexcept ( _Fake_copy_init < bool > ( _Left < _Right ) ) ) {
+        return _Left < _Right;
+    }
+};
+#line 2447
+template<> struct less< void>  { 
+#line 2448
+template < class _Ty1, class _Ty2 >
+    [ [ nodiscard ] ] constexpr auto operator ( ) ( _Ty1 && _Left, _Ty2 && _Right ) const
+        noexcept ( noexcept ( static_cast < _Ty1 && > ( _Left ) < static_cast < _Ty2 && > ( _Right ) ) )
+        -> decltype ( static_cast < _Ty1 && > ( _Left ) < static_cast < _Ty2 && > ( _Right ) ) {
+        return static_cast < _Ty1 && > ( _Left ) < static_cast < _Ty2 && > ( _Right );
+    }
+#line 2455
+using is_transparent = int; 
+#line 2456
+}; 
+#line 2460
+template< class _FloatingType> struct _Floating_type_traits; 
+#line 2464
+template<> struct _Floating_type_traits< float>  { 
+#line 2465
+static constexpr int32_t _Mantissa_bits = 24; 
+#line 2466
+static constexpr int32_t _Exponent_bits = 8; 
+#line 2467
+static constexpr int32_t _Maximum_binary_exponent = 127; 
+#line 2468
+static constexpr int32_t _Minimum_binary_exponent = (-126); 
+#line 2469
+static constexpr int32_t _Exponent_bias = 127; 
+#line 2470
+static constexpr int32_t _Sign_shift = 31; 
+#line 2471
+static constexpr int32_t _Exponent_shift = 23; 
+#line 2473
+using _Uint_type = uint32_t; 
+#line 2475
+static constexpr uint32_t _Exponent_mask = 255U; 
+#line 2476
+static constexpr uint32_t _Normal_mantissa_mask = 16777215U; 
+#line 2477
+static constexpr uint32_t _Denormal_mantissa_mask = 8388607U; 
+#line 2478
+static constexpr uint32_t _Special_nan_mantissa_mask = 4194304U; 
+#line 2479
+static constexpr uint32_t _Shifted_sign_mask = 2147483648U; 
+#line 2480
+static constexpr uint32_t _Shifted_exponent_mask = 2139095040U; 
+#line 2481
+}; 
+#line 2484
+template<> struct _Floating_type_traits< double>  { 
+#line 2485
+static constexpr int32_t _Mantissa_bits = 53; 
+#line 2486
+static constexpr int32_t _Exponent_bits = 11; 
+#line 2487
+static constexpr int32_t _Maximum_binary_exponent = 1023; 
+#line 2488
+static constexpr int32_t _Minimum_binary_exponent = (-1022); 
+#line 2489
+static constexpr int32_t _Exponent_bias = 1023; 
+#line 2490
+static constexpr int32_t _Sign_shift = 63; 
+#line 2491
+static constexpr int32_t _Exponent_shift = 52; 
+#line 2493
+using _Uint_type = uint64_t; 
+#line 2495
+static constexpr uint64_t _Exponent_mask = (2047U); 
+#line 2496
+static constexpr uint64_t _Normal_mantissa_mask = 9007199254740991Ui64; 
+#line 2497
+static constexpr uint64_t _Denormal_mantissa_mask = 4503599627370495Ui64; 
+#line 2498
+static constexpr uint64_t _Special_nan_mantissa_mask = 2251799813685248Ui64; 
+#line 2499
+static constexpr uint64_t _Shifted_sign_mask = 9223372036854775808Ui64; 
+#line 2500
+static constexpr uint64_t _Shifted_exponent_mask = 9218868437227405312Ui64; 
+#line 2501
+}; 
+#line 2504
+template<> struct _Floating_type_traits< long double>  : public std::_Floating_type_traits< double>  { }; 
+#line 2508
+template < class _To, class _From,
+    enable_if_t < conjunction_v < bool_constant < sizeof ( _To ) == sizeof ( _From ) >, is_trivially_copyable < _To >,
+                    is_trivially_copyable < _From > >,
+        int > = 0 >
+[ [ nodiscard ] ] constexpr _To _Bit_cast ( const _From & _Val ) noexcept {
+    return __builtin_bit_cast ( _To, _Val );
+}
+#line 2517
+__pragma( warning(push)) __pragma( warning(disable : 4996)) 
+#line 2518
+namespace [[deprecated("warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _" "SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to suppress this warning.")]] tr1 { 
+#line 2519
+using std::add_const;
+#line 2520
+using std::add_cv;
+#line 2521
+using std::add_pointer;
+#line 2522
+using std::add_volatile;
+#line 2523
+using std::aligned_storage;
+#line 2524
+using std::alignment_of;
+#line 2525
+using std::conditional;
+#line 2526
+using std::decay;
+#line 2527
+using std::enable_if;
+#line 2528
+using std::extent;
+#line 2529
+using std::false_type;
+#line 2530
+using std::has_virtual_destructor;
+#line 2531
+using std::integral_constant;
+#line 2532
+using std::is_abstract;
+#line 2533
+using std::is_arithmetic;
+#line 2534
+using std::is_array;
+#line 2535
+using std::is_base_of;
+#line 2536
+using std::is_class;
+#line 2537
+using std::is_compound;
+#line 2538
+using std::is_const;
+#line 2539
+using std::is_convertible;
+#line 2540
+using std::is_empty;
+#line 2541
+using std::is_enum;
+#line 2542
+using std::is_floating_point;
+#line 2543
+using std::is_function;
+#line 2544
+using std::is_fundamental;
+#line 2545
+using std::is_integral;
+#line 2546
+using std::is_member_function_pointer;
+#line 2547
+using std::is_member_object_pointer;
+#line 2548
+using std::is_member_pointer;
+#line 2549
+using std::is_object;
+#line 2550
+using std::is_pod;
+#line 2551
+using std::is_pointer;
+#line 2552
+using std::is_polymorphic;
+#line 2553
+using std::is_reference;
+#line 2554
+using std::is_same;
+#line 2555
+using std::is_scalar;
+#line 2556
+using std::is_signed;
+#line 2557
+using std::is_union;
+#line 2558
+using std::is_unsigned;
+#line 2559
+using std::is_void;
+#line 2560
+using std::is_volatile;
+#line 2561
+using std::make_signed;
+#line 2562
+using std::make_unsigned;
+#line 2563
+using std::rank;
+#line 2564
+using std::remove_all_extents;
+#line 2565
+using std::remove_const;
+#line 2566
+using std::remove_cv;
+#line 2567
+using std::remove_extent;
+#line 2568
+using std::remove_pointer;
+#line 2569
+using std::remove_reference;
+#line 2570
+using std::remove_volatile;
+#line 2571
+using std::true_type;
+#line 2572
+using std::cref;
+#line 2573
+using std::ref;
+#line 2574
+using std::reference_wrapper;
+#line 2576
+using std::result_of;
+#line 2578 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+using std::hash;
+#line 2579
+}
+#line 2580
+__pragma( warning(pop)) 
+#line 2583 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
+}
+#line 2592
+#pragma warning(pop)
+#pragma pack ( pop )
+#line 25 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+#pragma pack ( push, 8 )
+#pragma warning(push, 3)
+#pragma warning(disable : 4180 4412 4455 4494 4514 4574 4582 4583 4587 4588 4619 4623 4625 4626 4643 4648 4702 4793 4820 4988 5026 5027 5045 6294 4984 5053 )
+#line 40
+namespace std { 
+#line 41
+template < class _Ty, _Ty ... _Vals >
+struct integer_sequence {
+    static_assert ( is_integral_v < _Ty >, "integer_sequence<T, I...> requires T to be an integral type." );
+
+    using value_type = _Ty;
+
+    [ [ nodiscard ] ] static constexpr size_t size ( ) noexcept {
+        return sizeof ... ( _Vals );
+    }
+};
+#line 52
+template< class _Ty, _Ty _Size> using make_integer_sequence = __make_integer_seq< integer_sequence, _Ty, _Size> ; 
+#line 55
+template< size_t ..._Vals> using index_sequence = integer_sequence< unsigned __int64, _Vals...> ; 
+#line 58
+template< size_t _Size> using make_index_sequence = make_integer_sequence< unsigned __int64, _Size> ; 
+#line 61
+template< class ..._Types> using index_sequence_for = make_index_sequence< sizeof...(_Types)> ; 
+#line 64
+template < class _Ty, class _Pr >
+[ [ nodiscard ] ] constexpr const _Ty & ( max ) ( const _Ty & _Left, const _Ty & _Right, _Pr _Pred ) noexcept (
+    noexcept ( _Pred ( _Left, _Right ) ) ) {
+
+    return _Pred ( _Left, _Right ) ? _Right : _Left;
+}
+#line 71
+#pragma warning(push)
+#pragma warning(disable : 28285)
+template < class _Ty >
+[ [ nodiscard ] ] constexpr const _Ty &
+    ( max ) ( const _Ty & _Left, const _Ty & _Right ) noexcept ( noexcept ( _Left < _Right ) ) {
+
+    return _Left < _Right ? _Right : _Left;
+}
+#pragma warning(pop)
+#line 81
+template< class _Ty, class _Pr> 
+#line 82
+[[nodiscard]] constexpr _Ty 
+#line 81
+max(initializer_list< _Ty> , _Pr); 
+#line 84
+template< class _Ty> 
+#line 85
+[[nodiscard]] constexpr _Ty 
+#line 84
+max(initializer_list< _Ty> ); 
+#line 87
+template < class _Ty, class _Pr >
+[ [ nodiscard ] ] constexpr const _Ty & ( min ) ( const _Ty & _Left, const _Ty & _Right, _Pr _Pred ) noexcept (
+    noexcept ( _Pred ( _Right, _Left ) ) ) {
+
+    return _Pred ( _Right, _Left ) ? _Right : _Left;
+}
+#line 94
+#pragma warning(push)
+#pragma warning(disable : 28285)
+template < class _Ty >
+[ [ nodiscard ] ] constexpr const _Ty &
+    ( min ) ( const _Ty & _Left, const _Ty & _Right ) noexcept ( noexcept ( _Right < _Left ) ) {
+
+    return _Right < _Left ? _Right : _Left;
+}
+#pragma warning(pop)
+#line 104
+template< class _Ty, class _Pr> 
+#line 105
+[[nodiscard]] constexpr _Ty 
+#line 104
+min(initializer_list< _Ty> , _Pr); 
+#line 107
+template< class _Ty> 
+#line 108
+[[nodiscard]] constexpr _Ty 
+#line 107
+min(initializer_list< _Ty> ); 
+#line 110
+template < class _Ty, size_t _Size, enable_if_t < _Is_swappable < _Ty > :: value, int > >
+inline void swap ( _Ty ( & _Left ) [ _Size ], _Ty ( & _Right ) [ _Size ] ) noexcept ( _Is_nothrow_swappable < _Ty > :: value ) {
+    if ( & _Left != & _Right ) {
+        _Ty * _First1 = _Left;
+        _Ty * _Last1 = _First1 + _Size;
+        _Ty * _First2 = _Right;
+        for (; _First1 != _Last1; ++ _First1, ++ _First2 ) {
+            swap ( * _First1, * _First2 );
+        }
+    }
+}
+#line 125 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+template < class _Ty, int _Enabled >
+
+inline void swap ( _Ty & _Left, _Ty & _Right ) noexcept (
+    is_nothrow_move_constructible_v < _Ty > && is_nothrow_move_assignable_v < _Ty > ) {
+    _Ty _Tmp = :: std :: move ( _Left );
+    _Left = :: std :: move ( _Right );
+    _Right = :: std :: move ( _Tmp );
+}
+#line 134 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+#pragma pack(8)
+#line 134
+struct piecewise_construct_t { 
+#line 135
+explicit piecewise_construct_t() = default;
+#line 136
+}; 
+#pragma pack()
+constexpr piecewise_construct_t piecewise_construct{}; 
+#line 140
+template< class ..._Types> class tuple; 
+#line 143
+template < class _Ty1, class _Ty2 >
+struct pair;
+#line 146
+template< class _Ty, size_t _Size> class array; 
+#line 149
+template< class _Tuple> struct tuple_size; 
+#line 152
+template< class _Ty> constexpr size_t 
+#line 153
+tuple_size_v = (tuple_size< _Ty> ::value); 
+#line 155
+template< size_t _Index, class _Tuple> struct tuple_element; 
+#line 158
+template< size_t _Index, class _Tuple> using tuple_element_t = typename tuple_element< _Index, _Tuple> ::type; 
+#line 161
+template< size_t _Index, class ..._Types> 
+#line 162
+[[nodiscard]] constexpr auto &&
+#line 161
+_Tuple_get(tuple< _Types...>  && _Tuple) noexcept; 
+#line 164
+template< size_t _Index, class ..._Types> 
+#line 165
+[[nodiscard]] constexpr tuple_element_t< _Index, tuple< _Types...> >  &
+#line 164
+get(tuple< _Types...>  & _Tuple) noexcept; 
+#line 167
+template< size_t _Index, class ..._Types> 
+#line 168
+[[nodiscard]] constexpr const tuple_element_t< _Index, tuple< _Types...> >  &
+#line 167
+get(const tuple< _Types...>  & _Tuple) noexcept; 
+#line 170
+template< size_t _Index, class ..._Types> 
+#line 171
+[[nodiscard]] constexpr tuple_element_t< _Index, tuple< _Types...> >  &&
+#line 170
+get(tuple< _Types...>  && _Tuple) noexcept; 
+#line 173
+template< size_t _Index, class ..._Types> 
+#line 174
+[[nodiscard]] constexpr const tuple_element_t< _Index, tuple< _Types...> >  &&
+#line 173
+get(const tuple< _Types...>  && _Tuple) noexcept; 
+#line 176
+template< size_t _Idx, class _Ty, size_t _Size> 
+#line 177
+[[nodiscard]] constexpr _Ty &
+#line 176
+get(array< _Ty, _Size>  & _Arr) noexcept; 
+#line 179
+template< size_t _Idx, class _Ty, size_t _Size> 
+#line 180
+[[nodiscard]] constexpr const _Ty &
+#line 179
+get(const array< _Ty, _Size>  & _Arr) noexcept; 
+#line 182
+template< size_t _Idx, class _Ty, size_t _Size> 
+#line 183
+[[nodiscard]] constexpr _Ty &&
+#line 182
+get(array< _Ty, _Size>  && _Arr) noexcept; 
+#line 185
+template< size_t _Idx, class _Ty, size_t _Size> 
+#line 186
+[[nodiscard]] constexpr const _Ty &&
+#line 185
+get(const array< _Ty, _Size>  && _Arr) noexcept; 
+#line 221
+template < class _Ty1, class _Ty2 >
+struct pair {
+    using first_type = _Ty1;
+    using second_type = _Ty2;
+
+    template < class _Uty1 = _Ty1, class _Uty2 = _Ty2,
+        enable_if_t < conjunction_v < is_default_constructible < _Uty1 >, is_default_constructible < _Uty2 >>, int > = 0 >
+    constexpr explicit (
+        ! conjunction_v < _Is_implicitly_default_constructible < _Uty1 >, _Is_implicitly_default_constructible < _Uty2 >> )
+        pair ( ) noexcept (
+            is_nothrow_default_constructible_v < _Uty1 > && is_nothrow_default_constructible_v < _Uty2 > )
+        : first ( ), second ( ) { }
+
+    template < class _Uty1 = _Ty1, class _Uty2 = _Ty2,
+        enable_if_t < conjunction_v < is_copy_constructible < _Uty1 >, is_copy_constructible < _Uty2 >>, int > = 0 >
+    constexpr explicit ( ! conjunction_v < is_convertible < const _Uty1 &, _Uty1 >, is_convertible < const _Uty2 &, _Uty2 >> )
+        pair ( const _Ty1 & _Val1, const _Ty2 & _Val2 ) noexcept (
+            is_nothrow_copy_constructible_v < _Uty1 > && is_nothrow_copy_constructible_v < _Uty2 > )
+        : first ( _Val1 ), second ( _Val2 ) { }
+
+
+
+
+    template < class _Other1, class _Other2,
+
+        enable_if_t < conjunction_v < is_constructible < _Ty1, _Other1 >, is_constructible < _Ty2, _Other2 >>, int > = 0 >
+    constexpr explicit ( ! conjunction_v < is_convertible < _Other1, _Ty1 >, is_convertible < _Other2, _Ty2 >> )
+        pair ( _Other1 && _Val1, _Other2 && _Val2 ) noexcept (
+            is_nothrow_constructible_v < _Ty1, _Other1 > && is_nothrow_constructible_v < _Ty2, _Other2 > )
+        : first ( :: std :: forward < _Other1 > ( _Val1 ) ), second ( :: std :: forward < _Other2 > ( _Val2 ) ) {
+    }
+
+    pair ( const pair & ) = default;
+    pair ( pair && ) = default;
+
+
+
+
+
+
+
+
+
+
+    template < class _Other1, class _Other2,
+        enable_if_t < conjunction_v < is_constructible < _Ty1, const _Other1 & >, is_constructible < _Ty2, const _Other2 & >>,
+            int > = 0 >
+    constexpr explicit ( ! conjunction_v < is_convertible < const _Other1 &, _Ty1 >, is_convertible < const _Other2 &, _Ty2 >> )
+        pair ( const pair < _Other1, _Other2 > & _Right ) noexcept ( is_nothrow_constructible_v < _Ty1, const _Other1 & > &&
+                is_nothrow_constructible_v < _Ty2, const _Other2 & > )
+        : first ( _Right . first ), second ( _Right . second ) { }
+
+    template < class _Other1, class _Other2,
+        enable_if_t < conjunction_v < is_constructible < _Ty1, _Other1 >, is_constructible < _Ty2, _Other2 >>, int > = 0 >
+    constexpr explicit ( ! conjunction_v < is_convertible < _Other1, _Ty1 >, is_convertible < _Other2, _Ty2 >> )
+        pair ( pair < _Other1, _Other2 > && _Right ) noexcept (
+            is_nothrow_constructible_v < _Ty1, _Other1 > && is_nothrow_constructible_v < _Ty2, _Other2 > )
+        : first ( :: std :: forward < _Other1 > ( _Right . first ) ), second ( :: std :: forward < _Other2 > ( _Right . second ) ) { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    template < class _Tuple1, class _Tuple2, size_t ... _Indices1, size_t ... _Indices2 >
+    constexpr pair ( _Tuple1 & _Val1, _Tuple2 & _Val2, index_sequence < _Indices1 ... >, index_sequence < _Indices2 ... > )
+        : first ( _Tuple_get < _Indices1 > ( :: std :: move ( _Val1 ) ) ... ), second ( _Tuple_get < _Indices2 > ( :: std :: move ( _Val2 ) ) ... ) { }
+
+    template < class ... _Types1, class ... _Types2 >
+    inline pair ( piecewise_construct_t, tuple < _Types1 ... > _Val1, tuple < _Types2 ... > _Val2 )
+        : pair ( _Val1, _Val2, index_sequence_for < _Types1 ... > { }, index_sequence_for < _Types2 ... > { } ) { }
+
+    pair & operator = ( const volatile pair & ) = delete;
+
+    template < class _Myself = pair,
+        enable_if_t < conjunction_v < _Is_copy_assignable_no_precondition_check < typename _Myself :: first_type >,
+                        _Is_copy_assignable_no_precondition_check < typename _Myself :: second_type >>,
+            int > = 0 >
+    inline pair & operator = ( _Identity_t < const _Myself & > _Right ) noexcept (
+        conjunction_v < is_nothrow_copy_assignable < _Ty1 >, is_nothrow_copy_assignable < _Ty2 >> ) {
+        first = _Right . first;
+        second = _Right . second;
+        return * this;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    template < class _Myself = pair,
+        enable_if_t < conjunction_v < _Is_move_assignable_no_precondition_check < typename _Myself :: first_type >,
+                        _Is_move_assignable_no_precondition_check < typename _Myself :: second_type >>,
+            int > = 0 >
+    inline pair & operator = ( _Identity_t < _Myself && > _Right ) noexcept (
+        conjunction_v < is_nothrow_move_assignable < _Ty1 >, is_nothrow_move_assignable < _Ty2 >> ) {
+        first = :: std :: forward < _Ty1 > ( _Right . first );
+        second = :: std :: forward < _Ty2 > ( _Right . second );
+        return * this;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    template < class _Other1, class _Other2,
+        enable_if_t < conjunction_v < negation < is_same < pair, pair < _Other1, _Other2 >> >, is_assignable < _Ty1 &, const _Other1 & >,
+                        is_assignable < _Ty2 &, const _Other2 & >>,
+            int > = 0 >
+    inline pair & operator = ( const pair < _Other1, _Other2 > & _Right ) noexcept (
+        is_nothrow_assignable_v < _Ty1 &, const _Other1 & > &&
+            is_nothrow_assignable_v < _Ty2 &, const _Other2 & > ) {
+        first = _Right . first;
+        second = _Right . second;
+        return * this;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    template < class _Other1, class _Other2,
+        enable_if_t < conjunction_v < negation < is_same < pair, pair < _Other1, _Other2 >> >, is_assignable < _Ty1 &, _Other1 >,
+                        is_assignable < _Ty2 &, _Other2 >>,
+            int > = 0 >
+    inline pair & operator = ( pair < _Other1, _Other2 > && _Right ) noexcept (
+        is_nothrow_assignable_v < _Ty1 &, _Other1 > && is_nothrow_assignable_v < _Ty2 &, _Other2 > ) {
+        first = :: std :: forward < _Other1 > ( _Right . first );
+        second = :: std :: forward < _Other2 > ( _Right . second );
+        return * this;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    inline void swap ( pair & _Right ) noexcept (
+        _Is_nothrow_swappable < _Ty1 > :: value && _Is_nothrow_swappable < _Ty2 > :: value ) {
+        using :: std :: swap;
+        if ( this != :: std :: addressof ( _Right ) ) {
+            swap ( first, _Right . first );
+            swap ( second, _Right . second );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    _Ty1 first;
+    _Ty2 second;
+};
+#line 474 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+template < class _Ty1, class _Ty2,
+    enable_if_t < _Is_swappable < _Ty1 > :: value && _Is_swappable < _Ty2 > :: value, int > = 0 >
+inline void swap ( pair < _Ty1, _Ty2 > & _Left, pair < _Ty1, _Ty2 > & _Right ) noexcept ( noexcept ( _Left . swap ( _Right ) ) ) {
+    _Left . swap ( _Right );
+}
+#line 489 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator == ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return _Left . first == _Right . first && _Left . second == _Right . second;
+}
+#line 506
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator != ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return ! ( _Left == _Right );
+}
+#line 512 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator < ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return _Left . first < _Right . first || ( ! ( _Right . first < _Left . first ) && _Left . second < _Right . second );
+}
+#line 517
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator > ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return _Right < _Left;
+}
+#line 522
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator <= ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return ! ( _Right < _Left );
+}
+#line 527
+template < class _Ty1, class _Ty2, class _Uty1, class _Uty2 >
+[ [ nodiscard ] ] constexpr bool operator >= ( const pair < _Ty1, _Ty2 > & _Left, const pair < _Uty1, _Uty2 > & _Right ) {
+    return ! ( _Left < _Right );
+}
+#line 550 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+template< class _Ty> 
+#line 551
+struct _Unrefwrap_helper { 
+#line 552
+using type = _Ty; 
+#line 553
+}; 
+#line 555
+template< class _Ty> 
+#line 556
+struct _Unrefwrap_helper< reference_wrapper< _Ty> >  { 
+#line 557
+using type = _Ty &; 
+#line 558
+}; 
+#line 561
+template< class _Ty> using _Unrefwrap_t = typename _Unrefwrap_helper< decay_t< _Ty> > ::type; 
+#line 564
+template < class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr pair < _Unrefwrap_t < _Ty1 >, _Unrefwrap_t < _Ty2 > > make_pair ( _Ty1 && _Val1, _Ty2 && _Val2 ) noexcept (
+    is_nothrow_constructible_v < _Unrefwrap_t < _Ty1 >, _Ty1 > &&
+        is_nothrow_constructible_v < _Unrefwrap_t < _Ty2 >, _Ty2 > ) {
+
+    using _Mypair = pair < _Unrefwrap_t < _Ty1 >, _Unrefwrap_t < _Ty2 >>;
+    return _Mypair ( :: std :: forward < _Ty1 > ( _Val1 ), :: std :: forward < _Ty2 > ( _Val2 ) );
+}
+#line 573
+namespace rel_ops { 
+#line 574
+template < class _Ty >
+     [ [ nodiscard ] ] bool operator != ( const _Ty & _Left, const _Ty & _Right ) {
+        return ! ( _Left == _Right );
+    }
+#line 579
+template < class _Ty >
+     [ [ nodiscard ] ] bool operator > ( const _Ty & _Left, const _Ty & _Right ) {
+        return _Right < _Left;
+    }
+#line 584
+template < class _Ty >
+     [ [ nodiscard ] ] bool operator <= ( const _Ty & _Left, const _Ty & _Right ) {
+        return ! ( _Right < _Left );
+    }
+#line 589
+template < class _Ty >
+     [ [ nodiscard ] ] bool operator >= ( const _Ty & _Left, const _Ty & _Right ) {
+        return ! ( _Left < _Right );
+    }
+#line 593
+}
+#line 595
+template< class _Tuple, class  = void> 
+#line 596
+struct _Tuple_size_sfinae { }; 
+#line 598
+template< class _Tuple> 
+#line 599
+struct _Tuple_size_sfinae< _Tuple, void_t< decltype(tuple_size< _Tuple> ::value)> >  : public integral_constant< unsigned __int64, tuple_size< _Tuple> ::value>  { 
+#line 600
+}; 
+#line 602
+template< class _Tuple> 
+#line 603
+struct tuple_size< const _Tuple>  : public _Tuple_size_sfinae< _Tuple>  { }; 
+#line 605
+template< class _Tuple> 
+#line 606
+struct tuple_size< volatile _Tuple>  : public _Tuple_size_sfinae< _Tuple>  { }; 
+#line 608
+template< class _Tuple> 
+#line 609
+struct tuple_size< const volatile _Tuple>  : public _Tuple_size_sfinae< _Tuple>  { }; 
+#line 611
+template< size_t _Index, class _Tuple> 
+#line 612
+struct tuple_element< _Index, const _Tuple>  : public std::tuple_element< _Index, _Tuple>  { 
+#line 613
+using _Mybase = std::tuple_element< _Index, _Tuple> ; 
+#line 614
+using type = std::add_const_t< typename std::tuple_element< _Index, _Tuple> ::type> ; 
+#line 615
+}; 
+#line 617
+template< size_t _Index, class _Tuple> 
+#line 618
+struct tuple_element< _Index, volatile _Tuple>  : public std::tuple_element< _Index, _Tuple>  { 
+#line 620
+using _Mybase = std::tuple_element< _Index, _Tuple> ; 
+#line 621
+using type = std::add_volatile_t< typename std::tuple_element< _Index, _Tuple> ::type> ; 
+#line 622
+}; 
+#line 624
+template< size_t _Index, class _Tuple> 
+#line 625
+struct tuple_element< _Index, const volatile _Tuple>  : public std::tuple_element< _Index, _Tuple>  { 
+#line 627
+using _Mybase = std::tuple_element< _Index, _Tuple> ; 
+#line 628
+using type = std::add_cv_t< typename std::tuple_element< _Index, _Tuple> ::type> ; 
+#line 629
+}; 
+#line 631
+template< class _Ty, size_t _Size> 
+#line 632
+struct tuple_size< array< _Ty, _Size> >  : public integral_constant< unsigned __int64, _Size>  { }; 
+#line 634
+template< size_t _Idx, class _Ty, size_t _Size> 
+#line 635
+struct tuple_element< _Idx, array< _Ty, _Size> >  { 
+#line 636
+static_assert((_Idx < _Size), "array index out of bounds");
+#line 638
+using type = _Ty; 
+#line 639
+}; 
+#line 641
+template< class ..._Types> 
+#line 642
+struct tuple_size< tuple< _Types...> >  : public integral_constant< unsigned __int64, sizeof...(_Types)>  { }; 
+#line 644
+template< size_t _Index> 
+#line 645
+struct tuple_element< _Index, tuple< > >  { 
+#line 646
+static_assert((_Always_false< integral_constant< size_t, _Index> > ), "tuple index out of bounds");
+#line 647
+}; 
+#line 649
+template< class _This, class ..._Rest> 
+#line 650
+struct tuple_element< 0, tuple< _This, _Rest...> >  { 
+#line 651
+using type = _This; 
+#line 653
+using _Ttype = tuple< _This, _Rest...> ; 
+#line 654
+}; 
+#line 656
+template< size_t _Index, class _This, class ..._Rest> 
+#line 657
+struct tuple_element< _Index, tuple< _This, _Rest...> >  : public std::tuple_element< _Index - (1), tuple< _Rest...> >  { 
+#line 658
+}; 
+#line 660
+template< class _Ty1, class _Ty2> 
+#line 661
+struct tuple_size< pair< _Ty1, _Ty2> >  : public integral_constant< unsigned __int64, 2Ui64>  { }; 
+#line 663
+template< size_t _Idx, class _Ty1, class _Ty2> 
+#line 664
+struct tuple_element< _Idx, pair< _Ty1, _Ty2> >  { 
+#line 665
+static_assert((_Idx < (2)), "pair index out of bounds");
+#line 667
+using type = conditional_t< _Idx == (0), _Ty1, _Ty2> ; 
+#line 668
+}; 
+#line 670
+template < size_t _Idx, class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr tuple_element_t < _Idx, pair < _Ty1, _Ty2 > > & get ( pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    if constexpr ( _Idx == 0 ) {
+        return _Pr . first;
+    } else {
+        return _Pr . second;
+    }
+}
+#line 680
+template < class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr _Ty1 & get ( pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    return _Pr . first;
+}
+#line 686
+template < class _Ty2, class _Ty1 >
+[ [ nodiscard ] ] constexpr _Ty2 & get ( pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    return _Pr . second;
+}
+#line 692
+template < size_t _Idx, class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr const tuple_element_t < _Idx, pair < _Ty1, _Ty2 > > & get ( const pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    if constexpr ( _Idx == 0 ) {
+        return _Pr . first;
+    } else {
+        return _Pr . second;
+    }
+}
+#line 702
+template < class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr const _Ty1 & get ( const pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    return _Pr . first;
+}
+#line 708
+template < class _Ty2, class _Ty1 >
+[ [ nodiscard ] ] constexpr const _Ty2 & get ( const pair < _Ty1, _Ty2 > & _Pr ) noexcept {
+
+    return _Pr . second;
+}
+#line 714
+template < size_t _Idx, class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr tuple_element_t < _Idx, pair < _Ty1, _Ty2 > > && get ( pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    if constexpr ( _Idx == 0 ) {
+        return :: std :: forward < _Ty1 > ( _Pr . first );
+    } else {
+        return :: std :: forward < _Ty2 > ( _Pr . second );
+    }
+}
+#line 724
+template < class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr _Ty1 && get ( pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    return :: std :: forward < _Ty1 > ( _Pr . first );
+}
+#line 730
+template < class _Ty2, class _Ty1 >
+[ [ nodiscard ] ] constexpr _Ty2 && get ( pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    return :: std :: forward < _Ty2 > ( _Pr . second );
+}
+#line 736
+template < size_t _Idx, class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr const tuple_element_t < _Idx, pair < _Ty1, _Ty2 > > && get ( const pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    if constexpr ( _Idx == 0 ) {
+        return :: std :: forward < const _Ty1 > ( _Pr . first );
+    } else {
+        return :: std :: forward < const _Ty2 > ( _Pr . second );
+    }
+}
+#line 746
+template < class _Ty1, class _Ty2 >
+[ [ nodiscard ] ] constexpr const _Ty1 && get ( const pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    return :: std :: forward < const _Ty1 > ( _Pr . first );
+}
+#line 752
+template < class _Ty2, class _Ty1 >
+[ [ nodiscard ] ] constexpr const _Ty2 && get ( const pair < _Ty1, _Ty2 > && _Pr ) noexcept {
+
+    return :: std :: forward < const _Ty2 > ( _Pr . second );
+}
+#line 758
+template < class _Ty, class _Other = _Ty >
+inline _Ty exchange ( _Ty & _Val, _Other && _New_val ) noexcept (
+    conjunction_v < is_nothrow_move_constructible < _Ty >, is_nothrow_assignable < _Ty &, _Other >> ) {
+
+    _Ty _Old_val = static_cast < _Ty && > ( _Val );
+    _Val = static_cast < _Other && > ( _New_val );
+    return _Old_val;
+}
+#line 767
+template < class _Ty >
+[ [ nodiscard ] ] constexpr add_const_t < _Ty > & as_const ( _Ty & _Val ) noexcept {
+    return _Val;
+}
+#line 772
+template < class _Ty >
+void as_const ( const _Ty && ) = delete;
+#line 956 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+namespace [[deprecated("warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _" "SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to suppress this warning.")]] tr1 { 
+#line 957
+using std::get;
+#line 958
+using std::tuple_element;
+#line 959
+using std::tuple_size;
+#line 960
+}
+#line 963 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\utility"
+}
+#line 972
+#pragma warning(pop)
+#pragma pack ( pop )
+#line 206 "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.3/bin/../include\\cuda_runtime.h"
+template< class T> static __inline ::cudaError_t 
+#line 207
+cudaLaunchKernel(const T *
+#line 208
+func, ::dim3 
+#line 209
+gridDim, ::dim3 
+#line 210
+blockDim, void **
+#line 211
+args, ::size_t 
+#line 212
+sharedMem = 0, ::cudaStream_t 
+#line 213
+stream = 0) 
+#line 215
+{ 
+#line 216
+return ::cudaLaunchKernel((const void *)func, gridDim, blockDim, args, sharedMem, stream); 
+#line 217
+} 
+#line 277
+template< class ...ExpTypes, class ...ActTypes> static __inline ::cudaError_t 
+#line 278
+cudaLaunchKernelEx(const ::cudaLaunchConfig_t *
+#line 279
+config, void (*
+#line 280
+kernel)(ExpTypes ...), ActTypes &&...
+#line 281
+args) 
+#line 283
+{ 
+#line 284
+return [&](ExpTypes ...coercedArgs) { 
+#line 285
+void *pArgs[] = {(&coercedArgs)...}; 
+#line 286
+return ::cudaLaunchKernelExC(config, (const void *)(kernel), pArgs); 
+#line 287
+} (std::forward< ActTypes> (args)...); 
+#line 288
+} 
+#line 340 "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.3/bin/../include\\cuda_runtime.h"
+template< class T> static __inline ::cudaError_t 
+#line 341
+cudaLaunchCooperativeKernel(const T *
+#line 342
+func, ::dim3 
+#line 343
+gridDim, ::dim3 
+#line 344
+blockDim, void **
+#line 345
+args, ::size_t 
+#line 346
+sharedMem = 0, ::cudaStream_t 
+#line 347
+stream = 0) 
+#line 349
+{ 
+#line 350
+return ::cudaLaunchCooperativeKernel((const void *)func, gridDim, blockDim, args, sharedMem, stream); 
+#line 351
+} 
+#line 384
+static __inline cudaError_t cudaEventCreate(cudaEvent_t *
+#line 385
+event, unsigned 
+#line 386
+flags) 
+#line 388
+{ 
+#line 389
+return ::cudaEventCreateWithFlags(event, flags); 
+#line 390
+} 
+#line 428
+static __inline cudaError_t cudaGraphInstantiate(cudaGraphExec_t *
+#line 429
+pGraphExec, cudaGraph_t 
+#line 430
+graph, cudaGraphNode_t *
+#line 431
+pErrorNode, char *
+#line 432
+pLogBuffer, size_t 
+#line 433
+bufferSize) 
+#line 435
+{ 
+#line 436
+(void)pErrorNode; 
+#line 437
+(void)pLogBuffer; 
+#line 438
+(void)bufferSize; 
+#line 439
+return ::cudaGraphInstantiate(pGraphExec, graph, 0); 
+#line 440
+} 
+#line 499
+static __inline cudaError_t cudaMallocHost(void **
+#line 500
+ptr, size_t 
+#line 501
+size, unsigned 
+#line 502
+flags) 
+#line 504
+{ 
+#line 505
+return ::cudaHostAlloc(ptr, size, flags); 
+#line 506
+} 
+#line 508
+template< class T> static __inline ::cudaError_t 
+#line 509
+cudaHostAlloc(T **
+#line 510
+ptr, ::size_t 
+#line 511
+size, unsigned 
+#line 512
+flags) 
+#line 514
+{ 
+#line 515
+return ::cudaHostAlloc((void **)((void *)ptr), size, flags); 
+#line 516
+} 
+#line 518
+template< class T> static __inline ::cudaError_t 
+#line 519
+cudaHostGetDevicePointer(T **
+#line 520
+pDevice, void *
+#line 521
+pHost, unsigned 
+#line 522
+flags) 
+#line 524
+{ 
+#line 525
+return ::cudaHostGetDevicePointer((void **)((void *)pDevice), pHost, flags); 
+#line 526
+} 
+#line 628
+template< class T> static __inline ::cudaError_t 
+#line 629
+cudaMallocManaged(T **
+#line 630
+devPtr, ::size_t 
+#line 631
+size, unsigned 
+#line 632
+flags = 1) 
+#line 634
+{ 
+#line 635
+return ::cudaMallocManaged((void **)((void *)devPtr), size, flags); 
+#line 636
+} 
+#line 646
+template< class T> ::cudaError_t 
+#line 647
+cudaMemAdvise(T *
+#line 648
+devPtr, ::size_t 
+#line 649
+count, ::cudaMemoryAdvise 
+#line 650
+advice, ::cudaMemLocation 
+#line 651
+location) 
+#line 653
+{ 
+#line 654
+return ::cudaMemAdvise_v2((const void *)devPtr, count, advice, location); 
+#line 655
+} 
+#line 657
+template< class T> static __inline ::cudaError_t 
+#line 658
+cudaMemPrefetchAsync(T *
+#line 659
+devPtr, ::size_t 
+#line 660
+count, ::cudaMemLocation 
+#line 661
+location, unsigned 
+#line 662
+flags, ::cudaStream_t 
+#line 663
+stream = 0) 
+#line 665
+{ 
+#line 666
+return ::cudaMemPrefetchAsync_v2((const void *)devPtr, count, location, flags, stream); 
+#line 667
+} 
+#line 749
+template< class T> static __inline ::cudaError_t 
+#line 750
+cudaStreamAttachMemAsync(::cudaStream_t 
+#line 751
+stream, T *
+#line 752
+devPtr, ::size_t 
+#line 753
+length = 0, unsigned 
+#line 754
+flags = 4) 
+#line 756
+{ 
+#line 757
+return ::cudaStreamAttachMemAsync(stream, (void *)devPtr, length, flags); 
+#line 758
+} 
+#line 760
+template< class T> __inline ::cudaError_t 
+#line 761
+cudaMalloc(T **
+#line 762
+devPtr, ::size_t 
+#line 763
+size) 
+#line 765
+{ 
+#line 766
+return ::cudaMalloc((void **)((void *)devPtr), size); 
+#line 767
+} 
+#line 769
+template< class T> static __inline ::cudaError_t 
+#line 770
+cudaMallocHost(T **
+#line 771
+ptr, ::size_t 
+#line 772
+size, unsigned 
+#line 773
+flags = 0) 
+#line 775
+{ 
+#line 776
+return cudaMallocHost((void **)((void *)ptr), size, flags); 
+#line 777
+} 
+#line 779
+template< class T> static __inline ::cudaError_t 
+#line 780
+cudaMallocPitch(T **
+#line 781
+devPtr, ::size_t *
+#line 782
+pitch, ::size_t 
+#line 783
+width, ::size_t 
+#line 784
+height) 
+#line 786
+{ 
+#line 787
+return ::cudaMallocPitch((void **)((void *)devPtr), pitch, width, height); 
+#line 788
+} 
+#line 799
+static __inline cudaError_t cudaMallocAsync(void **
+#line 800
+ptr, size_t 
+#line 801
+size, cudaMemPool_t 
+#line 802
+memPool, cudaStream_t 
+#line 803
+stream) 
+#line 805
+{ 
+#line 806
+return ::cudaMallocFromPoolAsync(ptr, size, memPool, stream); 
+#line 807
+} 
+#line 809
+template< class T> static __inline ::cudaError_t 
+#line 810
+cudaMallocAsync(T **
+#line 811
+ptr, ::size_t 
+#line 812
+size, ::cudaMemPool_t 
+#line 813
+memPool, ::cudaStream_t 
+#line 814
+stream) 
+#line 816
+{ 
+#line 817
+return ::cudaMallocFromPoolAsync((void **)((void *)ptr), size, memPool, stream); 
+#line 818
+} 
+#line 820
+template< class T> static __inline ::cudaError_t 
+#line 821
+cudaMallocAsync(T **
+#line 822
+ptr, ::size_t 
+#line 823
+size, ::cudaStream_t 
+#line 824
+stream) 
+#line 826
+{ 
+#line 827
+return ::cudaMallocAsync((void **)((void *)ptr), size, stream); 
+#line 828
+} 
+#line 830
+template< class T> static __inline ::cudaError_t 
+#line 831
+cudaMallocFromPoolAsync(T **
+#line 832
+ptr, ::size_t 
+#line 833
+size, ::cudaMemPool_t 
+#line 834
+memPool, ::cudaStream_t 
+#line 835
+stream) 
+#line 837
+{ 
+#line 838
+return ::cudaMallocFromPoolAsync((void **)((void *)ptr), size, memPool, stream); 
+#line 839
+} 
+#line 878
+template< class T> static __inline ::cudaError_t 
+#line 879
+cudaMemcpyToSymbol(const T &
+#line 880
+symbol, const void *
+#line 881
+src, ::size_t 
+#line 882
+count, ::size_t 
+#line 883
+offset = 0, ::cudaMemcpyKind 
+#line 884
+kind = cudaMemcpyHostToDevice) 
+#line 886
+{ 
+#line 887
+return ::cudaMemcpyToSymbol((const void *)(&symbol), src, count, offset, kind); 
+#line 888
+} 
+#line 932
+template< class T> static __inline ::cudaError_t 
+#line 933
+cudaMemcpyToSymbolAsync(const T &
+#line 934
+symbol, const void *
+#line 935
+src, ::size_t 
+#line 936
+count, ::size_t 
+#line 937
+offset = 0, ::cudaMemcpyKind 
+#line 938
+kind = cudaMemcpyHostToDevice, ::cudaStream_t 
+#line 939
+stream = 0) 
+#line 941
+{ 
+#line 942
+return ::cudaMemcpyToSymbolAsync((const void *)(&symbol), src, count, offset, kind, stream); 
+#line 943
+} 
+#line 980
+template< class T> static __inline ::cudaError_t 
+#line 981
+cudaMemcpyFromSymbol(void *
+#line 982
+dst, const T &
+#line 983
+symbol, ::size_t 
+#line 984
+count, ::size_t 
+#line 985
+offset = 0, ::cudaMemcpyKind 
+#line 986
+kind = cudaMemcpyDeviceToHost) 
+#line 988
+{ 
+#line 989
+return ::cudaMemcpyFromSymbol(dst, (const void *)(&symbol), count, offset, kind); 
+#line 990
+} 
+#line 1034
+template< class T> static __inline ::cudaError_t 
+#line 1035
+cudaMemcpyFromSymbolAsync(void *
+#line 1036
+dst, const T &
+#line 1037
+symbol, ::size_t 
+#line 1038
+count, ::size_t 
+#line 1039
+offset = 0, ::cudaMemcpyKind 
+#line 1040
+kind = cudaMemcpyDeviceToHost, ::cudaStream_t 
+#line 1041
+stream = 0) 
+#line 1043
+{ 
+#line 1044
+return ::cudaMemcpyFromSymbolAsync(dst, (const void *)(&symbol), count, offset, kind, stream); 
+#line 1045
+} 
+#line 1103
+template< class T> static __inline ::cudaError_t 
+#line 1104
+cudaGraphAddMemcpyNodeToSymbol(::cudaGraphNode_t *
+#line 1105
+pGraphNode, ::cudaGraph_t 
+#line 1106
+graph, const ::cudaGraphNode_t *
+#line 1107
+pDependencies, ::size_t 
+#line 1108
+numDependencies, const T &
+#line 1109
+symbol, const void *
+#line 1110
+src, ::size_t 
+#line 1111
+count, ::size_t 
+#line 1112
+offset, ::cudaMemcpyKind 
+#line 1113
+kind) 
+#line 1114
+{ 
+#line 1115
+return ::cudaGraphAddMemcpyNodeToSymbol(pGraphNode, graph, pDependencies, numDependencies, (const void *)(&symbol), src, count, offset, kind); 
+#line 1116
+} 
+#line 1174
+template< class T> static __inline ::cudaError_t 
+#line 1175
+cudaGraphAddMemcpyNodeFromSymbol(::cudaGraphNode_t *
+#line 1176
+pGraphNode, ::cudaGraph_t 
+#line 1177
+graph, const ::cudaGraphNode_t *
+#line 1178
+pDependencies, ::size_t 
+#line 1179
+numDependencies, void *
+#line 1180
+dst, const T &
+#line 1181
+symbol, ::size_t 
+#line 1182
+count, ::size_t 
+#line 1183
+offset, ::cudaMemcpyKind 
+#line 1184
+kind) 
+#line 1185
+{ 
+#line 1186
+return ::cudaGraphAddMemcpyNodeFromSymbol(pGraphNode, graph, pDependencies, numDependencies, dst, (const void *)(&symbol), count, offset, kind); 
+#line 1187
+} 
+#line 1225
+template< class T> static __inline ::cudaError_t 
+#line 1226
+cudaGraphMemcpyNodeSetParamsToSymbol(::cudaGraphNode_t 
+#line 1227
+node, const T &
+#line 1228
+symbol, const void *
+#line 1229
+src, ::size_t 
+#line 1230
+count, ::size_t 
+#line 1231
+offset, ::cudaMemcpyKind 
+#line 1232
+kind) 
+#line 1233
+{ 
+#line 1234
+return ::cudaGraphMemcpyNodeSetParamsToSymbol(node, (const void *)(&symbol), src, count, offset, kind); 
+#line 1235
+} 
+#line 1273
+template< class T> static __inline ::cudaError_t 
+#line 1274
+cudaGraphMemcpyNodeSetParamsFromSymbol(::cudaGraphNode_t 
+#line 1275
+node, void *
+#line 1276
+dst, const T &
+#line 1277
+symbol, ::size_t 
+#line 1278
+count, ::size_t 
+#line 1279
+offset, ::cudaMemcpyKind 
+#line 1280
+kind) 
+#line 1281
+{ 
+#line 1282
+return ::cudaGraphMemcpyNodeSetParamsFromSymbol(node, dst, (const void *)(&symbol), count, offset, kind); 
+#line 1283
+} 
+#line 1331
+template< class T> static __inline ::cudaError_t 
+#line 1332
+cudaGraphExecMemcpyNodeSetParamsToSymbol(::cudaGraphExec_t 
+#line 1333
+hGraphExec, ::cudaGraphNode_t 
+#line 1334
+node, const T &
+#line 1335
+symbol, const void *
+#line 1336
+src, ::size_t 
+#line 1337
+count, ::size_t 
+#line 1338
+offset, ::cudaMemcpyKind 
+#line 1339
+kind) 
+#line 1340
+{ 
+#line 1341
+return ::cudaGraphExecMemcpyNodeSetParamsToSymbol(hGraphExec, node, (const void *)(&symbol), src, count, offset, kind); 
+#line 1342
+} 
+#line 1390
+template< class T> static __inline ::cudaError_t 
+#line 1391
+cudaGraphExecMemcpyNodeSetParamsFromSymbol(::cudaGraphExec_t 
+#line 1392
+hGraphExec, ::cudaGraphNode_t 
+#line 1393
+node, void *
+#line 1394
+dst, const T &
+#line 1395
+symbol, ::size_t 
+#line 1396
+count, ::size_t 
+#line 1397
+offset, ::cudaMemcpyKind 
+#line 1398
+kind) 
+#line 1399
+{ 
+#line 1400
+return ::cudaGraphExecMemcpyNodeSetParamsFromSymbol(hGraphExec, node, dst, (const void *)(&symbol), count, offset, kind); 
+#line 1401
+} 
+#line 1404
+static __inline cudaError_t __stdcall cudaGraphExecUpdate(cudaGraphExec_t hGraphExec, cudaGraph_t hGraph, cudaGraphNode_t *hErrorNode_out, cudaGraphExecUpdateResult *updateResult_out) 
+#line 1405
+{ 
+#line 1406
+cudaGraphExecUpdateResultInfo resultInfo; 
+#line 1407
+cudaError_t status = cudaGraphExecUpdate(hGraphExec, hGraph, &resultInfo); 
+#line 1408
+if (hErrorNode_out) { 
+#line 1409
+(*hErrorNode_out) = (resultInfo.errorNode); 
+#line 1410
+}  
+#line 1411
+if (updateResult_out) { 
+#line 1412
+(*updateResult_out) = (resultInfo.result); 
+#line 1413
+}  
+#line 1414
+return status; 
+#line 1415
+} 
+#line 1443
+template< class T> static __inline ::cudaError_t 
+#line 1444
+cudaUserObjectCreate(::cudaUserObject_t *
+#line 1445
+object_out, T *
+#line 1446
+objectToWrap, unsigned 
+#line 1447
+initialRefcount, unsigned 
+#line 1448
+flags) 
+#line 1449
+{ 
+#line 1450
+return ::cudaUserObjectCreate(object_out, objectToWrap, [](void *
+#line 1453
+vpObj) { delete (reinterpret_cast< T *>(vpObj)); } , initialRefcount, flags); 
+#line 1456
+} 
+#line 1458
+template< class T> static __inline ::cudaError_t 
+#line 1459
+cudaUserObjectCreate(::cudaUserObject_t *
+#line 1460
+object_out, T *
+#line 1461
+objectToWrap, unsigned 
+#line 1462
+initialRefcount, ::cudaUserObjectFlags 
+#line 1463
+flags) 
+#line 1464
+{ 
+#line 1465
+return cudaUserObjectCreate(object_out, objectToWrap, initialRefcount, (unsigned)flags); 
+#line 1466
+} 
+#line 1493 "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.3/bin/../include\\cuda_runtime.h"
+template< class T> static __inline ::cudaError_t 
+#line 1494
+cudaGetSymbolAddress(void **
+#line 1495
+devPtr, const T &
+#line 1496
+symbol) 
+#line 1498
+{ 
+#line 1499
+return ::cudaGetSymbolAddress(devPtr, (const void *)(&symbol)); 
+#line 1500
+} 
+#line 1525
+template< class T> static __inline ::cudaError_t 
+#line 1526
+cudaGetSymbolSize(::size_t *
+#line 1527
+size, const T &
+#line 1528
+symbol) 
+#line 1530
+{ 
+#line 1531
+return ::cudaGetSymbolSize(size, (const void *)(&symbol)); 
+#line 1532
+} 
+#line 1577
+template< class T> static __inline ::cudaError_t 
+#line 1578
+cudaFuncSetCacheConfig(T *
+#line 1579
+func, ::cudaFuncCache 
+#line 1580
+cacheConfig) 
+#line 1582
+{ 
+#line 1583
+return ::cudaFuncSetCacheConfig((const void *)func, cacheConfig); 
+#line 1584
+} 
+#line 1586
+template< class T> static __inline ::cudaError_t 
+#line 1587
+cudaFuncSetSharedMemConfig(T *
+#line 1588
+func, ::cudaSharedMemConfig 
+#line 1589
+config) 
+#line 1591
+{ 
+#line 1592
+return ::cudaFuncSetSharedMemConfig((const void *)func, config); 
+#line 1593
+} 
+#line 1625 "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.3/bin/../include\\cuda_runtime.h"
+template< class T> __inline ::cudaError_t 
+#line 1626
+cudaOccupancyMaxActiveBlocksPerMultiprocessor(int *
+#line 1627
+numBlocks, T 
+#line 1628
+func, int 
+#line 1629
+blockSize, ::size_t 
+#line 1630
+dynamicSMemSize) 
+#line 1631
+{ 
+#line 1632
+return ::cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(numBlocks, (const void *)func, blockSize, dynamicSMemSize, 0); 
+#line 1633
+} 
+#line 1677
+template< class T> __inline ::cudaError_t 
+#line 1678
+cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int *
+#line 1679
+numBlocks, T 
+#line 1680
+func, int 
+#line 1681
+blockSize, ::size_t 
+#line 1682
+dynamicSMemSize, unsigned 
+#line 1683
+flags) 
+#line 1684
+{ 
+#line 1685
+return ::cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(numBlocks, (const void *)func, blockSize, dynamicSMemSize, flags); 
+#line 1686
+} 
+#line 1691
+class __cudaOccupancyB2DHelper { 
+#line 1692
+size_t n; 
+#line 1694
+public: __cudaOccupancyB2DHelper(size_t n_) : n(n_) { } 
+#line 1695
+size_t operator()(int) 
+#line 1696
+{ 
+#line 1697
+return n; 
+#line 1698
+} 
+#line 1699
+}; 
+#line 1747
+template< class UnaryFunction, class T> static __inline ::cudaError_t 
+#line 1748
+cudaOccupancyMaxPotentialBlockSizeVariableSMemWithFlags(int *
+#line 1749
+minGridSize, int *
+#line 1750
+blockSize, T 
+#line 1751
+func, UnaryFunction 
+#line 1752
+blockSizeToDynamicSMemSize, int 
+#line 1753
+blockSizeLimit = 0, unsigned 
+#line 1754
+flags = 0) 
+#line 1755
+{ 
+#line 1756
+::cudaError_t status; 
+#line 1759
+int device; 
+#line 1760
+::cudaFuncAttributes attr; 
+#line 1763
+int maxThreadsPerMultiProcessor; 
+#line 1764
+int warpSize; 
+#line 1765
+int devMaxThreadsPerBlock; 
+#line 1766
+int multiProcessorCount; 
+#line 1767
+int funcMaxThreadsPerBlock; 
+#line 1768
+int occupancyLimit; 
+#line 1769
+int granularity; 
+#line 1772
+int maxBlockSize = 0; 
+#line 1773
+int numBlocks = 0; 
+#line 1774
+int maxOccupancy = 0; 
+#line 1777
+int blockSizeToTryAligned; 
+#line 1778
+int blockSizeToTry; 
+#line 1779
+int blockSizeLimitAligned; 
+#line 1780
+int occupancyInBlocks; 
+#line 1781
+int occupancyInThreads; 
+#line 1782
+::size_t dynamicSMemSize; 
+#line 1788
+if (((!minGridSize) || (!blockSize)) || (!func)) { 
+#line 1789
+return cudaErrorInvalidValue; 
+#line 1790
+}  
+#line 1796
+status = ::cudaGetDevice(&device); 
+#line 1797
+if (status != (cudaSuccess)) { 
+#line 1798
+return status; 
+#line 1799
+}  
+#line 1801
+status = cudaDeviceGetAttribute(&maxThreadsPerMultiProcessor, cudaDevAttrMaxThreadsPerMultiProcessor, device); 
+#line 1805
+if (status != (cudaSuccess)) { 
+#line 1806
+return status; 
+#line 1807
+}  
+#line 1809
+status = cudaDeviceGetAttribute(&warpSize, cudaDevAttrWarpSize, device); 
+#line 1813
+if (status != (cudaSuccess)) { 
+#line 1814
+return status; 
+#line 1815
+}  
+#line 1817
+status = cudaDeviceGetAttribute(&devMaxThreadsPerBlock, cudaDevAttrMaxThreadsPerBlock, device); 
+#line 1821
+if (status != (cudaSuccess)) { 
+#line 1822
+return status; 
+#line 1823
+}  
+#line 1825
+status = cudaDeviceGetAttribute(&multiProcessorCount, cudaDevAttrMultiProcessorCount, device); 
+#line 1829
+if (status != (cudaSuccess)) { 
+#line 1830
+return status; 
+#line 1831
+}  
+#line 1833
+status = cudaFuncGetAttributes(&attr, func); 
+#line 1834
+if (status != (cudaSuccess)) { 
+#line 1835
+return status; 
+#line 1836
+}  
+#line 1838
+funcMaxThreadsPerBlock = (attr.maxThreadsPerBlock); 
+#line 1844
+occupancyLimit = maxThreadsPerMultiProcessor; 
+#line 1845
+granularity = warpSize; 
+#line 1847
+if (blockSizeLimit == 0) { 
+#line 1848
+blockSizeLimit = devMaxThreadsPerBlock; 
+#line 1849
+}  
+#line 1851
+if (devMaxThreadsPerBlock < blockSizeLimit) { 
+#line 1852
+blockSizeLimit = devMaxThreadsPerBlock; 
+#line 1853
+}  
+#line 1855
+if (funcMaxThreadsPerBlock < blockSizeLimit) { 
+#line 1856
+blockSizeLimit = funcMaxThreadsPerBlock; 
+#line 1857
+}  
+#line 1859
+blockSizeLimitAligned = (((blockSizeLimit + (granularity - 1)) / granularity) * granularity); 
+#line 1861
+for (blockSizeToTryAligned = blockSizeLimitAligned; blockSizeToTryAligned > 0; blockSizeToTryAligned -= granularity) { 
+#line 1865
+if (blockSizeLimit < blockSizeToTryAligned) { 
+#line 1866
+blockSizeToTry = blockSizeLimit; 
+#line 1867
+} else { 
+#line 1868
+blockSizeToTry = blockSizeToTryAligned; 
+#line 1869
+}  
+#line 1871
+dynamicSMemSize = blockSizeToDynamicSMemSize(blockSizeToTry); 
+#line 1873
+status = cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(&occupancyInBlocks, func, blockSizeToTry, dynamicSMemSize, flags); 
+#line 1880
+if (status != (cudaSuccess)) { 
+#line 1881
+return status; 
+#line 1882
+}  
+#line 1884
+occupancyInThreads = (blockSizeToTry * occupancyInBlocks); 
+#line 1886
+if (occupancyInThreads > maxOccupancy) { 
+#line 1887
+maxBlockSize = blockSizeToTry; 
+#line 1888
+numBlocks = occupancyInBlocks; 
+#line 1889
+maxOccupancy = occupancyInThreads; 
+#line 1890
+}  
+#line 1894
+if (occupancyLimit == maxOccupancy) { 
+#line 1895
+break; 
+#line 1896
+}  
+#line 1897
+}  
+#line 1905
+(*minGridSize) = (numBlocks * multiProcessorCount); 
+#line 1906
+(*blockSize) = maxBlockSize; 
+#line 1908
+return status; 
+#line 1909
+} 
+#line 1943
+template< class UnaryFunction, class T> static __inline ::cudaError_t 
+#line 1944
+cudaOccupancyMaxPotentialBlockSizeVariableSMem(int *
+#line 1945
+minGridSize, int *
+#line 1946
+blockSize, T 
+#line 1947
+func, UnaryFunction 
+#line 1948
+blockSizeToDynamicSMemSize, int 
+#line 1949
+blockSizeLimit = 0) 
+#line 1950
+{ 
+#line 1951
+return cudaOccupancyMaxPotentialBlockSizeVariableSMemWithFlags(minGridSize, blockSize, func, blockSizeToDynamicSMemSize, blockSizeLimit, 0); 
+#line 1952
+} 
+#line 1989
+template< class T> static __inline ::cudaError_t 
+#line 1990
+cudaOccupancyMaxPotentialBlockSize(int *
+#line 1991
+minGridSize, int *
+#line 1992
+blockSize, T 
+#line 1993
+func, ::size_t 
+#line 1994
+dynamicSMemSize = 0, int 
+#line 1995
+blockSizeLimit = 0) 
+#line 1996
+{ 
+#line 1997
+return cudaOccupancyMaxPotentialBlockSizeVariableSMemWithFlags(minGridSize, blockSize, func, ((::__cudaOccupancyB2DHelper)(dynamicSMemSize)), blockSizeLimit, 0); 
+#line 1998
+} 
+#line 2027
+template< class T> static __inline ::cudaError_t 
+#line 2028
+cudaOccupancyAvailableDynamicSMemPerBlock(::size_t *
+#line 2029
+dynamicSmemSize, T 
+#line 2030
+func, int 
+#line 2031
+numBlocks, int 
+#line 2032
+blockSize) 
+#line 2033
+{ 
+#line 2034
+return ::cudaOccupancyAvailableDynamicSMemPerBlock(dynamicSmemSize, (const void *)func, numBlocks, blockSize); 
+#line 2035
+} 
+#line 2086
+template< class T> static __inline ::cudaError_t 
+#line 2087
+cudaOccupancyMaxPotentialBlockSizeWithFlags(int *
+#line 2088
+minGridSize, int *
+#line 2089
+blockSize, T 
+#line 2090
+func, ::size_t 
+#line 2091
+dynamicSMemSize = 0, int 
+#line 2092
+blockSizeLimit = 0, unsigned 
+#line 2093
+flags = 0) 
+#line 2094
+{ 
+#line 2095
+return cudaOccupancyMaxPotentialBlockSizeVariableSMemWithFlags(minGridSize, blockSize, func, ((::__cudaOccupancyB2DHelper)(dynamicSMemSize)), blockSizeLimit, flags); 
+#line 2096
+} 
+#line 2130
+template< class T> static __inline ::cudaError_t 
+#line 2131
+cudaOccupancyMaxPotentialClusterSize(int *
+#line 2132
+clusterSize, T *
+#line 2133
+func, const ::cudaLaunchConfig_t *
+#line 2134
+config) 
+#line 2135
+{ 
+#line 2136
+return ::cudaOccupancyMaxPotentialClusterSize(clusterSize, (const void *)func, config); 
+#line 2137
+} 
+#line 2173
+template< class T> static __inline ::cudaError_t 
+#line 2174
+cudaOccupancyMaxActiveClusters(int *
+#line 2175
+numClusters, T *
+#line 2176
+func, const ::cudaLaunchConfig_t *
+#line 2177
+config) 
+#line 2178
+{ 
+#line 2179
+return ::cudaOccupancyMaxActiveClusters(numClusters, (const void *)func, config); 
+#line 2180
+} 
+#line 2213
+template< class T> __inline ::cudaError_t 
+#line 2214
+cudaFuncGetAttributes(::cudaFuncAttributes *
+#line 2215
+attr, T *
+#line 2216
+entry) 
+#line 2218
+{ 
+#line 2219
+return ::cudaFuncGetAttributes(attr, (const void *)entry); 
+#line 2220
+} 
+#line 2275
+template< class T> static __inline ::cudaError_t 
+#line 2276
+cudaFuncSetAttribute(T *
+#line 2277
+entry, ::cudaFuncAttribute 
+#line 2278
+attr, int 
+#line 2279
+value) 
+#line 2281
+{ 
+#line 2282
+return ::cudaFuncSetAttribute((const void *)entry, attr, value); 
+#line 2283
+} 
+#line 2307
+template< class T> static __inline ::cudaError_t __stdcall 
+#line 2308
+cudaFuncGetName(const char **
+#line 2309
+name, const T *
+#line 2310
+func) 
+#line 2312
+{ 
+#line 2313
+return ::cudaFuncGetName(name, (const void *)func); 
+#line 2314
+} 
+#line 2330
+template< class T> static __inline ::cudaError_t 
+#line 2331
+cudaGetKernel(::cudaKernel_t *
+#line 2332
+kernelPtr, const T *
+#line 2333
+entryFuncAddr) 
+#line 2335
+{ 
+#line 2336
+return ::cudaGetKernel(kernelPtr, (const void *)entryFuncAddr); 
+#line 2337
+} 
+#line 2351 "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.3/bin/../include\\cuda_runtime.h"
+#pragma warning(pop)
+#line 64 "CMakeCUDACompilerId.cu"
+const char *info_compiler = ("INFO:compiler[NVIDIA]"); 
+#line 66
+const char *info_simulate = ("INFO:simulate[MSVC]"); 
+#line 369 "CMakeCUDACompilerId.cu"
+const char info_version[] = {'I', 'N', 'F', 'O', ':', 'c', 'o', 'm', 'p', 'i', 'l', 'e', 'r', '_', 'v', 'e', 'r', 's', 'i', 'o', 'n', '[', (('0') + ((12 / 10000000) % 10)), (('0') + ((12 / 1000000) % 10)), (('0') + ((12 / 100000) % 10)), (('0') + ((12 / 10000) % 10)), (('0') + ((12 / 1000) % 10)), (('0') + ((12 / 100) % 10)), (('0') + ((12 / 10) % 10)), (('0') + (12 % 10)), '.', (('0') + ((3 / 10000000) % 10)), (('0') + ((3 / 1000000) % 10)), (('0') + ((3 / 100000) % 10)), (('0') + ((3 / 10000) % 10)), (('0') + ((3 / 1000) % 10)), (('0') + ((3 / 100) % 10)), (('0') + ((3 / 10) % 10)), (('0') + (3 % 10)), '.', (('0') + ((103 / 10000000) % 10)), (('0') + ((103 / 1000000) % 10)), (('0') + ((103 / 100000) % 10)), (('0') + ((103 / 10000) % 10)), (('0') + ((103 / 1000) % 10)), (('0') + ((103 / 100) % 10)), (('0') + ((103 / 10) % 10)), (('0') + (103 % 10)), ']', '\000'}; 
+#line 398 "CMakeCUDACompilerId.cu"
+const char info_simulate_version[] = {'I', 'N', 'F', 'O', ':', 's', 'i', 'm', 'u', 'l', 'a', 't', 'e', '_', 'v', 'e', 'r', 's', 'i', 'o', 'n', '[', (('0') + (((1938 / 100) / 10000000) % 10)), (('0') + (((1938 / 100) / 1000000) % 10)), (('0') + (((1938 / 100) / 100000) % 10)), (('0') + (((1938 / 100) / 10000) % 10)), (('0') + (((1938 / 100) / 1000) % 10)), (('0') + (((1938 / 100) / 100) % 10)), (('0') + (((1938 / 100) / 10) % 10)), (('0') + ((1938 / 100) % 10)), '.', (('0') + (((1938 % 100) / 10000000) % 10)), (('0') + (((1938 % 100) / 1000000) % 10)), (('0') + (((1938 % 100) / 100000) % 10)), (('0') + (((1938 % 100) / 10000) % 10)), (('0') + (((1938 % 100) / 1000) % 10)), (('0') + (((1938 % 100) / 100) % 10)), (('0') + (((1938 % 100) / 10) % 10)), (('0') + ((1938 % 100) % 10)), ']', '\000'}; 
+#line 418 "CMakeCUDACompilerId.cu"
+const char *info_platform = ("INFO:platform[Windows]"); 
+#line 419
+const char *info_arch = ("INFO:arch[x64]"); 
+#line 423
+const char *info_language_standard_default = ("INFO:standard_default[03]"); 
+#line 439 "CMakeCUDACompilerId.cu"
+const char *info_language_extensions_default = ("INFO:extensions_default[OFF]"); 
+#line 450 "CMakeCUDACompilerId.cu"
+int main(int argc, char *argv[]) 
+#line 451
+{ 
+#line 452
+int require = 0; 
+#line 453
+require += (info_compiler[argc]); 
+#line 454
+require += (info_platform[argc]); 
+#line 456
+require += (info_version[argc]); 
+#line 459 "CMakeCUDACompilerId.cu"
+require += (info_simulate[argc]); 
+#line 462 "CMakeCUDACompilerId.cu"
+require += (info_simulate_version[argc]); 
+#line 464 "CMakeCUDACompilerId.cu"
+require += (info_language_standard_default[argc]); 
+#line 465
+require += (info_language_extensions_default[argc]); 
+#line 466
+(void)argv; 
+#line 467
+return require; 
+#line 468
+} 
+#line 1 "CMakeCUDACompilerId.cudafe1.stub.c"
+#define _NV_ANON_NAMESPACE _GLOBAL__N__21735163_22_CMakeCUDACompilerId_cu_bd57c623
+#ifdef _NV_ANON_NAMESPACE
+#endif
+#pragma pack()
+#line 1 "CMakeCUDACompilerId.cudafe1.stub.c"
+#include "CMakeCUDACompilerId.cudafe1.stub.c"
+#line 1 "CMakeCUDACompilerId.cudafe1.stub.c"
+#undef _NV_ANON_NAMESPACE

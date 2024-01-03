@@ -55,13 +55,15 @@ namespace STARDUST {
 	private:
 
 
-		float padding = 0.1f;
+		float padding = 0.05f;
 
 		int n_primitives;
 		int n_entities;
 
 		DeviceGeometryData device_geometry_data;
 
+		thrust::host_vector<int> indicies;
+		int current_idx_length = 0;
 
 		thrust::host_vector<Hull> hulls;
 		thrust::host_vector<Entity> entities;

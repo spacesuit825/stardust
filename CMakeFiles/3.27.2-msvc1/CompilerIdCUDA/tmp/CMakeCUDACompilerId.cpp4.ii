@@ -3821,10 +3821,10 @@ extern "C" {
 
     
     
+        typedef unsigned __int64  uintptr_t;
+    
 
-
-        typedef unsigned int uintptr_t;
-    #line 65 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+#line 65 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 #line 66 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 
 
@@ -3867,62 +3867,62 @@ extern "C" {
 
 #line 106 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 
-    
+
+
+
+
+
+
+#line 114 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+
+
+
+
+
+
+
+
+
+
+
+#line 126 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+
+
+
+
+
+#line 132 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+
+
+
+
+
+
+
+
+
+
+#line 143 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+
+
+
+
+
+
+
+
+
+
+#line 154 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
+
+    void __cdecl __va_start(va_list* , ...);
 
     
     
+
+
+
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #line 165 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vadefs.h"
 
@@ -4104,13 +4104,13 @@ __pragma(pack(push, 8)) extern "C" {
 
 
 
+    typedef unsigned __int64 size_t;
+    typedef __int64          ptrdiff_t;
+    typedef __int64          intptr_t;
 
 
 
 
-    typedef unsigned int     size_t;
-    typedef int              ptrdiff_t;
-    typedef int              intptr_t;
 #line 201 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 
 
@@ -4151,9 +4151,9 @@ __pragma(pack(push, 8)) extern "C" {
 #line 238 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 
 
-
-#line 242 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
     
+
+
 #line 244 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 
 
@@ -4164,7 +4164,7 @@ __pragma(pack(push, 8)) extern "C" {
     extern "C++"
     {
         template <typename _CountofType, size_t _SizeOfArray>
-        char (*__countof_helper( _CountofType (&_Array)[_SizeOfArray]))[_SizeOfArray];
+        char (*__countof_helper(__unaligned _CountofType (&_Array)[_SizeOfArray]))[_SizeOfArray];
 
         
     }
@@ -4291,15 +4291,15 @@ __pragma(pack(push, 8)) extern "C" {
     void __cdecl __security_init_cookie(void);
 
     
-        void __fastcall __security_check_cookie(  uintptr_t _StackCookie);
-        __declspec(noreturn) void __cdecl __report_gsfailure(void);
-    
 
 
+#line 383 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 
 
-
-#line 389 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
+#line 386 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
+        void __cdecl __security_check_cookie(  uintptr_t _StackCookie);
+        __declspec(noreturn) void __cdecl __report_gsfailure(  uintptr_t _StackCookie);
+    #line 389 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 #line 390 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\vcruntime.h"
 
 extern uintptr_t __security_cookie;
@@ -8613,10 +8613,10 @@ __pragma(pack(push, 8)) extern "C" {
 
     
     
-
-
         
-    #line 68 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\limits.h"
+    
+
+#line 68 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\limits.h"
 #line 69 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\limits.h"
 
 
@@ -31102,7 +31102,7 @@ extern "C++" { template <size_t _DriveSize, size_t _DirSize, size_t _NameSize, s
 
 
 
-
+#line 179 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
 extern "C"
 {
@@ -31115,49 +31115,49 @@ extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdca
 
 
 
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaDeviceGetAttribute(int *value, enum cudaDeviceAttr attr, int device);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaDeviceGetLimit(size_t *pValue, enum cudaLimit limit);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaDeviceGetCacheConfig(enum cudaFuncCache *pCacheConfig);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaDeviceGetSharedMemConfig(enum cudaSharedMemConfig *pConfig);
 
 
-extern __declspec(__device__) __declspec(__cudart_builtin__)  cudaError_t __stdcall cudaDeviceSynchronize(void);
-#line 199 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaGetLastError(void);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaPeekAtLastError(void);
-extern __declspec(__device__) __declspec(__cudart_builtin__) const char* __stdcall cudaGetErrorString(cudaError_t error);
-extern __declspec(__device__) __declspec(__cudart_builtin__) const char* __stdcall cudaGetErrorName(cudaError_t error);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaGetDeviceCount(int *count);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaGetDevice(int *device);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaStreamCreateWithFlags(cudaStream_t *pStream, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaStreamDestroy(cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaStreamWaitEvent_ptsz(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventCreateWithFlags(cudaEvent_t *event, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventRecord(cudaEvent_t event, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventRecord_ptsz(cudaEvent_t event, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventRecordWithFlags(cudaEvent_t event, cudaStream_t stream, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventRecordWithFlags_ptsz(cudaEvent_t event, cudaStream_t stream, unsigned int flags);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaEventDestroy(cudaEvent_t event);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaFree(void *devPtr);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMalloc(void **devPtr, size_t size);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpyAsync(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpyAsync_ptsz(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpy2DAsync(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpy2DAsync_ptsz(void *dst, size_t dpitch, const void *src, size_t spitch, size_t width, size_t height, enum cudaMemcpyKind kind, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpy3DAsync(const struct cudaMemcpy3DParms *p, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemcpy3DAsync_ptsz(const struct cudaMemcpy3DParms *p, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemsetAsync(void *devPtr, int value, size_t count, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemsetAsync_ptsz(void *devPtr, int value, size_t count, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemset2DAsync(void *devPtr, size_t pitch, int value, size_t width, size_t height, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemset2DAsync_ptsz(void *devPtr, size_t pitch, int value, size_t width, size_t height, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemset3DAsync(struct cudaPitchedPtr pitchedDevPtr, int value, struct cudaExtent extent, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaMemset3DAsync_ptsz(struct cudaPitchedPtr pitchedDevPtr, int value, struct cudaExtent extent, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaRuntimeGetVersion(int *runtimeVersion);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaOccupancyMaxActiveBlocksPerMultiprocessor(int *numBlocks, const void *func, int blockSize, size_t dynamicSmemSize);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaOccupancyMaxActiveBlocksPerMultiprocessorWithFlags(int *numBlocks, const void *func, int blockSize, size_t dynamicSmemSize, unsigned int flags);
-#line 234 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall __cudaCDP2DeviceGetAttribute(int *value, enum cudaDeviceAttr attr, int device);
@@ -31505,38 +31505,38 @@ extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdca
 
 
 
+static __inline __declspec(__device__) __declspec(__cudart_builtin__) void * __stdcall cudaGetParameterBuffer(size_t alignment, size_t size)
+{
+    return __cudaCDP2GetParameterBuffer(alignment, size);
+}
 
 
-
-
-
-extern __declspec(__device__) __declspec(__cudart_builtin__) void * __stdcall cudaGetParameterBuffer(size_t alignment, size_t size);
 #line 588 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
 
 
+static __inline __declspec(__device__) __declspec(__cudart_builtin__) void * __stdcall cudaGetParameterBufferV2(void *func, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize)
+{
+    return __cudaCDP2GetParameterBufferV2(func, gridDimension, blockDimension, sharedMemSize);
+}
 
 
-
-
-
-extern __declspec(__device__) __declspec(__cudart_builtin__) void * __stdcall cudaGetParameterBufferV2(void *func, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize);
 #line 598 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
 
 
+static __inline __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDevice_ptsz(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize, cudaStream_t stream)
+{
+    return __cudaCDP2LaunchDevice_ptsz(func, parameterBuffer, gridDimension, blockDimension, sharedMemSize, stream);
+}
+
+static __inline __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDeviceV2_ptsz(void *parameterBuffer, cudaStream_t stream)
+{
+    return __cudaCDP2LaunchDeviceV2_ptsz(parameterBuffer, stream);
+}
 
 
 
-
-
-
-
-
-
-
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDevice_ptsz(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDeviceV2_ptsz(void *parameterBuffer, cudaStream_t stream);
 #line 614 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
 
@@ -31591,18 +31591,18 @@ extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdca
 
 #line 666 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
+    static __inline __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDevice(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize, cudaStream_t stream)
+    {
+        return __cudaCDP2LaunchDevice(func, parameterBuffer, gridDimension, blockDimension, sharedMemSize, stream);
+    }
+
+    static __inline __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDeviceV2(void *parameterBuffer, cudaStream_t stream)
+    {
+        return __cudaCDP2LaunchDeviceV2(parameterBuffer, stream);
+    }
 
 
 
-
-
-
-
-
-
-
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDevice(void *func, void *parameterBuffer, dim3 gridDimension, dim3 blockDimension, unsigned int sharedMemSize, cudaStream_t stream);
-extern __declspec(__device__) __declspec(__cudart_builtin__) cudaError_t __stdcall cudaLaunchDeviceV2(void *parameterBuffer, cudaStream_t stream);
 #line 680 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 #line 681 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\cuda_device_runtime_api.h"
 
@@ -117889,6 +117889,25 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 #line 8973 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 
 
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl acosf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl asinf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl atanf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl atan2f(float, float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl cosf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl sinf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl tanf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl coshf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl sinhf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl tanhf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl expf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl logf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl log10f(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl modff(float, float*) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl powf(float, float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl sqrtf(float) ;         
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl ceilf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl floorf(float) ;
+extern  __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float __cdecl fmodf(float, float) ;
 
 
 
@@ -117908,11 +117927,9 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-#line 8995 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 
 
 
-#line 8999 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 
 
 
@@ -117935,7 +117952,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  acosf(float x) ;
 
 
 
@@ -117994,7 +118010,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  asinf(float x) ;
 
 
 
@@ -118074,7 +118089,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  atanf(float x) ;
 
 
 
@@ -118371,7 +118385,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  atan2f(float y, float x) ;
 
 
 
@@ -118405,7 +118418,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  cosf(float x) ;
 
 
 
@@ -118447,7 +118459,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  sinf(float x) ;
 
 
 
@@ -118489,7 +118500,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  tanf(float x) ;
 
 
 
@@ -118530,7 +118540,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  coshf(float x) ;
 
 
 
@@ -118580,7 +118589,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  sinhf(float x) ;
 
 
 
@@ -118630,7 +118638,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  tanhf(float x) ;
 
 
 
@@ -118682,7 +118689,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  logf(float x) ;
 
 
 
@@ -118762,7 +118768,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  expf(float x) ;
 
 
 
@@ -118814,7 +118819,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  log10f(float x) ;
 
 
 
@@ -118869,7 +118873,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  modff(float x, float *iptr) ;
 
 
 
@@ -119199,7 +119202,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  powf(float x, float y) ;
 
 
 
@@ -119268,7 +119270,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  sqrtf(float x) ;         
 
 
 
@@ -119327,7 +119328,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  ceilf(float x) ;
 
 
 
@@ -119388,7 +119388,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  floorf(float x) ;
 
 
 
@@ -119446,7 +119445,6 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__) float                  fmodf(float x, float y) ;
 
 
 
@@ -119455,10 +119453,12 @@ extern __declspec(__host__) __declspec(__device__) __declspec(__device_builtin__
 
 
 
-#line 10542 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 
 
-#line 10545 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
+
+
+
+
 #line 10546 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.3\\include\\crt\\math_functions.h"
 
 }
@@ -120064,22 +120064,22 @@ extern "C++"
 
     
 
-           int  __cdecl _set_SSE2_enable(  int _Flag);
 
-    #line 592 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+
+#line 592 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
     
 
+           float __cdecl _logbf(  float _X);
+           float __cdecl _nextafterf(  float _X,   float _Y);
+           int   __cdecl _finitef(  float _X);
+           int   __cdecl _isnanf(  float _X);
+           int   __cdecl _fpclassf(  float _X);
 
+           int   __cdecl _set_FMA3_enable(  int _Flag);
+           int   __cdecl _get_FMA3_enable(void);
 
-
-
-
-
-
-
-
-#line 605 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+    
 
 
 
@@ -120090,6 +120090,16 @@ extern "C++"
 
     
 
+           float __cdecl acosf(  float _X);
+           float __cdecl asinf(  float _X);
+           float __cdecl atan2f(  float _Y,   float _X);
+           float __cdecl atanf(  float _X);
+           float __cdecl ceilf(  float _X);
+           float __cdecl cosf(  float _X);
+           float __cdecl coshf(  float _X);
+           float __cdecl expf(  float _X);
+
+    
 
 
 
@@ -120099,49 +120109,39 @@ extern "C++"
 
 
 
-#line 625 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
-          __inline float __cdecl acosf(  float _X)
-        {
-            return (float)acos(_X);
-        }
 
-          __inline float __cdecl asinf(  float _X)
-        {
-            return (float)asin(_X);
-        }
 
-          __inline float __cdecl atan2f(  float _Y,   float _X)
-        {
-            return (float)atan2(_Y, _X);
-        }
 
-          __inline float __cdecl atanf(  float _X)
-        {
-            return (float)atan(_X);
-        }
 
-          __inline float __cdecl ceilf(  float _X)
-        {
-            return (float)ceil(_X);
-        }
 
-          __inline float __cdecl cosf(  float _X)
-        {
-            return (float)cos(_X);
-        }
 
-          __inline float __cdecl coshf(  float _X)
-        {
-            return (float)cosh(_X);
-        }
 
-          __inline float __cdecl expf(  float _X)
-        {
-            return (float)exp(_X);
-        }
 
-    #line 667 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 667 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
     
 
@@ -120162,22 +120162,22 @@ extern "C++"
 
     
 
+           float __cdecl floorf(  float _X);
+           float __cdecl fmodf(  float _X,   float _Y);
+
+    
 
 
 
-#line 691 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
-          __inline float __cdecl floorf(  float _X)
-        {
-            return (float)floor(_X);
-        }
 
-          __inline float __cdecl fmodf(  float _X,   float _Y)
-        {
-            return (float)fmod(_X, _Y);
-        }
 
-    #line 703 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+
+
+
+
+
+#line 703 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
       __inline float __cdecl frexpf(  float _X,   int *_Y)
     {
@@ -120196,6 +120196,17 @@ extern "C++"
 
     
 
+           float  __cdecl log10f(  float _X);
+           float  __cdecl logf(  float _X);
+           float  __cdecl modff(  float _X,   float *_Y);
+           float  __cdecl powf(  float _X,   float _Y);
+           float  __cdecl sinf(  float _X);
+           float  __cdecl sinhf(  float _X);
+           float  __cdecl sqrtf(  float _X);
+           float  __cdecl tanf(  float _X);
+           float  __cdecl tanhf(  float _X);
+
+    
 
 
 
@@ -120206,57 +120217,46 @@ extern "C++"
 
 
 
-#line 732 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
-          __inline float __cdecl log10f(  float _X)
-        {
-            return (float)log10(_X);
-        }
 
-          __inline float __cdecl logf(  float _X)
-        {
-            return (float)log(_X);
-        }
 
-          __inline float __cdecl modff(  float _X,   float* _Y)
-        {
-            double _F, _I;
-            _F = modf(_X, &_I);
-            *_Y = (float)_I;
-            return (float)_F;
-        }
 
-          __inline float __cdecl powf(  float _X,   float _Y)
-        {
-            return (float)pow(_X, _Y);
-        }
 
-          __inline float __cdecl sinf(  float _X)
-        {
-            return (float)sin(_X);
-        }
 
-          __inline float __cdecl sinhf(  float _X)
-        {
-            return (float)sinh(_X);
-        }
 
-          __inline float __cdecl sqrtf(  float _X)
-        {
-            return (float)sqrt(_X);
-        }
 
-          __inline float __cdecl tanf(  float _X)
-        {
-            return (float)tan(_X);
-        }
 
-          __inline float __cdecl tanhf(  float _X)
-        {
-            return (float)tanh(_X);
-        }
 
-    #line 782 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 782 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt\\corecrt_math.h"
 
        long double __cdecl acoshl(  long double _X);
 
@@ -335133,13 +335133,13 @@ typedef unsigned long long uintmax_t;
 
 
 
-
-
-
-
     
     
     
+
+
+
+
 #line 97 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\stdint.h"
 
 
@@ -335645,7 +335645,7 @@ struct is_compound : bool_constant<!is_fundamental_v<_Ty>> {};
 
 
 
-
+#line 388 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
 
 #line 390 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
 
@@ -335788,7 +335788,7 @@ struct _Is_memfunptr {
 
 
 
-template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };  template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__fastcall _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__stdcall _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__thiscall _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };
+template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)   > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const  > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile  > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile  > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int , int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)  & > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const & > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile & > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile & > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...)  && > : _Arg_types< _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const && > : _Arg_types<const _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) volatile && > : _Arg_types<volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; }; template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__cdecl _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };     template <class _Ret, class _Arg0, class... _Types> struct _Is_memfunptr<_Ret (__vectorcall _Arg0::*)(_Types...) const volatile && > : _Arg_types<const volatile _Arg0*, _Types...> { using _Bool_type = true_type; using result_type  = _Ret; using _Class_type = _Arg0; using _Guide_type = enable_if<!is_same_v<int &&, int&&>, _Ret(_Types...)>; };
 
 
 
@@ -337125,7 +337125,7 @@ struct  result_of {
 
 
 
-template <class _Callable, class... _Args> struct  result_of<_Callable __cdecl(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { };  template <class _Callable, class... _Args> struct  result_of<_Callable __fastcall(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { }; template <class _Callable, class... _Args> struct  result_of<_Callable __stdcall(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { }; template <class _Callable, class... _Args> struct  result_of<_Callable __vectorcall(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { };
+template <class _Callable, class... _Args> struct  result_of<_Callable __cdecl(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { };    template <class _Callable, class... _Args> struct  result_of<_Callable __vectorcall(_Args...)> : _Select_invoke_traits<_Callable, _Args...> { };
 
 
 __pragma(warning(push)) __pragma(warning(disable : 4996))
@@ -337223,7 +337223,7 @@ struct _Function_args {};
 
 
 
-template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };  template <class _Ret, class... _Types> struct _Function_args<_Ret __fastcall(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __stdcall(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };
+template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)   > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile  > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)  & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile & > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...)  && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; }; template <class _Ret, class... _Types> struct _Function_args<_Ret __cdecl(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };    template <class _Ret, class... _Types> struct _Function_args<_Ret __vectorcall(_Types...) const volatile && > : _Arg_types<_Types...> { using result_type  = _Ret; };
 
 
 
@@ -337570,11 +337570,11 @@ template <class _Bitmask>
 
 
 
+ constexpr size_t _FNV_offset_basis = 14695981039346656037ULL;
+ constexpr size_t _FNV_prime        = 1099511628211ULL;
 
 
-#line 2315 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
- constexpr size_t _FNV_offset_basis = 2166136261U;
- constexpr size_t _FNV_prime        = 16777619U;
+
 #line 2318 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\type_traits"
 
 [[nodiscard]] inline size_t _Fnv1a_append_bytes(size_t _Val, const unsigned char* const _First,
@@ -341235,7 +341235,7 @@ char const* info_simulate = "INFO" ":" "simulate[" "MSVC" "]";
 #line 197 "CMakeCUDACompilerId.cu"
 
 
-#line 200 "CMakeCUDACompilerId.cu"
+
 
 
 
@@ -341455,7 +341455,7 @@ char const info_simulate_version[] = {
 
 
 char const* info_platform = "INFO" ":" "platform[" "Windows" "]";
-char const* info_arch = "INFO" ":" "arch[" "X86" "]";
+char const* info_arch = "INFO" ":" "arch[" "x64" "]";
 
 
 

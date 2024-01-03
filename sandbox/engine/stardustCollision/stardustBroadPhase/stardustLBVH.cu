@@ -371,11 +371,9 @@ namespace STARDUST {
 		int64_t node_prefix = d_common_prefixes_ptr[internal_node_idx];
 		int64_t node_prefix_length = d_common_prefix_lengths_ptr[internal_node_idx];
 
-#ifndef BINARY_SEARCH_CONSTRUCTION // DEFAULT TO BINARY SEARCH CONSTRUCTION
+//#define BINARY_SEARCH_CONSTRUCTION
 
-		if (tid == 10) {
-			printf("Defaulting to Binary Search\n");
-		}
+#ifndef BINARY_SEARCH_CONSTRUCTION // DEFAULT TO BINARY SEARCH CONSTRUCTION
 
 		int left_idx = -1;
 		{
@@ -460,10 +458,6 @@ namespace STARDUST {
 		}
 
 #else
-
-		if (tid == 10) {
-			printf("Defaulting to Linear Search\n");
-		}
 
 		int left_idx = -1;
 		int right_idx = -1;

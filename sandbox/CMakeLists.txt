@@ -16,7 +16,7 @@ target_include_directories(engine PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIE
 target_link_libraries(engine PUBLIC ${CUDART_LIBRARY} ${OPENGL_LIBRARIES})
 
 set_source_files_properties(engine/stardustCollision/stardustBroadPhase/stardustLBVH.cu PROPERTIES LANGUAGE CUDA)
-set_source_files_properties(engine/stardustCollision/stardustNarrowPhase/stardustMPR.cu PROPERTIES LANGUAGE CUDA)
+set_source_files_properties(engine/stardustCollision/stardustNarrowPhase/stardustMPR.cu PROPERTIES LANGUAGE CUDA) 
 set_source_files_properties(engine/stardustDynamics/stardustEngine.cu PROPERTIES LANGUAGE CUDA)
 set_source_files_properties(engine/stardustDynamics/stardustEntityHandler.cpp PROPERTIES LANGUAGE CUDA)
 

@@ -50,6 +50,7 @@ namespace STARDUST {
 		float4 position;
 
 		std::vector<float4> vertices; // Always 3 long
+		std::vector<int> indices;
 
 		float normal_stiffness;
 		float damping;
@@ -60,11 +61,10 @@ namespace STARDUST {
 	typedef struct Polyhedron {
 		float mass;
 
-		std::vector<int> indices;
-
 		float4 position;
 
 		std::vector<float4> vertices;
+		std::vector<int> indices;
 
 		float normal_stiffness;
 		float damping;

@@ -3,7 +3,7 @@
 #include "stardustGeometry/stardustEntityHandler.hpp"
 #include "stardustDynamics/stardustEngine.hpp"
 #include "stardustGeometry/stardustPrimitives.hpp"
-// #include "stardustUtility/load_data.hpp"
+#include "stardustUtility/load_data.hpp"
 // #include "stardustUtility/cuda_utils.cuh"
 
 #include <iostream>
@@ -17,7 +17,7 @@ int main() {
 	STARDUST::EngineParameters engine_parameters;
 	engine_parameters.max_broad_collisions = 10000;
 	engine_parameters.max_narrow_collisions = 1000;
-	engine_parameters.time_step = 1e-3f;
+	engine_parameters.time_step = 1e-4f;
 	
 	STARDUST::LBVH lbvh;
 	STARDUST::MPR mpr;
@@ -34,22 +34,22 @@ int main() {
 	std::vector<float4> vertices;
 	std::vector<int> indices;
 
-	STARDUST::Triangle polyhedron;
+	STARDUST::Triangle triangle;
 	vertices.push_back(vertex1);
 	vertices.push_back(vertex2);
 	vertices.push_back(vertex3);
 	//vertices.push_back(vertex4);
 
-	indices = { 0, 3, 1, 0, 1, 2, 2, 3, 0, 1, 2, 3 };
+	indices = {0, 1, 2};
 	
-	polyhedron.position = 1 / 3 * (vertex1 + vertex2 + vertex3 + vertex4);
-	polyhedron.mass = 0.5f;
-	polyhedron.normal_stiffness = 1e+07;
-	polyhedron.damping = 0.02f;
-	polyhedron.tangential_stiffness = 1.0f;
+	triangle.position = 1 / 3.0f * (vertex1 + vertex2 + vertex3);
+	triangle.mass = 0.5f;
+	triangle.normal_stiffness = 1e+08;
+	triangle.damping = 20.0f;
+	triangle.tangential_stiffness = 10.0f;
 
-	polyhedron.vertices = vertices;
-	//polyhedron.indices = indices;
+	triangle.vertices = vertices;
+	triangle.indices = indices;
 
 	STARDUST::Sphere sphere2;
 	sphere2.position = make_float4(-1.0f, -1.0f, -2.0f, 0.0f);
@@ -81,7 +81,7 @@ int main() {
 
 
 	STARDUST::Sphere sphere4;
-	sphere4.position = make_float4(0.0f, 0.28f, 2.8f, 0.0f);
+	sphere4.position = make_float4(0.0f, 0.0f, 1.3f, 0.0f);
 	sphere4.radius = 0.5f;
 	sphere4.mass = 3.7f;
 	sphere4.normal_stiffness = 1e+07;
@@ -104,11 +104,38 @@ int main() {
 	sphere6.damping = 20.0f;
 	sphere6.tangential_stiffness = 0.05f;
 
+	std::vector<STARDUST::Polyhedron> polyhedrons;
+	std::vector<float4> poly_vert;
+	std::vector<int> poly_idx;
 
+	STARDUST::Polyhedron polyhedron;
 
+	float4 p1 = make_float4(-0.5f, -0.5f, 1.0f, 0.0f);
+	float4 p2 = make_float4(0.5f, 0.0f, 0.5f, 0.0f);
+	float4 p3 = make_float4(0.0f, 0.5f, 0.5f, 0.0f);
+	float4 p4 = make_float4(-0.5f, -0.5f, 0.5f, 0.0f);
 
-	std::vector<STARDUST::Triangle> complex_polyhedron;
-	complex_polyhedron.push_back(polyhedron);
+	poly_idx = { 0, 1, 3, 1, 2, 3, 0, 2, 3, 0, 2, 1 };
+
+	poly_vert.push_back(p1);
+	poly_vert.push_back(p2);
+	poly_vert.push_back(p3);
+	poly_vert.push_back(p4);
+
+	polyhedron.position = (1 / 4.0f) * (p1 + p2 + p3 + p4);
+	// polyhedron.position = make_float4(-0.125f, -0.125f, 0.625f, 0.0f);
+	polyhedron.mass = 0.5f;
+	polyhedron.normal_stiffness = 1e+07;
+	polyhedron.damping = 20.0f;
+	polyhedron.tangential_stiffness = 10.0f;
+
+	polyhedron.vertices = poly_vert;
+	polyhedron.indices = poly_idx;
+
+	std::cout << polyhedron.position.z << std::endl;
+
+	std::vector<STARDUST::Triangle> triangles;
+	// complex_polyhedron.push_back(polyhedron);
 
 	std::vector<STARDUST::Sphere> clump2;
 	std::vector<STARDUST::Sphere> clump3;
@@ -123,17 +150,22 @@ int main() {
 	clump6.push_back(sphere6);
 	clump4.push_back(sphere4);
 
+	triangles.push_back(triangle);
+	polyhedrons.push_back(polyhedron);
+
 	
 	
-	entity_handler.addEntity(complex_polyhedron);
-	//entity_handler.addEntity(clump2);
-	
-	//entity_handler.addEntity(clump5);
-	//entity_handler.addEntity(clump3);
-	
-	//entity_handler.addEntity(clump6);
+	//load_stl("C:/Users/lachl/Documents/stardust/sandbox/test_stl.stl", triangles);
+
 	entity_handler.addEntity(clump4);
 
+	entity_handler.addEntity(triangles);
+
+	entity_handler.addEntity(polyhedrons);
+
+	
+
+	std::cout << entity_handler.getNPrimitives() << std::endl;
 	
 	
 	engine.setupEngine(
@@ -144,11 +176,11 @@ int main() {
 
 	engine.allocate();
 
-	for (int i = 0; i < 3000; i++) {
+	for (int i = 0; i < 8000; i++) {
 		//std::cout << "-------------------------------------------\n";
 		engine.run();
 
-		if (i % 30 == 0) {
+		if (i % 80 == 0) {
 			engine.writeToVTK(i);
 		}
 
