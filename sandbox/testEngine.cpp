@@ -44,7 +44,7 @@ int main() {
 	
 	triangle.position = 1 / 3.0f * (vertex1 + vertex2 + vertex3);
 	triangle.mass = 0.5f;
-	triangle.normal_stiffness = 1e+08;
+	triangle.normal_stiffness = 1e+08f;
 	triangle.damping = 20.0f;
 	triangle.tangential_stiffness = 10.0f;
 
@@ -81,9 +81,9 @@ int main() {
 
 
 	STARDUST::Sphere sphere4;
-	sphere4.position = make_float4(0.0f, 0.0f, 1.3f, 0.0f);
+	sphere4.position = make_float4(0.0f, 0.0f, 0.8f, 0.0f);
 	sphere4.radius = 0.5f;
-	sphere4.mass = 3.7f;
+	sphere4.mass = 0.5f;
 	sphere4.normal_stiffness = 1e+07;
 	sphere4.damping = 20.0f;
 	sphere4.tangential_stiffness = 10.0f;
@@ -97,12 +97,12 @@ int main() {
 	sphere5.tangential_stiffness = 0.05f;
 
 	STARDUST::Sphere sphere6;
-	sphere6.position = make_float4(0.0f, 0.32f, 6.7f, 0.0f);
+	sphere6.position = make_float4(0.0f, 0.8f, 1.0f, 0.0f);
 	sphere6.radius = 0.5f;
-	sphere6.mass = 3.7f;
+	sphere6.mass = 2.0f;
 	sphere6.normal_stiffness = 1e+07;
 	sphere6.damping = 20.0f;
-	sphere6.tangential_stiffness = 0.05f;
+	sphere6.tangential_stiffness = 10.0f;
 
 	std::vector<STARDUST::Polyhedron> polyhedrons;
 	std::vector<float4> poly_vert;
@@ -110,10 +110,10 @@ int main() {
 
 	STARDUST::Polyhedron polyhedron;
 
-	float4 p1 = make_float4(-0.5f, -0.5f, 1.0f, 0.0f);
-	float4 p2 = make_float4(0.5f, 0.0f, 0.5f, 0.0f);
-	float4 p3 = make_float4(0.0f, 0.5f, 0.5f, 0.0f);
-	float4 p4 = make_float4(-0.5f, -0.5f, 0.5f, 0.0f);
+	float4 p1 = make_float4(-0.5f, -0.5f, 0.6f, 0.0f);
+	float4 p2 = make_float4(0.5f, 0.0f, 0.05f, 0.0f);
+	float4 p3 = make_float4(0.0f, 0.5f, 0.05f, 0.0f);
+	float4 p4 = make_float4(-0.5f, -0.5f, 0.05f, 0.0f);
 
 	poly_idx = { 0, 1, 3, 1, 2, 3, 0, 2, 3, 0, 2, 1 };
 
@@ -125,9 +125,9 @@ int main() {
 	polyhedron.position = (1 / 4.0f) * (p1 + p2 + p3 + p4);
 	// polyhedron.position = make_float4(-0.125f, -0.125f, 0.625f, 0.0f);
 	polyhedron.mass = 0.5f;
-	polyhedron.normal_stiffness = 1e+07;
+	polyhedron.normal_stiffness = 1e+07f;
 	polyhedron.damping = 20.0f;
-	polyhedron.tangential_stiffness = 10.0f;
+	polyhedron.tangential_stiffness = 1.0f;
 
 	polyhedron.vertices = poly_vert;
 	polyhedron.indices = poly_idx;
@@ -148,7 +148,9 @@ int main() {
 	
 	clump5.push_back(sphere5);
 	clump6.push_back(sphere6);
+
 	clump4.push_back(sphere4);
+	// clump4.push_back(sphere6);
 
 	triangles.push_back(triangle);
 	polyhedrons.push_back(polyhedron);
@@ -161,7 +163,7 @@ int main() {
 
 	entity_handler.addEntity(triangles);
 
-	entity_handler.addEntity(polyhedrons);
+	// entity_handler.addEntity(polyhedrons);
 
 	
 

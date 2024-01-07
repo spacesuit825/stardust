@@ -45,6 +45,7 @@ namespace STARDUST {
 
 		void allocate();
 		void writeToVTK(int time_step);
+		void writeForces(int time_step);
 		
 		DeviceGeometryData& getDeviceData() { return device_geometry_data; };
 		
@@ -55,7 +56,7 @@ namespace STARDUST {
 	private:
 
 
-		float padding = 0.05f;
+		float padding = 0.1f;
 
 		int n_primitives;
 		int n_entities;

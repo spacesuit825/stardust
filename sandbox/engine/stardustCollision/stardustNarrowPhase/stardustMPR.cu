@@ -46,7 +46,7 @@
 #define GJK_MAX_ITERATIONS 64 // Arbitrary number, this is reasonably low
 #define MPR_MAX_ITERATIONS 64
 
-#define MPR_TOL 1e-4
+#define MPR_TOL 1e-3
 
 namespace STARDUST {
 
@@ -366,7 +366,7 @@ namespace STARDUST {
 
 		// printf("Hull positions %d %.3f, %d %.3f\n", host_hull.type, host_hull.position.z, phantom_hull.type, phantom_hull.position.z);
 
-		printf("\nHost position %.3f, %.3f\n", host_hull.position.z, phantom_hull.position.z);
+		// printf("\nHost position %.3f, %.3f\n", host_hull.position.z, phantom_hull.position.z);
 		v =  phantom_hull.position - host_hull.position;
 
 		if (length(v) == 0.0f) {
@@ -397,7 +397,7 @@ namespace STARDUST {
 			point_A = a1;
 			point_B = a2;
 
-			float4 position = 0.5 * (a1 + a2);
+			float4 position = 0.5f * (a1 + a2);
 
 			penetration = abs(dot((a1 - position), -normal)) + abs(dot((a2 - position), normal));
 
@@ -519,18 +519,18 @@ namespace STARDUST {
 					float4 suppA = getSupportPoint(d_vertex_ptr, host_hull, -search_direction);
 					float4 suppB = getSupportPoint(d_vertex_ptr, phantom_hull, search_direction);
 
-					float4 pointA = pA + abs(dot((suppA - pA), -search_direction));
-					float4 pointB = pB + abs(dot((suppB - pB), search_direction));
+					float4 pointA = pA + (dot((suppA - pA), search_direction)) * search_direction;
+					float4 pointB = pB + (dot((suppB - pB), search_direction)) * search_direction;
 
-					float4 position = 0.5 * (pointA + pointB);
+					float4 position = 0.5f * (pointA + pointB);
 
 					point_A = pointA;
 					point_B = pointB;
 					
-					printf("run! %.3f, %.3f\n", pointA.z, pointB.z);
-					penetration = abs(dot((pointA - position), -normal)) + abs(dot((pointB - position), -normal));
+					// printf("run! %.3f, %.3f\n", pointA.z, pointB.z);
+					penetration = abs(dot((pointA - position), normal)) + abs(dot((pointB - position), -normal));
 					hit = true;
-					printf("penetration! %.3f\n", penetration);
+					// printf("penetration! %.3f\n", penetration);
 					//collision_flag = 1;
 				}
 

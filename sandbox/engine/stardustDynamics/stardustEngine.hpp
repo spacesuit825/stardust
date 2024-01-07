@@ -60,6 +60,7 @@ namespace STARDUST {
 		void reset();
 
 		void writeToVTK(int time_step) { entity_handler.writeToVTK(time_step); };
+		void writeForces(int time_step) { entity_handler.writeForces(time_step); };
 
 		//void destroy();
 
@@ -69,7 +70,7 @@ namespace STARDUST {
 		void resetEntities(int n_entities, Entity* d_entity_ptr, float4* d_entity_force_ptr, float4* d_entity_torque_ptr);
 		void resetPrimitives(int n_primitives, Hull* d_hull_ptr);
 		void updatePrimitives(int n_primitives, Hull* d_hull_ptr, Entity* d_entity_ptr, AABB* d_aabb_ptr, float4* d_vertex_ptr, float4* d_init_vertex_ptr);
-		void resolveCollisions(int n_collisions, CollisionManifold* d_collision_manifold_ptr, Hull* d_hull_ptr, float4* d_entity_force_ptr, float4* d_entity_torque_ptr);
+		void resolveCollisions(int n_collisions, CollisionManifold* d_collision_manifold_ptr, Hull* d_hull_ptr, float4* d_entity_force_ptr, float4* d_entity_torque_ptr, float4* d_vertex_ptr);
 		void collateForcesAndTorques(int n_entities, Hull* d_hull_ptr, Entity* d_entity_ptr, float4* d_entity_force_ptr, float4* d_entity_torque_ptr);
 		void integrateForward(int n_entities, float time_step, Entity* d_entity_ptr, float4* d_entity_force_ptr, float4* d_entity_torque_ptr);
 

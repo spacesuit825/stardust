@@ -12,6 +12,8 @@ struct CollisionManifold {
 	int host_hull_idx;
 	int phantom_hull_idx;
 
+	float4 position;
+
 	float4 collision_normal;
 	float4 pointA;
 	float4 pointB;

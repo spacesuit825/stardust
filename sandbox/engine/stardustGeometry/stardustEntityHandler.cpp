@@ -509,6 +509,23 @@ namespace STARDUST {
 
 	}
 
+	void EntityHandler::writeForces(int time_step) {
+
+		// entity_force = d_entity_force;
+
+		// if ((length(entity_force[0]) == 0.0f) || (length(entity_force[1]) == 0.0f)) {
+		// 	return;
+		// }
+
+		// float4 force = entity_force[0];
+
+		// std::ofstream forceData("C:/Users/lachl/Documents/stardust/sandbox/forces.txt", std::ios_base::app);
+  		// forceData <<  " Forces: " << force.x << " " << force.y << " " force.z << std::endl;
+		// //forceData << time_step << " : " << "Entity " << 1 << " Forces: " << entity_force[1].x << " " << entity_force[1].y << " " entity_force[1].z << std::endl;
+		// //forceData << "\n" << std::endl;
+		// forceData.close();
+	}
+
 	void EntityHandler::writeToVTK(int time_step) {
 		hulls = d_hull;
 		vertex = d_vertex;

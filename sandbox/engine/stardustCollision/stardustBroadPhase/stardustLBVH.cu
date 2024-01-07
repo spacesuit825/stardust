@@ -819,7 +819,7 @@ namespace STARDUST {
 				int highest_leaf_idx = (is_leaf) ? node_idx : d_internal_leaf_idx_range_ptr[node_idx].y;
 
 				// SELF-TEST BROKEN
-				//if (highest_leaf_idx <= query_node_idx) continue;
+				if (highest_leaf_idx <= query_node_idx) continue;
 			}
 
 			int rigid_idx = (is_leaf) ? d_idx_ptr[node_idx] : -1;
