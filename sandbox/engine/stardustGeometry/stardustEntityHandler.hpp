@@ -28,6 +28,7 @@ namespace STARDUST {
 		AABB* d_aabb_ptr;
 		float4* d_entity_force_ptr;
 		float4* d_entity_torque_ptr;
+		int* d_indicies_ptr;
 	};
 
 	class EntityHandler {
@@ -81,6 +82,7 @@ namespace STARDUST {
 		thrust::device_vector<AABB> d_aabb;
 		thrust::device_vector<float4> d_entity_force;
 		thrust::device_vector<float4> d_entity_torque;
+		thrust::device_vector<int> d_indicies;
 
 		Hull* d_hull_ptr;
 		Entity* d_entity_ptr;
@@ -89,6 +91,7 @@ namespace STARDUST {
 		AABB* d_aabb_ptr;
 		float4* d_entity_force_ptr;
 		float4* d_entity_torque_ptr;
+		int* d_indicies_ptr;
 
 	};
 

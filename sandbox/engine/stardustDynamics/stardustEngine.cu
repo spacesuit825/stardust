@@ -146,10 +146,6 @@ namespace STARDUST {
 
 		
 		Entity entity = d_entity_ptr[entity_idx];
-
-		//if (entity_idx == 2) {
-		//	printf("entity quat %.3f, %.3f, %.3f\n", entity.quaternion.x, entity.quaternion.y, entity.quaternion.z);
-		//}
 		
 		
 		updatePrimitivePositionsCUDA(
@@ -176,56 +172,59 @@ namespace STARDUST {
 
 	__device__ void computeContactsCUDA(
 		CollisionManifold& collision_manifold,
-		Hull& hull,
-		bool is_host,
+		Hull& host_hull,
+		Hull& phantom_hull,
 		float4* d_vertex_ptr,
 		Contacts& contacts
 	)
 	{
-		
+
+		bool is_host;
+
 		float dist;
+		Hull incident_hull;
+
+		if (collision_manifold.reference_hull) {
+			incident_hull = phantom_hull;
+			is_host = false;
+		} else {
+			incident_hull = host_hull;
+			is_host = true;
+		}
 
 		float4 plane_point = collision_manifold.position;
 
 		float4 collision_normal = normalize(collision_manifold.collision_normal);
 
-		
+		// Build a basic contact structure
 		contacts.contact_count = 0;
-		for (int i = hull.vertex_idx; i < hull.vertex_idx + hull.n_vertices; i++) {
+		for (int i = incident_hull.vertex_idx; i < incident_hull.vertex_idx + incident_hull.n_vertices; i++) {
 
 			float4 vertex = d_vertex_ptr[i];
 
-			dist = dot(collision_normal, vertex - plane_point );
-
-			
+			dist = dot(collision_normal, vertex - plane_point);		
 
 			if ((dist >= CONTACT_TOL) && (contacts.contact_count <= 4)) {
-
-				printf("\n Dist: %.3f\n", dist);
-				printf("\n normal: %.3f, %.3f, %.3f\n", collision_normal.x, collision_normal.y, collision_normal.z);
 				contacts.contacts[contacts.contact_count] = vertex;
 				contacts.contact_depth[contacts.contact_count] = dist;
 				contacts.contact_count++;
 			}
 		}
 
+		// If the contact number is still zero, no vertices extend beneath the plane, therefore we must have a spherical contact
 		if (contacts.contact_count == 0) {
-			if (is_host == true) {
 
-				dist = dot(collision_normal, collision_manifold.pointA - plane_point);
+			float4 contact_point = (is_host) * collision_manifold.pointA + (1 - is_host) * collision_manifold.pointB;
 
-				contacts.contacts[contacts.contact_count] = collision_manifold.pointA;
-				contacts.contact_depth[contacts.contact_count] = dist;
-				
-			} else {
+			printf("\n contact point: %.3f, %.3f, %.3f\n", contact_point.x, contact_point.y, contact_point.z);
 
-				dist = dot(collision_normal, collision_manifold.pointB - plane_point);
+			dist = dot(collision_normal, contact_point - plane_point);
 
-				contacts.contacts[contacts.contact_count] = collision_manifold.pointB;
-				contacts.contact_depth[contacts.contact_count] = dist;
-			}
+			contacts.contacts[contacts.contact_count] = contact_point;
+			contacts.contact_depth[contacts.contact_count] = dist;
 
 			contacts.contact_count++;
+			
 		}
 
 	}
@@ -236,11 +235,63 @@ namespace STARDUST {
 		float4& a
 	)
 	{
-
-		// We could possibly combine these into 64-bit values and perform two atomic adds but I think itll be about the same or worse than this way
+		// Could possibly combine these into 64-bit values and perform two atomic adds but I think itll be about the same or worse than this way
 		atomicAdd(&array[idx].x, a.x);
 		atomicAdd(&array[idx].y, a.y);
 		atomicAdd(&array[idx].z, a.z);
+	}
+
+	__device__ void searchReferenceHull(
+		CollisionManifold& collision_manifold,
+		Hull& host_hull,
+		Hull& phantom_hull,
+		float4* d_vertex_ptr,
+		int* d_index_ptr
+	)
+	{
+		float4 collision_normal = collision_manifold.collision_normal;
+
+		float host_max = -FLT_MAX;
+		float phantom_max = -FLT_MAX;
+
+		// Iterate over all faces to find the one with the largest dot product, this is our 'reference' hull
+		for (int face = host_hull.index_idx / 3; face < (host_hull.index_idx + host_hull.n_indicies) / 3; face++) {
+
+			float4 origin = d_vertex_ptr[d_index_ptr[3 * face + 0]];
+			float4 point1 = d_vertex_ptr[d_index_ptr[3 * face + 1]];
+			float4 point2 = d_vertex_ptr[d_index_ptr[3 * face + 2]];
+
+			float4 normal = make_float4(cross(make_float3(point1 - origin), make_float3(point2 - origin)));
+
+			float val = dot(-collision_normal, normal);
+
+			if (val > host_max) {
+				host_max = val;
+			}
+		}
+
+		for (int face = phantom_hull.index_idx / 3; face < (phantom_hull.index_idx + phantom_hull.n_indicies) / 3; face++) {
+
+			float4 origin = d_vertex_ptr[d_index_ptr[3 * face + 0]];
+			float4 point1 = d_vertex_ptr[d_index_ptr[3 * face + 1]];
+			float4 point2 = d_vertex_ptr[d_index_ptr[3 * face + 2]];
+
+			float4 normal = make_float4(cross(make_float3(point1 - origin), make_float3(point2 - origin)));
+
+			float val = dot(collision_normal, normal);
+
+			if (val > phantom_max) {
+				phantom_max = val;
+				
+			}
+		}
+
+		if (phantom_max > host_max) {
+			collision_manifold.reference_hull = false;
+		} else {
+			collision_manifold.reference_hull = true; // default to the host hull being the reference
+		}
+
 	}
 
 	__global__ void resolveCollisionsCUDA(
@@ -249,15 +300,14 @@ namespace STARDUST {
 		Hull* d_hull_ptr,
 		float4* d_entity_force_ptr,
 		float4* d_entity_torque_ptr,
-		float4* d_vertex_ptr
+		float4* d_vertex_ptr,
+		int* d_indicies_ptr
 	)
 	{
 
 		unsigned int tid = threadIdx.x + blockIdx.x * blockDim.x;
 
 		if (tid >= n_collisions) return;
-
-		// if (tid == 1) return;
 
 		CollisionManifold collision_manifold = d_collision_manifold_ptr[tid];
 		
@@ -267,24 +317,16 @@ namespace STARDUST {
 		float4 relative_position = host_hull.position - phantom_hull.position;
 		float4 relative_velocity = host_hull.velocity - phantom_hull.velocity;
 
-		// if (dot(relative_velocity, collision_manifold.collision_normal) < 0.0f) {
-		// 	collision_manifold.collision_normal *= -1.0f;
-		// }
-
 		
-		Contacts host_contacts;
-		Contacts phantom_contacts;
+		Contacts contacts;
 
 		collision_manifold.position = 0.5f * (collision_manifold.pointA + collision_manifold.pointB);
 		
-		computeContactsCUDA(collision_manifold, host_hull, true, d_vertex_ptr, host_contacts);
-		computeContactsCUDA(collision_manifold, phantom_hull, false, d_vertex_ptr, phantom_contacts);
+		searchReferenceHull(collision_manifold, host_hull, phantom_hull, d_vertex_ptr, d_indicies_ptr);
+		computeContactsCUDA(collision_manifold, host_hull, phantom_hull, d_vertex_ptr, contacts);
 
 		float4 normal_force;
-		float4 damping;
 		float4 tangent_force;
-
-		
 
 		float4 tangent_velocity = relative_velocity - (relative_velocity * (collision_manifold.collision_normal)) * collision_manifold.collision_normal;
 
@@ -296,9 +338,7 @@ namespace STARDUST {
 
 		// Based on the ALTAIR document of a damped spring system
 		float k = (16.0f / 15.0f) * powf(eff_radius, 0.5f) * eff_youngs * powf(((15.0f * eff_mass * SQR(max_velocity)) / (16.0f * powf(eff_radius, 0.5f) * eff_youngs)), 1.0f / 5.0f);
-		float c = sqrtf((4.0f * eff_mass * k) / (1 + SQR(3.1415f / logf(0.5f))));
-
-		float n_contacts;
+		float c = sqrtf((4.0f * eff_mass * k) / (1 + SQR(3.1415f / logf(0.3f))));
 
 		float4 host_force = make_float4(0.0f);
 		float4 phantom_force = make_float4(0.0f);
@@ -311,38 +351,34 @@ namespace STARDUST {
 
 		float4 collision_normal = normalize(collision_manifold.collision_normal);
 
-		// printf("\nCollision normal: %.3f, %.3f, %.3f\n", collision_manifold.collision_normal.x, collision_manifold.collision_normal.y, collision_manifold.collision_normal.z);
-
 		tangent_force = host_hull.tangential_stiffness * tangent_velocity;
 
-		for (int i = 0; i < host_contacts.contact_count; i++) {
-			n_contacts = (float)host_contacts.contact_count;
+		for (int i = 0; i < contacts.contact_count; i++) {
 
-			normal_force = (k * (collision_normal * host_contacts.contact_depth[i]) + c * relative_velocity);
-			host_application_vector = host_contacts.contacts[i] - host_hull.relative_position;
+			normal_force = (k * (collision_normal * contacts.contact_depth[i]) - c * relative_velocity);
+			host_application_vector = contacts.contacts[i] - host_hull.relative_position;
+			phantom_application_vector = contacts.contacts[i] - phantom_hull.relative_position;
+
+			printf("\n application vector: %.3f, %.3f, %.3f\n", host_application_vector.x, host_application_vector.y, host_application_vector.z);
 
 			host_torque += make_float4(cross(make_float3(host_application_vector), make_float3(((normal_force + tangent_force)))));
 			host_force += (normal_force + tangent_force);
 
-			//printf("\n N contacts %d normal force %.3f, %.3f, %.3f", n_contacts, normal_force.x, normal_force.y, normal_force.z);
-			//printf(" host_contacts depth %.3f\n", host_contacts.contact_depth[i]);
-		}
-
-		host_force /= (float)host_contacts.contact_count;
-		host_torque /= (float)host_contacts.contact_count;
-
-		for (int i = 0; i < phantom_contacts.contact_count; i++) {
-			n_contacts = (float)phantom_contacts.contact_count;
-
-			normal_force = (k * (collision_normal * phantom_contacts.contact_depth[i]) + c * relative_velocity);
-			phantom_application_vector = phantom_contacts.contacts[i] - phantom_hull.relative_position;
-
 			phantom_torque += make_float4(cross(make_float3(phantom_application_vector), make_float3(-((normal_force + tangent_force)))));
 			phantom_force += -(normal_force + tangent_force);
+
 		}
 
-		phantom_force /= (float)phantom_contacts.contact_count;
-		phantom_torque /= (float)phantom_contacts.contact_count;
+		printf("\n contact count: %d\n", contacts.contact_count);
+
+		host_force /= (float)contacts.contact_count;
+		host_torque /= (float)contacts.contact_count;
+
+		phantom_force /= (float)contacts.contact_count;
+		phantom_torque /= (float)contacts.contact_count;
+
+		printf("\n %.3f %.3f %.3f \n", host_torque.x, host_torque.y, host_torque.z);
+		printf("\n %.3f %.3f %.3f \n", phantom_torque.x, phantom_torque.y, phantom_torque.z);
 
 		// float4 host_force = (normal_force + tangent_force);
 		// float4 phantom_force = -(normal_force + tangent_force);
@@ -394,7 +430,6 @@ namespace STARDUST {
 
 		}
 
-	
 		d_entity_force_ptr[tid] += entity_force;
 		d_entity_torque_ptr[tid] += entity_torque;
 
@@ -566,7 +601,8 @@ namespace STARDUST {
 			device_data.d_hull_ptr,
 			device_data.d_entity_force_ptr,
 			device_data.d_entity_torque_ptr,
-			device_data.d_vertex_ptr
+			device_data.d_vertex_ptr,
+			device_data.d_indicies_ptr
 		);
 
 
@@ -652,7 +688,8 @@ namespace STARDUST {
 		Hull* d_hull_ptr,
 		float4* d_entity_force_ptr,
 		float4* d_entity_torque_ptr,
-		float4* d_vertex_ptr
+		float4* d_vertex_ptr,
+		int* d_indicies_ptr
 		)
 	{
 		unsigned int collision_block_size = 256;
@@ -664,7 +701,8 @@ namespace STARDUST {
 			d_hull_ptr,
 			d_entity_force_ptr,
 			d_entity_torque_ptr,
-			d_vertex_ptr
+			d_vertex_ptr,
+			d_indicies_ptr
 			);
 	}
 

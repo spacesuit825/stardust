@@ -89,6 +89,9 @@ namespace STARDUST {
 		int vertex_idx; // For a sphere this is -1
 		int n_vertices; // For triangle this is 3 and for sphere this is 0
 
+		int index_idx; // For a sphere this is -1
+		int n_indicies; // For triangle this is 3 and for sphere this is 0
+
 		float mass; // Triangles are given a default mass of 1kg, but are non-dynamic by their nature
 		float radius; // For all primitives except sphere this is assigned to -1.0
 

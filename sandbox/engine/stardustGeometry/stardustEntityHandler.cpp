@@ -219,6 +219,9 @@ namespace STARDUST {
 
 			hull.force = make_float4(0.0f);
 
+			hull.index_idx = -1;
+			hull.n_indicies = 0;
+
 			float4 relative_position = sphere.position - entity.position;
 
 			hull.initial_relative_position = relative_position;
@@ -315,10 +318,15 @@ namespace STARDUST {
 				vertex.push_back(triangle.vertices[vert]);
 			}
 
+			int index_idx = indicies.size();
+
 			for (int index = 0; index < triangle.indices.size(); index++) {
 				indicies.push_back(current_idx_length + triangle.indices[index]);
 			}
 			current_idx_length += triangle.vertices.size();
+
+			hull.index_idx = index_idx;
+			hull.n_indicies = triangle.indices.size();
 
 			hull.vertex_idx = vertex_idx;
 			hull.n_vertices = triangle.vertices.size();
@@ -423,13 +431,16 @@ namespace STARDUST {
 			for (int vert = 0; vert < polyhedron.vertices.size(); vert++) {
 				vertex.push_back(polyhedron.vertices[vert]);
 			}
+
+			int index_idx = indicies.size();
 			
 			for (int index = 0; index < polyhedron.indices.size(); index++) {
 				indicies.push_back(current_idx_length + polyhedron.indices[index]);
 			}
 			current_idx_length += polyhedron.vertices.size();
 
-			
+			hull.index_idx = index_idx;
+			hull.n_indicies = polyhedron.indices.size();
 
 			hull.vertex_idx = vertex_idx;
 			hull.n_vertices = polyhedron.vertices.size();
@@ -490,6 +501,7 @@ namespace STARDUST {
 		d_aabb = aabb;
 		d_entity_force = entity_force;
 		d_entity_torque = entity_torque;
+		d_indicies = indicies;
 
 		d_hull_ptr = thrust::raw_pointer_cast(d_hull.data());
 		d_entity_ptr = thrust::raw_pointer_cast(d_entity.data());
@@ -498,6 +510,7 @@ namespace STARDUST {
 		d_aabb_ptr = thrust::raw_pointer_cast(d_aabb.data());
 		d_entity_force_ptr = thrust::raw_pointer_cast(d_entity_force.data());
 		d_entity_torque_ptr = thrust::raw_pointer_cast(d_entity_torque.data());
+		d_indicies_ptr = thrust::raw_pointer_cast(d_indicies.data());
 
 		device_geometry_data.d_hull_ptr = d_hull_ptr;
 		device_geometry_data.d_entity_ptr = d_entity_ptr;
@@ -506,6 +519,7 @@ namespace STARDUST {
 		device_geometry_data.d_aabb_ptr = d_aabb_ptr;
 		device_geometry_data.d_entity_force_ptr = d_entity_force_ptr;
 		device_geometry_data.d_entity_torque_ptr = d_entity_torque_ptr;
+		device_geometry_data.d_indicies_ptr = d_indicies_ptr;
 
 	}
 

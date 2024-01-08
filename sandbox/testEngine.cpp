@@ -81,7 +81,7 @@ int main() {
 
 
 	STARDUST::Sphere sphere4;
-	sphere4.position = make_float4(0.0f, 0.0f, 0.8f, 0.0f);
+	sphere4.position = make_float4(0.0f, 0.0f, 2.0f, 0.0f);
 	sphere4.radius = 0.5f;
 	sphere4.mass = 0.5f;
 	sphere4.normal_stiffness = 1e+07;
@@ -110,12 +110,12 @@ int main() {
 
 	STARDUST::Polyhedron polyhedron;
 
-	float4 p1 = make_float4(-0.5f, -0.5f, 0.6f, 0.0f);
-	float4 p2 = make_float4(0.5f, 0.0f, 0.05f, 0.0f);
-	float4 p3 = make_float4(0.0f, 0.5f, 0.05f, 0.0f);
-	float4 p4 = make_float4(-0.5f, -0.5f, 0.05f, 0.0f);
+	float4 p1 = make_float4(-0.3f, -0.3f, 0.2f, 0.0f);
+	float4 p2 = make_float4(0.5f, 0.0f, 0.5f, 0.0f);
+	float4 p3 = make_float4(0.0f, 0.5f, 0.5f, 0.0f);
+	float4 p4 = make_float4(-0.5f, -0.5f, 0.5f, 0.0f);
 
-	poly_idx = { 0, 1, 3, 1, 2, 3, 0, 2, 3, 0, 2, 1 };
+	poly_idx = { 1, 0, 3, 3, 2, 1, 0, 2, 3, 2, 0, 1 };
 
 	poly_vert.push_back(p1);
 	poly_vert.push_back(p2);
@@ -124,8 +124,8 @@ int main() {
 
 	polyhedron.position = (1 / 4.0f) * (p1 + p2 + p3 + p4);
 	// polyhedron.position = make_float4(-0.125f, -0.125f, 0.625f, 0.0f);
-	polyhedron.mass = 0.5f;
-	polyhedron.normal_stiffness = 1e+07f;
+	polyhedron.mass = 1.0f;
+	polyhedron.normal_stiffness = 1e+08f;
 	polyhedron.damping = 20.0f;
 	polyhedron.tangential_stiffness = 1.0f;
 
@@ -159,11 +159,11 @@ int main() {
 	
 	//load_stl("C:/Users/lachl/Documents/stardust/sandbox/test_stl.stl", triangles);
 
-	entity_handler.addEntity(clump4);
+	// entity_handler.addEntity(clump4);
 
 	entity_handler.addEntity(triangles);
 
-	// entity_handler.addEntity(polyhedrons);
+	entity_handler.addEntity(polyhedrons);
 
 	
 

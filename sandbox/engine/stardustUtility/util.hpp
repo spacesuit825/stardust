@@ -19,6 +19,8 @@ struct CollisionManifold {
 	float4 pointB;
 
 	float penetration_depth;
+
+	bool reference_hull; // true is host, false is phantom
 };
 
 struct Node
